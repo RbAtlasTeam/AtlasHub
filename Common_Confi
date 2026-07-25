@@ -36,4 +36,93 @@ function Config.SetDebrisPlotter(Value)
 	end
 end
 
+function Config.DestoryShip()
+	local RocketEvent = game:GetService("ReplicatedStorage")
+		:WaitForChild("Events")
+		:WaitForChild("RocketEvent")
+
+	RocketEvent:FireServer(
+		"crash",
+		{
+			touchSpeed = 1000
+		}
+	)
+end
+
+local function GetShipMain(plr)
+	if not plr or not plr.Character then
+		return nil, "Failed to apply: character not found!"
+	end
+
+	local humanoid = plr.Character:FindFirstChildOfClass("Humanoid")
+	if not humanoid then
+		return nil, "Failed to apply: humanoid not foun!."
+	end
+
+	local seat = humanoid.SeatPart
+	if not seat then
+		return nil, "Failed to apply: not sitting in ship!"
+	end
+
+	if seat.Name ~= "DriverSeat" or not seat:GetAttribute("rocketSeat") then
+		return nil, "Failed to apply: not sitting in a rocket!"
+	end
+
+	local ship = seat.Parent
+	if not ship then
+		return nil, "Failed to apply: ship not found!."
+	end
+
+	local main = ship:FindFirstChild("Main")
+	if not main then
+		return nil, "Failed to apply: Game Error!."
+	end
+
+	return main
+end
+
+function Config.SetShipSpeed(plr, value)
+	local main, err = GetShipMain(plr)
+	if not main then
+		return false, err
+	end
+
+	main:SetAttribute("maxSpeed", value)
+
+	return true, "Successfully applied max speed."
+end
+
+function Config.SetShipAcceleration(plr, value)
+	local main, err = GetShipMain(plr)
+	if not main then
+		return false, err
+	end
+
+	main:SetAttribute("acceleration", value)
+
+	return true, "Successfully applied acceleration."
+end
+
+function Config.SetShipDeceleration(plr, value)
+	local main, err = GetShipMain(plr)
+	if not main then
+		return false, err
+	end
+
+	main:SetAttribute("deceleration", value)
+
+	return true, "Successfully applied deceleration."
+end
+
+function Config.SetShipAgility(plr, value)
+	local main, err = GetShipMain(plr)
+	if not main then
+		return false, err
+	end
+
+	main:SetAttribute("agility", value)
+
+	return true, "Successfully applied agility."
+end
+
 return Config
