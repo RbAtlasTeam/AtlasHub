@@ -23,6 +23,8 @@ local Walkspeed = AtlasHub.TextBox:Create(PlayerTab, "Walkspeed", "Enter Walkspe
 local JumpPower = AtlasHub.TextBox:Create(PlayerTab, "JumpPower", "Enter JumpPower amount...")
 local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeight amount...")
 
+local CameraMaxZoom = AtlasHub.TextBox:Create(PlayerTab, "CameraMaxZoom", "Enter CameraMaxZoom amount...")
+
 local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
 
 ---------------------------------------------
@@ -51,6 +53,12 @@ JetpackSpeed.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
 	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting JetpackSpeed...", 3); v = 8 end
 	game.Players.LocalPlayer:SetAttribute("jetpackSpeed", v)
+end)
+
+CameraMaxZoom.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting CameraMaxZoom...", 3); v = 40 end
+	LocalPlayer.CameraMaxZoomDistance = v
 end)
 
 ---------------------------------------------
