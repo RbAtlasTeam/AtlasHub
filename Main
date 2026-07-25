@@ -21,7 +21,7 @@ local function ShowNotify(Text, Duration)
 end
 
 AtlasHub:Notify(
-	"Loading Atlas Hub for "..game.Name.."",
+	"Loading Atlas Hub for The Space Simulator",
 	3
 )
 
@@ -174,7 +174,6 @@ end)
 
 ExtractBtn.Clicked:Connect(function()
 	DrillConfi.Extract()
-	ShowNotify("Successfully Extracted Artifact!")
 end)
 
 -----------------------------------------------------------------
