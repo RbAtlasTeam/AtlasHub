@@ -4,9 +4,7 @@ local player = Players.LocalPlayer
 
 --------- Mine & Inventory Container -----------+--
 
-local AtlasHubbValuesFolder = Instance.new("Folder")
-AtlasHubbValuesFolder.Name = "AtlasHub_ValueDatas"
-AtlasHubbValuesFolder.Parent = game.CoreGui:WaitForChild("AtlasHub_Datas")
+local AtlasHubbValuesFolder = game.CoreGui.AtlasHub_Datas:WaitForChild("AtlasHub_ValuesDatas")
 
 ----------- Values --------------------------------------------------------
 
