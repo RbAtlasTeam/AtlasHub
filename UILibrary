@@ -1706,6 +1706,8 @@ function AtlasHub:SetUp()
 	)
 
 	self.ToggleHub.MouseButton1Click:Connect(function()
+		AtlasHub.ClickSFX.TimePosition = 0
+		AtlasHub.ClickSFX:Play()
 
 		self.IsOpen = not self.IsOpen
 
