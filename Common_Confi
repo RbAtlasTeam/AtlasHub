@@ -1,0 +1,39 @@
+local Config = {}
+
+local CommonModule = require(game.ReplicatedStorage.RModules.CommonModule)
+
+function Config.SetDebrisPlotter(Value)
+	local DebrisPlotter = CommonModule.ModuleTypes["Debris plotter"]
+
+	if not DebrisPlotter then
+		warn("Debris Plotter module not found.")
+		return
+	end
+
+	if Value then
+		if not getgenv().OldDebrisPlotterLevels then
+			getgenv().OldDebrisPlotterLevels = table.clone(DebrisPlotter.bonusLevels)
+		end
+
+		DebrisPlotter.bonusLevels = {
+			100,
+			100,
+			100,
+			100
+		}
+	else
+		if getgenv().OldDebrisPlotterLevels then
+			DebrisPlotter.bonusLevels = table.clone(getgenv().OldDebrisPlotterLevels)
+			print("Debris Plotter bonus restored.")
+		else
+			DebrisPlotter.bonusLevels = {
+				5,
+				10,
+				15,
+				20
+			}
+		end
+	end
+end
+
+return Config
