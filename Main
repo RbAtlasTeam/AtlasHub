@@ -149,19 +149,19 @@ local RetractSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Retract Speed", "E
 local DetectionRange = AtlasHub.TextBox:Create(DrillTab, "Drill Detection Range", "Enter Drill Detection Range amount...")
 local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
 
-ForwardSpeed.Changed:Connect(function(Value)
+ForwardSpeed.Submitted:Connect(function(Value)
 	local v = tonumber(Value) or 0
 	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 20 and no more than 250, resetting Forward Speed...", 3); v = 45 end
 	DrillConfi.SetForwardSpeed(v)
 end)
 
-RetractSpeed.Changed:Connect(function(Value)
+RetractSpeed.Submitted:Connect(function(Value)
 	local v = tonumber(Value) or 0
 	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 10 and no more than 250, resetting Retract Speed...", 3); v = 123 end
 	DrillConfi.SetRetractSpeed(v)
 end)
 
-DetectionRange.Changed:Connect(function(Value)
+DetectionRange.Submitted:Connect(function(Value)
 	local v = tonumber(Value) or 0
 	if not v or v < 1 or v > 6000 then ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3); v = 8 end
 	DrillConfi.SetDetectionRange(v)
