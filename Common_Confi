@@ -49,47 +49,64 @@ function Config.DestoryShip()
 	)
 end
 
-local function GetShipMain(plr)
-	local character = plr.Character
-	if not character then return end
-
-	local humanoid = character:FindFirstChildOfClass("Humanoid")
-	if not humanoid then return end
-
-	local seat = humanoid.SeatPart
-	if not seat then return end
-
-	if not seat:GetAttribute("rocket") then return end
-
-	return seat.Parent:FindFirstChild("Main")
-end
-
 function Config.SetShipSpeed(plr, value)
-	local main = GetShipMain(plr)
-	if not main then return end
-
-	main:SetAttribute("maxSpeed", value)
+	local char = plr.Character
+	local hum = char:WaitForChild("Humanoid")
+	
+	local SeatPart = hum.SeatPart
+	if not SeatPart then return end
+	
+	local ship = SeatPart.Parent
+	
+	local Main = ship.Main
+	if not Main then return end
+	
+	Main:SetAttribute("maxSpeed", value)
 end
 
 function Config.SetShipAcceleration(plr, value)
-	local main = GetShipMain(plr)
-	if not main then return end
+	local char = plr.Character
+	local hum = char:WaitForChild("Humanoid")
 
-	main:SetAttribute("acceleration", value)
+	local SeatPart = hum.SeatPart
+	if not SeatPart then return end
+
+	local ship = SeatPart.Parent
+
+	local Main = ship.Main
+	if not Main then return end
+
+	Main:SetAttribute("acceleration", value)
 end
 
 function Config.SetShipDeceleration(plr, value)
-	local main = GetShipMain(plr)
-	if not main then return end
+	local char = plr.Character
+	local hum = char:WaitForChild("Humanoid")
 
-	main:SetAttribute("deceleration", value)
+	local SeatPart = hum.SeatPart
+	if not SeatPart then return end
+
+	local ship = SeatPart.Parent
+
+	local Main = ship.Main
+	if not Main then return end
+
+	Main:SetAttribute("deceleration", value)
 end
 
 function Config.SetShipAgility(plr, value)
-	local main = GetShipMain(plr)
-	if not main then return end
+	local char = plr.Character
+	local hum = char:WaitForChild("Humanoid")
 
-	main:SetAttribute("agility", value)
+	local SeatPart = hum.SeatPart
+	if not SeatPart then return end
+
+	local ship = SeatPart.Parent
+
+	local Main = ship.Main
+	if not Main then return end
+
+	Main:SetAttribute("agility", value)
 end
 
 
