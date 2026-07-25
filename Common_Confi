@@ -52,16 +52,16 @@ end
 function Config.SetShipSpeed(plr, value)
 	local char = plr.Character
 	local hum = char:WaitForChild("Humanoid")
-	
+
 	local SeatPart = hum.SeatPart
 	if not SeatPart then return end
-	
+
 	local ship = SeatPart.Parent
-	
+
 	local Main = ship.Main
 	if not Main then return end
-	
-	Main:SetAttribute("maxSpeed", value)
+	warn("SetShipSpeed", value)
+--	Main:SetAttribute("maxSpeed", value)
 end
 
 function Config.SetShipAcceleration(plr, value)
@@ -75,8 +75,8 @@ function Config.SetShipAcceleration(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-
-	Main:SetAttribute("acceleration", value)
+	warn("SetShipAcceleration", value)
+--	Main:SetAttribute("acceleration", value)
 end
 
 function Config.SetShipDeceleration(plr, value)
@@ -90,8 +90,8 @@ function Config.SetShipDeceleration(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-
-	Main:SetAttribute("deceleration", value)
+	warn("SetShipDeceleration", value)
+--	Main:SetAttribute("deceleration", value)
 end
 
 function Config.SetShipAgility(plr, value)
@@ -105,8 +105,8 @@ function Config.SetShipAgility(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-
-	Main:SetAttribute("agility", value)
+	warn("SetShipAgility", value)
+--	Main:SetAttribute("agility", value)
 end
 
 
