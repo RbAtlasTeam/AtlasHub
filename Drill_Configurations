@@ -22,6 +22,17 @@ function DrillConfig.SetForwardSpeed(Value)
 	return true
 end
 
+function DrillConfig.SetDetectionRange(Value)
+	Value = tonumber(Value)
+	if not Value then
+		return false
+	end
+	
+	for _, Drill in pairs(CommonModule.Drills) do
+		Drill.detectRange = Value
+	end
+end
+
 function DrillConfig.SetRetractSpeed(Value)
 	Value = tonumber(Value)
 	if not Value then
