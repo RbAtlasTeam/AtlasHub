@@ -17,6 +17,9 @@ function AtlasHub.CreateUI()
 	AtlasInterface.ScreenInsets = Enum.ScreenInsets.None
 	AtlasInterface.Enabled = true
 	AtlasInterface.Parent = UIParent
+	
+	local DataBase = Instance.new("Folder", UIParent)
+	DataBase.Name = "AtlasHub_Datas"
 
 	local Main = Instance.new("Frame")
 	Main.Name = "Main"
@@ -1516,11 +1519,31 @@ function AtlasHub.CreateUI()
 	NotificationF.Parent = Main
 end
 
+function AtlasHub.CreateSounds()
+	local DataBase = UIParent:WaitForChild("AtlasHub_Datas")
+	
+	local Sounds = Instance.new("Folder")
+	Sounds.Name = "SoundSources"
+	Sounds.Parent = DataBase
+	
+	local NotifSFX = Instance.new("Sound", Sounds)
+	NotifSFX.Name = "NotifSFX"
+	NotifSFX.SoundId = "rbxassetid://136211732441165"
+	NotifSFX.Volume = 0.6
+	NotifSFX.Looped = false
+	
+end
+
 function AtlasHub.PrepareUI()
 
 	local UI = UIParent:WaitForChild("AtlasInterface")
+	local DataBase = UIParent:WaitForChild("AtlasHub_Datas")
+	local Sounds = DataBase:WaitForChild("SoundSources")
 
 	AtlasHub.UI = UI
+	AtlasHub.Sounds = Sounds
+	
+	AtlasHub.NotiSFX = Sounds:WaitForChild("NotifSFX")
 
 	AtlasHub.Main = UI:WaitForChild("Main")
 
@@ -2147,8 +2170,9 @@ function AtlasHub:Notify(Text, Duration)
 			)
 		}
 	):Play()
-
-
+	
+	AtlasHub.NotiSFX.TimePosition = 0
+	AtlasHub.NotiSFX:Play()
 
 	task.wait(Duration)
 
@@ -2189,6 +2213,7 @@ end
 function AtlasHub:StartLibrary()
 
 	AtlasHub.CreateUI()
+	AtlasHub.CreateSounds()
 
 	AtlasHub.PrepareUI()
 
