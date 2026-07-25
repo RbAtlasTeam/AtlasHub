@@ -16,10 +16,10 @@ function Config.SetDebrisPlotter(Value)
 		end
 
 		DebrisPlotter.bonusLevels = {
-			100,
-			100,
-			100,
-			100
+			100000,
+			100000,
+			100000,
+			100000
 		}
 	else
 		if getgenv().OldDebrisPlotterLevels then
