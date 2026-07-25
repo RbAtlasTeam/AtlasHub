@@ -50,79 +50,47 @@ function Config.DestoryShip()
 end
 
 local function GetShipMain(plr)
-	if not plr or not plr.Character then
-		return nil, "Failed to apply: character not found!"
-	end
+	local character = plr.Character
+	if not character then return end
 
-	local humanoid = plr.Character:FindFirstChildOfClass("Humanoid")
-	if not humanoid then
-		return nil, "Failed to apply: humanoid not foun!."
-	end
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	if not humanoid then return end
 
 	local seat = humanoid.SeatPart
-	if not seat then
-		return nil, "Failed to apply: not sitting in ship!"
-	end
+	if not seat then return end
 
-	if seat.Name ~= "DriverSeat" or not seat:GetAttribute("rocketSeat") then
-		return nil, "Failed to apply: not sitting in a rocket!"
-	end
+	if not seat:GetAttribute("rocketSeat") then return end
 
-	local ship = seat.Parent
-	if not ship then
-		return nil, "Failed to apply: ship not found!."
-	end
-
-	local main = ship:FindFirstChild("Main")
-	if not main then
-		return nil, "Failed to apply: Game Error!."
-	end
-
-	return main
+	return seat.Parent:FindFirstChild("Main")
 end
 
 function Config.SetShipSpeed(plr, value)
-	local main, err = GetShipMain(plr)
-	if not main then
-		return false, err
-	end
+	local main = GetShipMain(plr)
+	if not main then return end
 
 	main:SetAttribute("maxSpeed", value)
-
-	return true, "Successfully applied max speed."
 end
 
 function Config.SetShipAcceleration(plr, value)
-	local main, err = GetShipMain(plr)
-	if not main then
-		return false, err
-	end
+	local main = GetShipMain(plr)
+	if not main then return end
 
 	main:SetAttribute("acceleration", value)
-
-	return true, "Successfully applied acceleration."
 end
 
 function Config.SetShipDeceleration(plr, value)
-	local main, err = GetShipMain(plr)
-	if not main then
-		return false, err
-	end
+	local main = GetShipMain(plr)
+	if not main then return end
 
 	main:SetAttribute("deceleration", value)
-
-	return true, "Successfully applied deceleration."
 end
 
 function Config.SetShipAgility(plr, value)
-	local main, err = GetShipMain(plr)
-	if not main then
-		return false, err
-	end
+	local main = GetShipMain(plr)
+	if not main then return end
 
 	main:SetAttribute("agility", value)
-
-	return true, "Successfully applied agility."
 end
+
 
 return Config
