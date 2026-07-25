@@ -20,6 +20,11 @@ local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
 
+AtlasHub:Notify(
+	"Loading Atlas Hub for "..game.Name.."",
+	3
+)
+
 ----- Call LoadStrings -----
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
@@ -149,20 +154,20 @@ local RetractSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Retract Speed", "E
 local DetectionRange = AtlasHub.TextBox:Create(DrillTab, "Drill Detection Range", "Enter Drill Detection Range amount...")
 local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
 
-ForwardSpeed.Submitted:Connect(function(Value)
-	local v = tonumber(Value) or 0
+ForwardSpeed.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
 	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 20 and no more than 250, resetting Forward Speed...", 3); v = 45 end
 	DrillConfi.SetForwardSpeed(v)
 end)
 
-RetractSpeed.Submitted:Connect(function(Value)
-	local v = tonumber(Value) or 0
+RetractSpeed.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
 	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 10 and no more than 250, resetting Retract Speed...", 3); v = 123 end
 	DrillConfi.SetRetractSpeed(v)
 end)
 
-DetectionRange.Submitted:Connect(function(Value)
-	local v = tonumber(Value) or 0
+DetectionRange.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
 	if not v or v < 1 or v > 6000 then ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3); v = 8 end
 	DrillConfi.SetDetectionRange(v)
 end)
@@ -175,6 +180,6 @@ end)
 -----------------------------------------------------------------
 
 AtlasHub:Notify(
-	"Successfully loaded!",
+	"Successfully loaded Atlas Hub!",
 	3
 )
