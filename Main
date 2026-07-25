@@ -1,0 +1,63 @@
+local AtlasHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/UILibrary"))()
+
+local Players = game:GetService("Players")
+local TCS = game:GetService("TextChatService")
+local LocalPlayer = Players.LocalPlayer
+
+AtlasHub:StartLibrary()
+
+local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
+
+local function ShowNotify(Text, Duration)
+	AtlasHub:Notify(Text, Duration)
+end
+
+local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155554")
+local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://16149155554")
+
+---- Player Tab ------------------------------------------------------------------------------
+
+--- TextBoxes -------------------------------
+
+local Walkspeed = AtlasHub.TextBox:Create(PlayerTab, "Walkspeed", "Enter Walkspeed amount...")
+local JumpPower = AtlasHub.TextBox:Create(PlayerTab, "JumpPower", "Enter JumpPower amount...")
+local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeight amount...")
+
+local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
+
+---------------------------------------------
+
+--- TextBox Functions -------------------------------
+
+Walkspeed.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting Walkspeed...") v = 18 end	
+	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = v
+end)
+
+JumpPower.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting JumpPower...") v = 26 end	
+	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = v
+end)
+
+HipHeight.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting HipHeight...") v = 2 end	
+	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").HipHeight = v
+end)
+
+JetpackSpeed.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting JetpackSpeed...") v = 15 end	
+	game.Players.LocalPlayer:SetAttribute("jetpackSpeed", v)
+end)
+
+---------------------------------------------
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+AtlasHub:Notify(
+	"Successfully loaded!",
+	3
+)
