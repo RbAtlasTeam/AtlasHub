@@ -1,0 +1,94 @@
+local DrillConfig = {}
+
+local Players = game:GetService("Players")
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+
+local LocalPlayer = Players.LocalPlayer
+
+local CommonModule = require(
+	ReplicatedStorage.RModules:WaitForChild("CommonModule")
+)
+
+function DrillConfig.SetForwardSpeed(Value)
+	Value = tonumber(Value)
+	if not Value then
+		return false
+	end
+
+	for _, Drill in pairs(CommonModule.Drills) do
+		Drill.forwardSpeed = Value
+	end
+
+	return true
+end
+
+function DrillConfig.SetRetractSpeed(Value)
+	Value = tonumber(Value)
+	if not Value then
+		return false
+	end
+
+	for _, Drill in pairs(CommonModule.Drills) do
+		Drill.retractSpeed = Value
+	end
+
+	return true
+end
+
+function DrillConfig.Extract()
+	local DrillGui = LocalPlayer.PlayerGui:FindFirstChild("DrillGui")
+	if not DrillGui or not DrillGui.Enabled then
+		return false
+	end
+
+	local CanvasF = DrillGui.MainF.CanvasF
+	local MineProgressF = DrillGui.MainF.MineProgressF
+
+	local Circles = CanvasF:FindFirstChild("Circles")
+	if Circles then
+		for _, Circle in ipairs(Circles:GetChildren()) do
+			if Circle:IsA("Frame") then
+				Circle.BackgroundColor3 = Color3.fromRGB(0, 255, 0)
+			end
+		end
+	end
+
+	if LocalPlayer:GetAttribute("drillArtifactName") then
+		ReplicatedStorage.Events.ArtifactEvent:FireServer(
+			"endDrilling",
+			{status = true}
+		)
+	end
+
+	if MineProgressF
+		and MineProgressF:FindFirstChild("MineBorder")
+		and MineProgressF.MineBorder:FindFirstChild("MineBar") then
+
+		MineProgressF.MineBorder.MineBar.Size =
+			MineProgressF.MineBorder.Size
+	end
+
+	DrillGui.Enabled = false
+
+	local ScreenGui = LocalPlayer.PlayerGui:FindFirstChild("ScreenGui")
+	if ScreenGui then
+		ScreenGui.BottomF.ProgressFrame.Visible = true
+		ScreenGui.BottomF.ToolbarsF.InventoryF.Visible = true
+	end
+
+	local Character = LocalPlayer.Character
+	if Character then
+		local Tool = Character:FindFirstChildWhichIsA("Tool")
+		if Tool
+			and Tool:GetAttribute("drill")
+			and Tool:FindFirstChild("BeamSource")
+			and Tool.BeamSource:FindFirstChild("Beam") then
+
+			Tool.BeamSource.Beam.Enabled = false
+		end
+	end
+
+	return true
+end
+
+return DrillConfig
