@@ -16,6 +16,7 @@ function AtlasHub.CreateUI()
 	AtlasInterface.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 	AtlasInterface.ScreenInsets = Enum.ScreenInsets.None
 	AtlasInterface.Enabled = true
+	AtlasInterface.DisplayOrder = 800
 	AtlasInterface.Parent = UIParent
 	
 	local DataBase = Instance.new("Folder", UIParent)
