@@ -1,0 +1,78 @@
+local MineAndInventory = {}
+
+local Players = game:GetService("Players")
+
+local LocalPlayer = Players.LocalPlayer
+
+local ArtifactMemory = {}
+local AllArtifacts = {}
+
+local function RefreshArtifacts()
+	table.clear(AllArtifacts)
+
+	local Planets = workspace:FindFirstChild("Planets")
+	if not Planets then
+		return
+	end
+
+	for _, Planet in ipairs(Planets:GetChildren()) do
+		local Artifacts = Planet:FindFirstChild("Artifacts")
+
+		if Artifacts then
+			for _, Object in ipairs(Artifacts:GetDescendants()) do
+				if Object:IsA("BasePart") then
+					table.insert(AllArtifacts, Object)
+				end
+			end
+		end
+	end
+end
+
+function MineAndInventory.ArtifactTp(Character)
+	if not Character then
+		Character = LocalPlayer.Character
+	end
+
+	if not Character then
+		return false
+	end
+
+	local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
+	if not HumanoidRootPart then
+		return false
+	end
+
+	if #AllArtifacts == 0 then
+		RefreshArtifacts()
+	end
+
+	local Available = {}
+
+	for _, Artifact in ipairs(AllArtifacts) do
+		if Artifact.Parent and not table.find(ArtifactMemory, Artifact) then
+			local Distance = (HumanoidRootPart.Position - Artifact.Position).Magnitude
+
+			if Distance <= 150 then
+				table.insert(Available, Artifact)
+			end
+		end
+	end
+
+	if #Available == 0 then
+		table.clear(ArtifactMemory)
+		RefreshArtifacts()
+		return false
+	end
+
+	local Chosen = Available[math.random(#Available)]
+
+	table.insert(ArtifactMemory, Chosen)
+
+	HumanoidRootPart.CFrame = CFrame.new(
+		Chosen.Position + Vector3.new(0, 3, 0)
+	)
+
+	return true, Chosen
+end
+
+return MineAndInventory
