@@ -12,6 +12,10 @@ AtlasHub:StartLibrary()
 
 local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
 
+local AtlasHubValuesFolder = Instance.new("Folder")
+AtlasHubValuesFolder.Name = "AtlasHub_ValuesDatas"
+AtlasHubValuesFolder.Parent = AtlasHub_Datas
+
 local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
