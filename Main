@@ -24,11 +24,11 @@ end
 
 ----- Call LoadStrings -----
 
-loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))
+local Ship_Mine_and_Inventory_AtlasHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))
 
 local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))
 
-wait(1)
+wait(.5)
 
 ------------------------------------------------------
 
