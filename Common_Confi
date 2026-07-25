@@ -59,7 +59,7 @@ local function GetShipMain(plr)
 	local seat = humanoid.SeatPart
 	if not seat then return end
 
-	if not seat:GetAttribute("rocketSeat") then return end
+	if not seat:GetAttribute("rocket") then return end
 
 	return seat.Parent:FindFirstChild("Main")
 end
