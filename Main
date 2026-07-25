@@ -31,25 +31,25 @@ local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter J
 
 Walkspeed.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if v < 0 then ShowNotify("Value cannot be under 1, reseting Walkspeed...") v = 18 end	
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting Walkspeed...", 3) v = 18 end	
 	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").WalkSpeed = v
 end)
 
 JumpPower.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if v < 0 then ShowNotify("Value cannot be under 1, reseting JumpPower...") v = 26 end	
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting JumpPower...", 3) v = 26 end	
 	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").JumpPower = v
 end)
 
 HipHeight.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if v < 0 then ShowNotify("Value cannot be under 1, reseting HipHeight...") v = 2 end	
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting HipHeight...", 3) v = 2 end	
 	game.Players.LocalPlayer.Character:FindFirstChildOfClass("Humanoid").HipHeight = v
 end)
 
 JetpackSpeed.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if v < 0 then ShowNotify("Value cannot be under 1, reseting JetpackSpeed...") v = 15 end	
+	if v < 0 then ShowNotify("Value cannot be under 1, reseting JetpackSpeed...", 3) v = 15 end	
 	game.Players.LocalPlayer:SetAttribute("jetpackSpeed", v)
 end)
 
