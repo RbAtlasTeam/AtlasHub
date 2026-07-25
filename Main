@@ -45,7 +45,7 @@ local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("Col
 
 local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
-local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Invertory", "rbxassetid://120575375806036")
+local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Inventory", "rbxassetid://120575375806036")
 local DrillTab = AtlasHub:CreateTab("Drill", "Drill Tab", "rbxassetid://11959189471")
 
 
