@@ -1668,7 +1668,7 @@ function AtlasHub.PrepareUI()
 
 		AtlasHub.LocalTime.Text =  "LocalTime:" ..os.date("%H:%M:%S")
 
-		AtlasHub.ServerUpTime.Text =  "ServerTime:" .. FormatTime(
+		AtlasHub.ServerUpTime.Text =  "JoinedTime:" .. FormatTime(
 			workspace.DistributedGameTime
 		)
 
