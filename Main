@@ -74,6 +74,7 @@ end)
 ----- Button Functions ------
 
 RejoinBtn.Clicked:Connect(function()
+	ShowNotify("Teleportation Started! Teleporting to same server...", 4)
 	TeleportService:Teleport(CurrentPlace, LocalPlayer)
 end)
 
