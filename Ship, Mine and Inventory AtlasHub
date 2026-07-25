@@ -2,6 +2,8 @@
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 
+warn("Loading eeeeeeeeee")
+
 --------- Mine & Inventory Container -----------+--
 
 local AtlasHubbValuesFolder = game.CoreGui.AtlasHub_Datas:WaitForChild("AtlasHub_ValuesDatas")
