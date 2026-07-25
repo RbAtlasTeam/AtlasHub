@@ -31,6 +31,7 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/
 
 local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))()
 local DrillConfi = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Drill_Configurations"))()
+local CommonConfig = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Common_Confi"))()
 
 ------------------------------------------------------
 
@@ -102,10 +103,51 @@ end)
 ---- Ship Tab ------------------------------------------------------------------------------
 
 local ShipNoClip = AtlasHub.Toggle:Create(ShipTab, "ShipNoClip", "Fly the ship through walls")
+local DebrisPlotterLimits = AtlasHub.Toggle:Create(ShipTab, "No Debris Plotter Limits", "Infinite speed limits for Debris Plotter module")
+local DestoryShip = AtlasHub.Button:Create(ShipTab,"Destroy Ship")
+local ShipSpeed = AtlasHub.TextBox:Create(ShipTab,"Ship Speed", "Enter ShipSpeed amount...")
+local ShipAcceleration = AtlasHub.TextBox:Create(ShipTab,"Ship Acceleration", "Enter Ship Acceleration amount...")
+local ShipDeceleration = AtlasHub.TextBox:Create(ShipTab,"Ship Deceleration", "Enter Ship Deceleration amount...")
+local ShipAgility = AtlasHub.TextBox:Create(ShipTab,"Ship Agility", "Enter Ship Agility amount...")
+
 
 
 ShipNoClip.Changed:Connect(function(Value)
 	ShipNoClipV.Value = Value
+end)
+
+DestoryShip.Clicked:Connect(function()
+	ShowNotify("Your Ship will be destroyed in 5s", 3)
+	wait(5)
+	CommonConfig.DestoryShip()
+end)
+
+DebrisPlotterLimits.Changed:Connect(function(Value)
+	CommonConfig.SetDebrisPlotter(Value)
+end)
+
+ShipSpeed.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting Ship Speed...", 3); v = 50 end
+	CommonConfig.SetShipSpeed(LocalPlayer,ShipSpeed.Text)
+end)
+
+ShipAcceleration.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting Ship Acceleration...", 3); v = 6 end
+	CommonConfig.SetShipAcceleration(LocalPlayer,ShipAcceleration.Text)
+end)
+
+ShipDeceleration.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting Ship Deceleration...", 3); v = 6 end
+	CommonConfig.SetShipDeceleration(LocalPlayer,ShipDeceleration.Text)
+end)
+
+ShipAgility.Submitted:Connect(function(Text)
+	local v = tonumber(Text) or 0
+	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting Ship Agility...", 3); v = 5 end
+	CommonConfig.SetShipAgility(LocalPlayer,ShipAgility.Text)	
 end)
 
 
