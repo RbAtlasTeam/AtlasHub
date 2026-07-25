@@ -34,14 +34,6 @@ if not AlwaysEquipParachute_Value then
 	AlwaysEquipParachute_Value.Parent = AtlasHubbValuesFolder
 end
 
-local ShipHighLight_Value = AtlasHubbValuesFolder:FindFirstChild("ShipHighLight")
-if not ShipHighLight_Value then
-	ShipHighLight_Value = Instance.new("BoolValue")
-	ShipHighLight_Value.Name = "ShipHighLight"
-	ShipHighLight_Value.Value = false
-	ShipHighLight_Value.Parent = AtlasHubbValuesFolder
-end
-
 local ShipNoClip_Value2 = AtlasHubbValuesFolder:FindFirstChild("ShipNoClip")
 if not ShipNoClip_Value2 then
 	ShipNoClip_Value2 = Instance.new("BoolValue")
