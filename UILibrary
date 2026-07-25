@@ -5,7 +5,7 @@ local TweenService = game:GetService("TweenService")
 local RunService = game:GetService("RunService")
 
 local LocalPlayer = Players.LocalPlayer
-local UIParent = LocalPlayer:WaitForChild("PlayerGui")
+local UIParent = game.CoreGui
 
 function AtlasHub.CreateUI()
 
