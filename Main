@@ -2,7 +2,11 @@ local AtlasHub = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAt
 
 local Players = game:GetService("Players")
 local TCS = game:GetService("TextChatService")
+local TeleportService = game:GetService("TeleportService")
+
 local LocalPlayer = Players.LocalPlayer
+
+local CurrentPlace = game.PlaceId
 
 AtlasHub:StartLibrary()
 
@@ -26,6 +30,10 @@ local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeig
 local CameraMaxZoom = AtlasHub.TextBox:Create(PlayerTab, "CameraMaxZoom", "Enter CameraMaxZoom amount...")
 
 local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
+
+--- Buttons -------------------------------
+
+local RejoinBtn = AtlasHub.Button:Create(PlayerTab,"Rejoin Server")
 
 ---------------------------------------------
 
@@ -62,6 +70,12 @@ CameraMaxZoom.Submitted:Connect(function(Text)
 end)
 
 ---------------------------------------------
+
+----- Button Functions ------
+
+RejoinBtn.Clicked:Connect(function()
+	TeleportService:Teleport(CurrentPlace, LocalPlayer)
+end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
