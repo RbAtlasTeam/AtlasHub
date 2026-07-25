@@ -60,8 +60,10 @@ function Config.SetShipSpeed(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-	warn("SetShipSpeed", value)
---	Main:SetAttribute("maxSpeed", value)
+	local speed = Main:GetAttribute("maxSpeed")
+	if speed then
+		Main:SetAttribute("maxSpeed", value)
+	end
 end
 
 function Config.SetShipAcceleration(plr, value)
@@ -75,8 +77,12 @@ function Config.SetShipAcceleration(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-	warn("SetShipAcceleration", value)
---	Main:SetAttribute("acceleration", value)
+
+	local acceleration = Main:GetAttribute("acceleration")
+	if acceleration then
+		Main:SetAttribute("acceleration", value)
+	end
+	
 end
 
 function Config.SetShipDeceleration(plr, value)
@@ -90,8 +96,10 @@ function Config.SetShipDeceleration(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-	warn("SetShipDeceleration", value)
---	Main:SetAttribute("deceleration", value)
+	local Deceleration = Main:GetAttribute("deceleration")
+	if Deceleration then
+		Main:SetAttribute("deceleration", value)
+	end
 end
 
 function Config.SetShipAgility(plr, value)
@@ -105,8 +113,10 @@ function Config.SetShipAgility(plr, value)
 
 	local Main = ship.Main
 	if not Main then return end
-	warn("SetShipAgility", value)
---	Main:SetAttribute("agility", value)
+	local Agility = Main:GetAttribute("agility")
+	if Agility then
+		Main:SetAttribute("agility", value)
+	end
 end
 
 
