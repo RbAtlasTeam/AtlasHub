@@ -8,7 +8,7 @@ local LocalPlayer = Players.LocalPlayer
 
 local CurrentPlace = game.PlaceId
 
-warn("Loading Main")
+warn("Loading Main test")
 
 AtlasHub:StartLibrary()
 
