@@ -25,6 +25,7 @@ end
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
 
 local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))()
+local DrillConfi = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Drill_Configurations"))()
 
 ------------------------------------------------------
 
@@ -40,6 +41,7 @@ local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("Col
 local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
 local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Invertory", "rbxassetid://120575375806036")
+local DrillTab = AtlasHub:CreateTab("Drill", "Drill Tab", "rbxassetid://11959189471")
 
 
 ---- Player Tab ------------------------------------------------------------------------------
@@ -140,6 +142,37 @@ end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+----- Drill Tab -------------------
+
+local ForwardSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Forward Speed", "Enter Drill Forward Speed amount...")
+local RetractSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Retract Speed", "Enter Drill Retract Speed amount...")
+local DetectionRange = AtlasHub.TextBox:Create(DrillTab, "Drill Detection Range", "Enter Drill Detection Range amount...")
+local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
+
+ForwardSpeed.Changed:Connect(function(Value)
+	local v = tonumber(Value) or 0
+	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 20 and no more than 250, resetting Forward Speed...", 3); v = 45 end
+	DrillConfi.SetForwardSpeed(v)
+end)
+
+RetractSpeed.Changed:Connect(function(Value)
+	local v = tonumber(Value) or 0
+	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 10 and no more than 250, resetting Retract Speed...", 3); v = 123 end
+	DrillConfi.SetRetractSpeed(v)
+end)
+
+DetectionRange.Changed:Connect(function(Value)
+	local v = tonumber(Value) or 0
+	if not v or v < 1 or v > 6000 then ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3); v = 8 end
+	DrillConfi.SetDetectionRange(v)
+end)
+
+ExtractBtn.Clicked:Connect(function()
+	DrillConfi.Extract()
+	ShowNotify("Successfully Extracted Artifact!")
+end)
+
+-----------------------------------------------------------------
 
 AtlasHub:Notify(
 	"Successfully loaded!",
