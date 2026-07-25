@@ -16,26 +16,39 @@ local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
 
+----- Call LoadStrings -----
+
+loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))
+
+local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))
+
+
+------------------------------------------------------
+
+local AtlasHub_ValueDatas = game.CoreGui:WaitForChild("AtlasHub_Datas"):WaitForChild("AtlasHub_ValueDatas")
+
+local OldInventoryV = AtlasHub_ValueDatas:WaitForChild("OldInventory")
+local OneHitResourcesV = AtlasHub_ValueDatas:WaitForChild("OneHitResources")
+local AlwaysEquipParachuteV = AtlasHub_ValueDatas:WaitForChild("AlwaysEquipParachute")
+local ShipNoClipV = AtlasHub_ValueDatas:WaitForChild("ShipNoClip")
+local CollectAllLocalPlanetGemValue = AtlasHub_ValueDatas:WaitForChild("CollectAllLocalPlanetGemValue")
+local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("CollectAllLocalPlanetArtifactValue")
+
+-------------------------------------------------------------------------------------------------------------------------
+
 local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
+local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Invertory", "rbxassetid://120575375806036")
+
 
 ---- Player Tab ------------------------------------------------------------------------------
-
---- TextBoxes -------------------------------
 
 local Walkspeed = AtlasHub.TextBox:Create(PlayerTab, "Walkspeed", "Enter Walkspeed amount...")
 local JumpPower = AtlasHub.TextBox:Create(PlayerTab, "JumpPower", "Enter JumpPower amount...")
 local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeight amount...")
-
 local CameraMaxZoom = AtlasHub.TextBox:Create(PlayerTab, "CameraMaxZoom", "Enter CameraMaxZoom amount...")
-
 local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
-
---- Buttons -------------------------------
-
 local RejoinBtn = AtlasHub.Button:Create(PlayerTab,"Rejoin Server")
-
----------------------------------------------
 
 --- TextBox Functions -------------------------------
 
@@ -69,9 +82,6 @@ CameraMaxZoom.Submitted:Connect(function(Text)
 	LocalPlayer.CameraMaxZoomDistance = v
 end)
 
----------------------------------------------
-
------ Button Functions ------
 
 RejoinBtn.Clicked:Connect(function()
 	ShowNotify("Teleporting to same server...", 4)
@@ -80,6 +90,55 @@ RejoinBtn.Clicked:Connect(function()
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---- Ship Tab ------------------------------------------------------------------------------
+
+local ShipNoClip = AtlasHub.Toggle:Create(ShipTab, "ShipNoClip", "Fly the ship through walls")
+
+
+ShipNoClip.Changed:Connect(function(Value)
+	ShipNoClipV.Value = Value
+end)
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+---- Mine and Inventory Tab ------------------------------------------------------------------------------
+
+local OneHitResources = AtlasHub.Toggle:Create(MineAndInventoryTab, "OneHit All Resources", "Mine any resources with one hit")
+local CollectAllArtifacts = AtlasHub.Toggle:Create(MineAndInventoryTab, "Show Collect All Artifacts Button", "Show a button in more tab that auto collect all artifacts from local planet")
+local ArtifactTp = AtlasHub.Button:Create(MineAndInventoryTab,"Teleport to random Artifact")
+local CollectAllGems = AtlasHub.Toggle:Create(MineAndInventoryTab, "Show Collect All Gems Button", "Show a button in more tab that auto collect all gems from local planet")
+local AlwaysEquipParachute = AtlasHub.Toggle:Create(MineAndInventoryTab, "Always Equip Parachute (Fun)", "Always equip your parachute, also work while sitting in ship")
+local RobloxInventory = AtlasHub.Toggle:Create(MineAndInventoryTab, "Roblox Inventory", "Use roblox original inventory instead of in game inventory")
+
+
+OneHitResources.Changed:Connect(function(Value)
+	OneHitResourcesV.Value = Value
+end)
+
+CollectAllArtifacts.Changed:Connect(function(Value)
+	CollectAllLocalPlanetArtifactValue.Value = Value
+end)
+
+CollectAllGems.Changed:Connect(function(Value)
+	CollectAllLocalPlanetGemValue.Value = Value
+end)
+
+AlwaysEquipParachute.Changed:Connect(function(Value)
+	AlwaysEquipParachuteV.Value = Value
+end)
+
+RobloxInventory.Changed:Connect(function(Value)
+	OldInventoryV.Value = Value
+end)
+
+ArtifactTp.Clicked:Connect(function()
+	MineAndInventory.ArtifactTp(LocalPlayer.Character)
+end)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
 
 AtlasHub:Notify(
 	"Successfully loaded!",
