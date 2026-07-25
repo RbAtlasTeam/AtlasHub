@@ -8,6 +8,8 @@ local LocalPlayer = Players.LocalPlayer
 
 local CurrentPlace = game.PlaceId
 
+warn("Loading Main")
+
 AtlasHub:StartLibrary()
 
 local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
