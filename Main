@@ -12,8 +12,8 @@ local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
 
-local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155554")
-local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://16149155554")
+local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
+local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
 
 ---- Player Tab ------------------------------------------------------------------------------
 
