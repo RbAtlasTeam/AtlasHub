@@ -8,6 +8,16 @@ local LocalPlayer = Players.LocalPlayer
 local UIParent = game.CoreGui
 
 function AtlasHub.CreateUI()
+	
+	local OldGui = UIParent:FindFirstChild("AtlasInterface")
+	if OldGui then
+		OldGui:Destroy()
+	end
+	
+	local OldDataBase = UIParent:FindFirstChild("AtlasHub_Datas")
+	if OldDataBase then
+		OldDataBase:Destroy()
+	end
 
 	local AtlasInterface = Instance.new("ScreenGui")
 	AtlasInterface.Name = "AtlasInterface"
@@ -1533,6 +1543,18 @@ function AtlasHub.CreateSounds()
 	NotifSFX.Volume = 0.6
 	NotifSFX.Looped = false
 	
+	local OpenSFX = Instance.new("Sound", Sounds)
+	OpenSFX.Name = "OpenSFX"
+	OpenSFX.SoundId = "rbxassetid://70452176150315"
+	OpenSFX.Volume = 0.6
+	OpenSFX.Looped = false
+	
+	local CloseSFX = Instance.new("Sound", Sounds)
+	CloseSFX.Name = "CloseSFX"
+	CloseSFX.SoundId = "rbxassetid://74766266183741"
+	CloseSFX.Volume = 0.6
+	CloseSFX.Looped = false
+	
 end
 
 function AtlasHub.PrepareUI()
@@ -1545,6 +1567,8 @@ function AtlasHub.PrepareUI()
 	AtlasHub.Sounds = Sounds
 	
 	AtlasHub.NotiSFX = Sounds:WaitForChild("NotifSFX")
+	AtlasHub.OpenSFX = Sounds:WaitForChild("OpenSFX")
+	AtlasHub.CloseSFX = Sounds:WaitForChild("CloseSFX")
 
 	AtlasHub.Main = UI:WaitForChild("Main")
 
@@ -1693,7 +1717,9 @@ function AtlasHub:SetUp()
 					Size = OpenSize
 				}
 			):Play()
-
+			
+			AtlasHub.OpenSFX.TimePosition = 0
+			AtlasHub.OpenSFX:Play()
 
 		else
 
@@ -1708,10 +1734,11 @@ function AtlasHub:SetUp()
 					Size = CloseSize
 				}
 			)
-
+			
+			AtlasHub.CloseSFX.TimePosition = 0
+			AtlasHub.CloseSFX:Play()
 
 			Tween:Play()
-
 
 			Tween.Completed:Connect(function()
 				if not self.IsOpen then
@@ -1744,6 +1771,9 @@ function AtlasHub:SetUp()
 				Size = CloseSize
 			}
 		)
+		
+		AtlasHub.CloseSFX.TimePosition = 0
+		AtlasHub.CloseSFX:Play()
 
 
 		Tween:Play()
