@@ -8,8 +8,6 @@ local LocalPlayer = Players.LocalPlayer
 
 local CurrentPlace = game.PlaceId
 
-warn("Loading Main test")
-
 AtlasHub:StartLibrary()
 
 local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
@@ -26,9 +24,7 @@ end
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
 
-local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))
-
-wait(.5)
+local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))()
 
 ------------------------------------------------------
 
