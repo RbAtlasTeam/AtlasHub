@@ -216,7 +216,6 @@ ArtifactTp.Clicked:Connect(function()
 end)
 
 DrillNearestArtifact.Clicked:Connect(function()
-	
 	local Success, Reason = DrillConfi.DrillArtifact(LocalPlayer)
 
 	if not Success then
