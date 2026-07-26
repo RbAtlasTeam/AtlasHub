@@ -21,7 +21,7 @@ local function ShowNotify(Text, Duration)
 end
 
 AtlasHub:Notify(
-	"Loading Atlas Hub v0.1 for The Space Simulator",
+	"Loading Atlas Hub for The Space Simulator",
 	3
 )
 
@@ -212,7 +212,7 @@ DetectionRange.Submitted:Connect(function(Text)
 end)
 
 ArtifactTp.Clicked:Connect(function()
-	local Success, Reason = MineAndInventory.ArtifactTp(LocalPlayer)
+	local Success, Reason = MineAndInventory.ArtifactTp(LocalPlayer.Character)
 
 	if not Success then
 		ShowNotify("Failed to Teleport, " .. tostring(Reason), 3)
