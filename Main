@@ -21,7 +21,7 @@ local function ShowNotify(Text, Duration)
 end
 
 AtlasHub:Notify(
-	"Loading Atlas Hub for The Space Simulator",
+	"Loading Atlas Hub v0.1 for The Space Simulator",
 	3
 )
 
