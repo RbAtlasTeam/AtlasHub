@@ -157,7 +157,6 @@ end)
 
 local OneHitResources = AtlasHub.Toggle:Create(MineAndInventoryTab, "OneHit All Resources", "Mine any resources with one hit")
 local CollectAllArtifacts = AtlasHub.Toggle:Create(MineAndInventoryTab, "Show Collect All Artifacts Button", "Show a button in more tab that auto collect all artifacts from local planet")
-local ArtifactTp = AtlasHub.Button:Create(MineAndInventoryTab,"Teleport to random Artifact")
 local CollectAllGems = AtlasHub.Toggle:Create(MineAndInventoryTab, "Show Collect All Gems Button", "Show a button in more tab that auto collect all gems from local planet")
 local AlwaysEquipParachute = AtlasHub.Toggle:Create(MineAndInventoryTab, "Always Equip Parachute (Fun)", "Always equip your parachute, also work while sitting in ship")
 local RobloxInventory = AtlasHub.Toggle:Create(MineAndInventoryTab, "Roblox Inventory", "Use roblox original inventory instead of in game inventory")
@@ -183,10 +182,6 @@ RobloxInventory.Changed:Connect(function(Value)
 	OldInventoryV.Value = Value
 end)
 
-ArtifactTp.Clicked:Connect(function()
-	MineAndInventory.ArtifactTp(LocalPlayer.Character)
-end)
-
 ------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 ----- Drill Tab -------------------
@@ -194,6 +189,7 @@ end)
 local ForwardSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Forward Speed", "Enter Drill Forward Speed amount...")
 local RetractSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Retract Speed", "Enter Drill Retract Speed amount...")
 local DetectionRange = AtlasHub.TextBox:Create(DrillTab, "Drill Detection Range", "Enter Drill Detection Range amount...")
+local ArtifactTp = AtlasHub.Button:Create(MineAndInventoryTab,"Teleport to random Artifact")
 local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
 
 ForwardSpeed.Submitted:Connect(function(Text)
@@ -212,6 +208,10 @@ DetectionRange.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
 	if not v or v < 1 or v > 6000 then ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3); v = 8 end
 	DrillConfi.SetDetectionRange(v)
+end)
+
+ArtifactTp.Clicked:Connect(function()
+	MineAndInventory.ArtifactTp(LocalPlayer.Character)
 end)
 
 ExtractBtn.Clicked:Connect(function()
