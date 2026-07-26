@@ -190,6 +190,7 @@ local ForwardSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Forward Speed", "E
 local RetractSpeed = AtlasHub.TextBox:Create(DrillTab, "Drill Retract Speed", "Enter Drill Retract Speed amount...")
 local DetectionRange = AtlasHub.TextBox:Create(DrillTab, "Drill Detection Range", "Enter Drill Detection Range amount...")
 local ArtifactTp = AtlasHub.Button:Create(DrillTab,"Teleport to random Artifact")
+local DrillNearestArtifact = AtlasHub.Button:Create(DrillTab,"Drill nearest artifact")
 local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
 
 ForwardSpeed.Submitted:Connect(function(Text)
@@ -212,6 +213,14 @@ end)
 
 ArtifactTp.Clicked:Connect(function()
 	MineAndInventory.ArtifactTp(LocalPlayer.Character)
+end)
+
+DrillNearestArtifact.Clicked:Connect(function()
+	local Success, Reason = DrillConfi.DrillNearestArtifact(LocalPlayer)
+
+	if not Success then
+		ShowNotify("Failed to Drill: " .. tostring(Reason), 3)
+	end
 end)
 
 ExtractBtn.Clicked:Connect(function()
