@@ -46,6 +46,69 @@ function DrillConfig.SetRetractSpeed(Value)
 	return true
 end
 
+function DrillArtifact(plr)
+	local character = plr.Character
+	if not character then return false, "No character" end
+
+	local humanoid = character:FindFirstChildOfClass("Humanoid")
+	local root = character:FindFirstChild("HumanoidRootPart")
+	local backpack = plr:FindFirstChild("Backpack")
+
+	if not humanoid or not root or not backpack then
+		return false, "Missing character objects"
+	end
+	
+	local nearestArtifact
+	local nearestDistance = math.huge
+
+	for _, obj in ipairs(workspace:GetDescendants()) do
+		if obj:IsA("BasePart") and obj.Parent and obj.Parent.Name == "Artifacts" then
+			local dist = (obj.Position - root.Position).Magnitude
+			if dist < nearestDistance then
+				nearestDistance = dist
+				nearestArtifact = obj
+			end
+		end
+	end
+
+	if not nearestArtifact then
+		return false, "No nearby artifact"
+	end
+
+	local prompt = nearestArtifact:FindFirstChildWhichIsA("ProximityPrompt", true)
+	if not prompt then
+		return false, "No ProximityPrompt found inside artifact"
+	end
+	
+	local drill
+	for _, tool in ipairs(backpack:GetChildren()) do
+		if tool:IsA("Tool") and tool:GetAttribute("drill") == true then
+			drill = tool
+			break
+		end
+	end
+
+	if not drill then
+		for _, tool in ipairs(character:GetChildren()) do
+			if tool:IsA("Tool") and tool:GetAttribute("drill") == true then
+				drill = tool
+				break
+			end
+		end
+	end
+
+	if not drill then
+		return false, "No drill tool"
+	end
+
+	humanoid:EquipTool(drill)
+
+	task.wait()
+	fireproximityprompt(prompt)
+
+	return true
+end
+
 function DrillConfig.Extract()
 	local DrillGui = LocalPlayer.PlayerGui:FindFirstChild("DrillGui")
 	if not DrillGui or not DrillGui.Enabled then
