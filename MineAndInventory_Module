@@ -34,22 +34,22 @@ function MineAndInventory.ArtifactTp(Character)
 	end
 
 	if not Character then
-		return false, nil, "No character"
+		return false, "No character"
 	end
 
 	local Humanoid = Character:FindFirstChildOfClass("Humanoid")
 	local HumanoidRootPart = Character:FindFirstChild("HumanoidRootPart")
 
 	if not Humanoid or not HumanoidRootPart then
-		return false, nil, "Missing character objects"
+		return false, "Missing character objects"
 	end
 
 	if Humanoid.SeatPart then
-		return false, nil, "SeatPart Detected"
+		return false, "SeatPart Detected"
 	end
 
 	if workspace.Gravity == 0 then
-		return false, nil, "Space Gravity Detected"
+		return false, "Space Gravity Detected"
 	end
 
 	if #AllArtifacts == 0 then
@@ -73,10 +73,10 @@ function MineAndInventory.ArtifactTp(Character)
 		RefreshArtifacts()
 
 		if #AllArtifacts == 0 then
-			return false, nil, "No Artifacts Left or Found"
+			return false, "No Artifacts Left or Found"
 		end
 
-		return false, nil, "No Artifacts Left or Found"
+		return false, "No Artifacts Left or Found"
 	end
 
 	local Chosen = Available[math.random(#Available)]
