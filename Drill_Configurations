@@ -27,7 +27,7 @@ function DrillConfig.SetDetectionRange(Value)
 	if not Value then
 		return false
 	end
-	
+
 	for _, Drill in pairs(CommonModule.Drills) do
 		Drill.detectRange = Value
 	end
@@ -46,7 +46,7 @@ function DrillConfig.SetRetractSpeed(Value)
 	return true
 end
 
-function DrillArtifact(plr)
+function DrillConfig.DrillArtifact(plr)
 	local character = plr.Character
 	if not character then return false, "No character" end
 
@@ -57,7 +57,7 @@ function DrillArtifact(plr)
 	if not humanoid or not root or not backpack then
 		return false, "Missing character objects"
 	end
-	
+
 	local nearestArtifact
 	local nearestDistance = math.huge
 
@@ -79,7 +79,7 @@ function DrillArtifact(plr)
 	if not prompt then
 		return false, "No ProximityPrompt found inside artifact"
 	end
-	
+
 	local drill
 	for _, tool in ipairs(backpack:GetChildren()) do
 		if tool:IsA("Tool") and tool:GetAttribute("drill") == true then
