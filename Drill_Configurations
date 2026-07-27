@@ -59,12 +59,12 @@ function DrillConfig.DrillArtifact(plr)
 	end
 
 	local nearestArtifact
-	local nearestDistance = math.huge
+	local nearestDistance = 10
 
 	for _, obj in ipairs(workspace:GetDescendants()) do
 		if obj:IsA("BasePart") and obj.Parent and obj.Parent.Name == "Artifacts" then
 			local dist = (obj.Position - root.Position).Magnitude
-			if dist < nearestDistance then
+			if dist <= 10 and dist < nearestDistance then
 				nearestDistance = dist
 				nearestArtifact = obj
 			end
@@ -72,7 +72,7 @@ function DrillConfig.DrillArtifact(plr)
 	end
 
 	if not nearestArtifact then
-		return false, "No nearby artifact"
+		return false, "No artifact within 10 studs"
 	end
 
 	local prompt = nearestArtifact:FindFirstChildWhichIsA("ProximityPrompt", true)
