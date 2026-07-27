@@ -182,9 +182,9 @@ MainInterface.BackgroundColor3 = Color3.new(0, 0, 0)
 MainInterface.BackgroundTransparency = 0.5
 MainInterface.BorderSizePixel = 0
 MainInterface.BorderColor3 = Color3.new(0, 0, 0)
-MainInterface.Visible = false
+MainInterface.Visible = true
 MainInterface.AnchorPoint = Vector2.new(0.5, 0.5)
-MainInterface.Transparency = 0.5
+MainInterface.Transparency = 1
 MainInterface.Parent = AtlasHub_ArtifactESP
 
 local TemplateStorage = Instance.new("Frame")
@@ -644,8 +644,8 @@ local function CreateESP(Artifact)
 
 	local function Update()
 
-
 		if not Artifact.Parent then
+			RemoveESP(Artifact)
 			return
 		end
 
@@ -653,15 +653,11 @@ local function CreateESP(Artifact)
 		local Root = GetCharacterRoot()
 
 		if not Root then
-
 			Box.Visible = false
 			Info.Visible = false
 			Line.Visible = false
-
 			return
-
 		end
-
 
 
 		local Distance =
@@ -669,21 +665,17 @@ local function CreateESP(Artifact)
 
 
 
-		local Pos,Visible =
+		local Screen,Visible =
 			Camera:WorldToViewportPoint(
 				Artifact.Position
 			)
 
 
-
 		if not Visible then
-
 			Box.Visible=false
 			Info.Visible=false
 			Line.Visible=false
-
 			return
-
 		end
 
 
@@ -694,45 +686,63 @@ local function CreateESP(Artifact)
 
 
 
+		-- bigger when closer
 		local Scale =
 			math.clamp(
-				120 / Distance,
-				0.5,
-				2
+				300 / Distance,
+				0.8,
+				3
 			)
 
 
 
+		local BoxSize =
+			80 * Scale
+
+
+
+		-- CENTER BOX
 		Box.Size =
 			UDim2.fromOffset(
-				70 * Scale,
-				70 * Scale
+				BoxSize,
+				BoxSize
 			)
 
 
 		Box.Position =
 			UDim2.fromOffset(
-				Pos.X,
-				Pos.Y
+				Screen.X - BoxSize/2,
+				Screen.Y - BoxSize/2
 			)
 
+
+
+		-- INFO RIGHT SIDE
+
+		local InfoWidth =
+			180 * Scale
+
+
+		local InfoHeight =
+			110 * Scale
 
 
 		Info.Size =
 			UDim2.fromOffset(
-				150 * Scale,
-				100 * Scale
+				InfoWidth,
+				InfoHeight
 			)
-
 
 
 		Info.Position =
 			UDim2.fromOffset(
-				Box.AbsolutePosition.X + Box.AbsoluteSize.X + 10,
-				Box.AbsolutePosition.Y
+				Screen.X + BoxSize/2 + 10,
+				Screen.Y - InfoHeight/2
 			)
 
 
+
+		-- TRACER
 
 		local Start =
 			Vector2.new(
@@ -741,16 +751,16 @@ local function CreateESP(Artifact)
 			)
 
 
-		local Finish =
+		local End =
 			Vector2.new(
-				Box.AbsolutePosition.X + Box.AbsoluteSize.X/2,
-				Box.AbsolutePosition.Y
+				Screen.X,
+				Screen.Y
 			)
 
 
 
-		local Delta = Finish - Start
-
+		local Direction =
+			End - Start
 
 
 		Line.Position =
@@ -762,7 +772,7 @@ local function CreateESP(Artifact)
 
 		Line.Size =
 			UDim2.fromOffset(
-				Delta.Magnitude,
+				Direction.Magnitude,
 				2
 			)
 
@@ -770,21 +780,33 @@ local function CreateESP(Artifact)
 		Line.Rotation =
 			math.deg(
 				math.atan2(
-					Delta.Y,
-					Delta.X
+					Direction.Y,
+					Direction.X
 				)
 			)
 
 
 
-		local At = Artifact:GetAttribute("atype") or "Unknown"
-		local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
-		local Mass = Artifact:GetAttribute("mass") or "?"
-		local Depth = Artifact:GetAttribute("depth") or "?"
+		local At =
+			Artifact:GetAttribute("atype") or "Unknown"
+
+
+		local Rarity =
+			Artifact:GetAttribute("rarity") or "Unknown"
+
+
+		local Mass =
+			Artifact:GetAttribute("mass") or "?"
+
+
+		local Depth =
+			Artifact:GetAttribute("depth") or "?"
 
 
 
-		Data.A.Text = At
+		Data.A.Text =
+			At
+
 
 		Data.B.Text =
 			"Rarity: "..Rarity
@@ -792,6 +814,7 @@ local function CreateESP(Artifact)
 
 		Data.B.TextColor3 =
 			GetRarityColor(Rarity)
+
 
 
 		Data.C.Text =
@@ -804,7 +827,6 @@ local function CreateESP(Artifact)
 
 		Data.E.Text =
 			"Distance: "..math.floor(Distance).." Studs"
-
 
 	end
 
@@ -998,4 +1020,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("ESP Loaded")
+warn("ESP Loadeddddd")
