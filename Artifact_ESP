@@ -594,6 +594,8 @@ local function CreateESP(Artifact)
 	local Box = BoxTemplate:Clone()
 	local Info = InfoTemplate:Clone()
 	local Line = LineTemplate:Clone()
+	
+	Line.AnchorPoint = Vector2.new(0.5,0.5)
 
 
 	Box.Parent = MainInterface
@@ -660,119 +662,112 @@ local function CreateESP(Artifact)
 		end
 
 
-		local Distance =
-			(Root.Position - Artifact.Position).Magnitude
+		local WorldPos = Artifact.Position
 
-
-
-		local Screen,Visible =
-			Camera:WorldToViewportPoint(
-				Artifact.Position
-			)
+		local ScreenPos, Visible =
+			Camera:WorldToViewportPoint(WorldPos)
 
 
 		if not Visible then
-			Box.Visible=false
-			Info.Visible=false
-			Line.Visible=false
+
+			Box.Visible = false
+			Info.Visible = false
+			Line.Visible = false
+
 			return
 		end
 
 
 
-		Box.Visible=true
-		Info.Visible=true
-		Line.Visible=true
+		Box.Visible = true
+		Info.Visible = true
+		Line.Visible = true
 
 
 
-		-- bigger when closer
+		-- distance scale like UFO ESP
 		local Scale =
 			math.clamp(
-				300 / Distance,
-				0.8,
-				3
+				ScreenPos.Z / 400,
+				0.03,
+				0.15
 			)
 
 
 
-		local BoxSize =
-			80 * Scale
+		-- BOX
 
-
-
-		-- CENTER BOX
-		Box.Size =
-			UDim2.fromOffset(
-				BoxSize,
-				BoxSize
-			)
-
+		Box.AnchorPoint = Vector2.new(0.5,0.5)
 
 		Box.Position =
 			UDim2.fromOffset(
-				Screen.X - BoxSize/2,
-				Screen.Y - BoxSize/2
+				ScreenPos.X,
+				ScreenPos.Y
+			)
+
+		Box.Size =
+			UDim2.fromScale(
+				Scale,
+				Scale
 			)
 
 
 
-		-- INFO RIGHT SIDE
+		-- INFO PANEL
 
-		local InfoWidth =
-			180 * Scale
+		Info.AnchorPoint = Vector2.new(0,0.5)
 
-
-		local InfoHeight =
-			110 * Scale
+		Info.Position =
+			UDim2.fromOffset(
+				ScreenPos.X + (Box.AbsoluteSize.X/2) + 10,
+				ScreenPos.Y
+			)
 
 
 		Info.Size =
 			UDim2.fromOffset(
-				InfoWidth,
-				InfoHeight
-			)
-
-
-		Info.Position =
-			UDim2.fromOffset(
-				Screen.X + BoxSize/2 + 10,
-				Screen.Y - InfoHeight/2
+				160,
+				100
 			)
 
 
 
-		-- TRACER
+		-- LINE FROM ESP BALL TO OBJECT
 
 		local Start =
 			Vector2.new(
-				InnerBall.AbsolutePosition.X,
-				InnerBall.AbsolutePosition.Y
+				InnerBall2.AbsolutePosition.X,
+				InnerBall2.AbsolutePosition.Y
 			)
 
 
 		local End =
 			Vector2.new(
-				Screen.X,
-				Screen.Y
+				ScreenPos.X,
+				ScreenPos.Y
 			)
 
 
 
-		local Direction =
+		local Delta =
 			End - Start
+
+
+
+		Line.AnchorPoint =
+			Vector2.new(0.5,0.5)
 
 
 		Line.Position =
 			UDim2.fromOffset(
-				Start.X,
-				Start.Y
+				(Start.X + End.X)/2,
+				(Start.Y + End.Y)/2
 			)
 
 
 		Line.Size =
 			UDim2.fromOffset(
-				Direction.Magnitude,
+				Delta.Magnitude,
 				2
 			)
 
@@ -780,53 +775,47 @@ local function CreateESP(Artifact)
 		Line.Rotation =
 			math.deg(
 				math.atan2(
-					Direction.Y,
-					Direction.X
+					Delta.Y,
+					Delta.X
 				)
 			)
 
 
 
+		-- INFO TEXT
+
 		local At =
 			Artifact:GetAttribute("atype") or "Unknown"
-
 
 		local Rarity =
 			Artifact:GetAttribute("rarity") or "Unknown"
 
-
 		local Mass =
 			Artifact:GetAttribute("mass") or "?"
-
 
 		local Depth =
 			Artifact:GetAttribute("depth") or "?"
 
 
 
-		Data.A.Text =
-			At
-
+		Data.A.Text = At
 
 		Data.B.Text =
 			"Rarity: "..Rarity
 
-
 		Data.B.TextColor3 =
 			GetRarityColor(Rarity)
-
-
 
 		Data.C.Text =
 			"Mass: "..Mass
 
-
 		Data.D.Text =
 			"Depth: "..Depth.." Studs ↓"
 
-
 		Data.E.Text =
-			"Distance: "..math.floor(Distance).." Studs"
+			"Distance: "..math.floor(
+				(Root.Position - WorldPos).Magnitude
+			).." Studs"
 
 	end
 
@@ -1020,4 +1009,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("ESP Loadeddddd")
+warn("ESP Loaded")
