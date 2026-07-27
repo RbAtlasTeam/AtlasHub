@@ -602,7 +602,7 @@ local function CreateESP(Artifact)
 
 
 
-	local Holder = Line:WaitForChild("HolderF")
+	local Holder = Info:WaitForChild("HolderF")
 
 
 	local Data = {
