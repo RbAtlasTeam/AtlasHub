@@ -685,25 +685,19 @@ local function CreateESP(Artifact)
 
 
 
-		-- distance based scale (near = big, far = small)
 		local Distance = (Camera.CFrame.Position - WorldPos).Magnitude
-
 		local Scale = math.clamp(
-			120 / Distance,
-			0.02,
-			0.12
+			Distance / 400,
+			0.1,
+			0.3
 		)
-
-
-		-- BOX
 
 		Box.AnchorPoint = Vector2.new(0.5,0.5)
 
-		Box.Position =
-			UDim2.fromOffset(
-				ScreenPos.X,
-				ScreenPos.Y
-			)
+		Box.Position = UDim2.fromOffset(
+			math.floor(ScreenPos.X),
+			math.floor(ScreenPos.Y)
+		)
 
 		Box.Size =
 			UDim2.fromScale(
@@ -723,32 +717,24 @@ local function CreateESP(Artifact)
 				ScreenPos.Y
 			)
 
-		Info.Size =
-			UDim2.fromOffset(
-				140 * math.clamp(Scale / 0.08,0.6,1.3),
-				90 * math.clamp(Scale / 0.08,0.6,1.3)
-			)
+		local InfoScale = math.clamp(Scale / 0.3, 0.6, 1)
 
+		Info.Size = UDim2.fromOffset(
+			120 * InfoScale,
+			80 * InfoScale
+		)
 
+		local Start = Vector2.new(
+			ESPAnchor.AbsolutePosition.X + ESPAnchor.AbsoluteSize.X * 0.5,
+			ESPAnchor.AbsolutePosition.Y + ESPAnchor.AbsoluteSize.Y * 0.5
+		)
 
-		-- LINE FROM ANCHORF TOP BALL TO ESP
-
-		local Start =
-			Vector2.new(
-				TopBall.AbsolutePosition.X + TopBall.AbsoluteSize.X/2,
-				TopBall.AbsolutePosition.Y + TopBall.AbsoluteSize.Y/2
-			)
-
-
-		local End =
-			Vector2.new(
-				ScreenPos.X,
-				ScreenPos.Y
-			)
-
+		local End = Vector2.new(
+			ScreenPos.X,
+			ScreenPos.Y - Box.AbsoluteSize.Y * 0.45
+		)
 
 		local Delta = End - Start
-
 
 		Line.AnchorPoint = Vector2.new(0.5,0.5)
 
@@ -994,10 +980,15 @@ RunService.RenderStepped:Connect(function()
 	end
 
 
-	Count.Text =
-		"Detected: "..tostring(#ESPObjects)
+	local CountArtifacts = 0
+
+	for _ in pairs(ESPObjects) do
+		CountArtifacts += 1
+	end
+
+	Count.Text = "Detected: "..CountArtifacts
 
 
 end)
 
-warn("ESP Loaddddded")
+warn("ESP Loaded test")
