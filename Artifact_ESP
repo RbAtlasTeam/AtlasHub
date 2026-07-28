@@ -647,9 +647,7 @@ local function CreateESP(Artifact)
 			return
 		end
 
-
 		local Root = GetCharacterRoot()
-
 		if not Root then
 			Box.Visible = false
 			Info.Visible = false
@@ -657,69 +655,60 @@ local function CreateESP(Artifact)
 			return
 		end
 
-
 		local WorldPos = Artifact.Position
+		local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
 
-		local ScreenPos, Visible =
-			Camera:WorldToViewportPoint(WorldPos)
-
-
-		if not Visible then
-
+		if not Visible or ScreenPos.Z <= 0 then
 			Box.Visible = false
 			Info.Visible = false
 			Line.Visible = false
-
 			return
 		end
-
-
 
 		Box.Visible = true
 		Info.Visible = true
 		Line.Visible = true
 
+		--------------------------------------------------
+		-- Distance
+		--------------------------------------------------
 
+		local Distance = (Root.Position - WorldPos).Magnitude
 
-		local Distance = (Camera.CFrame.Position - WorldPos).Magnitude
-		local Scale = math.clamp(
-			90 / Distance,
-			0.1,
-			0.3
+		--------------------------------------------------
+		-- Box (same feeling as old ESP)
+		--------------------------------------------------
+
+		local Size = math.clamp(
+			ScreenPos.Z / 400,
+			0.01,
+			0.045
 		)
 
 		Box.AnchorPoint = Vector2.new(0.5,0.5)
-
 		Box.Position = UDim2.fromOffset(
-			math.floor(ScreenPos.X),
-			math.floor(ScreenPos.Y)
+			ScreenPos.X,
+			ScreenPos.Y
 		)
+		Box.Size = UDim2.fromScale(Size, Size)
 
-		Box.Size =
-			UDim2.fromScale(
-				Scale,
-				Scale
-			)
-
-
-
-		-- INFO PANEL (smaller than box)
+		--------------------------------------------------
+		-- Info Panel
+		--------------------------------------------------
 
 		Info.AnchorPoint = Vector2.new(0,0.5)
 
-		Info.Position =
-			UDim2.fromOffset(
-				ScreenPos.X + (Box.AbsoluteSize.X/2) + 8,
-				ScreenPos.Y
-			)
-
-		local InfoScale = math.clamp(Scale / 0.3,0.5,1)
-
-		Info.Size = UDim2.fromScale(
-			math.clamp(Scale * 0.5,0.08,0.15),
-			math.clamp(Scale * 0.5,0.08,0.15)
+		Info.Position = UDim2.fromOffset(
+			ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
+			ScreenPos.Y
 		)
-		
+
+		Info.Size = UDim2.fromOffset(165,135)
+
+		--------------------------------------------------
+		-- Tracer
+		--------------------------------------------------
+
 		local AnchorPos = ESPAnchor.AbsolutePosition
 		local AnchorSize = ESPAnchor.AbsoluteSize
 
@@ -728,70 +717,52 @@ local function CreateESP(Artifact)
 			AnchorPos.Y + AnchorSize.Y/2
 		)
 
+		-- slightly above the center of the object
 		local End = Vector2.new(
-			Box.AbsolutePosition.X + Box.AbsoluteSize.X*0.15,
-			Box.AbsolutePosition.Y + Box.AbsoluteSize.Y*0.15
+			Box.AbsolutePosition.X + Box.AbsoluteSize.X/2,
+			Box.AbsolutePosition.Y + Box.AbsoluteSize.Y*0.35
 		)
 
 		local Delta = End - Start
 
 		Line.AnchorPoint = Vector2.new(0.5,0.5)
 
-		Line.Position =
-			UDim2.fromOffset(
-				(Start.X + End.X)/2,
-				(Start.Y + End.Y)/2
+		Line.Position = UDim2.fromOffset(
+			(Start.X + End.X)/2,
+			(Start.Y + End.Y)/2
+		)
+
+		Line.Size = UDim2.fromOffset(
+			Delta.Magnitude,
+			2
+		)
+
+		Line.Rotation = math.deg(
+			math.atan2(
+				Delta.Y,
+				Delta.X
 			)
+		)
 
-		Line.Size =
-			UDim2.fromOffset(
-				Delta.Magnitude,
-				2
-			)
+		--------------------------------------------------
+		-- Text
+		--------------------------------------------------
 
-		Line.Rotation =
-			math.deg(
-				math.atan2(
-					Delta.Y,
-					Delta.X
-				)
-			)
-
-
-		-- INFO TEXT
-
-		local At =
-			Artifact:GetAttribute("atype") or "Unknown"
-
-		local Rarity =
-			Artifact:GetAttribute("rarity") or "Unknown"
-
-		local Mass =
-			Artifact:GetAttribute("mass") or "?"
-
-		local Depth =
-			Artifact:GetAttribute("depth") or "?"
-
-
+		local At = Artifact:GetAttribute("atype") or "Unknown"
+		local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
+		local Mass = Artifact:GetAttribute("mass") or "?"
+		local Depth = Artifact:GetAttribute("depth") or "?"
 
 		Data.A.Text = At
 
-		Data.B.Text =
-			"Rarity: "..Rarity
+		Data.B.Text = "Rarity: "..Rarity
+		Data.B.TextColor3 = GetRarityColor(Rarity)
 
-		Data.B.TextColor3 =
-			GetRarityColor(Rarity)
+		Data.C.Text = "Mass: "..Mass
 
-		Data.C.Text =
-			"Mass: "..Mass
+		Data.D.Text = "Depth: "..Depth.." Studs ↓"
 
-		Data.D.Text =
-			"Depth: "..Depth.." Studs ↓"
-
-		Data.E.Text =
-			"Distance: "..math.floor(
-				(Root.Position - WorldPos).Magnitude
-			).." Studs"
+		Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
 
 	end
 
