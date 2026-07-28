@@ -13,6 +13,7 @@ AtlasHub_ArtifactESP.DisplayOrder = 250
 AtlasHub_ArtifactESP.ResetOnSpawn = false
 AtlasHub_ArtifactESP.Enabled = true
 AtlasHub_ArtifactESP.ScreenInsets = Enum.ScreenInsets.None
+AtlasHub_ArtifactESP.IgnoreGuiInset = true
 AtlasHub_ArtifactESP.Parent = game.CoreGui
 
 local AnchorF = Instance.new("Frame")
@@ -471,25 +472,20 @@ PlanetsFolder.ChildAdded:Connect(function(Planet)
 end)
 
 
-
 local function ClearESP()
 
-	for Artifact,_ in pairs(ESPObjects) do
-
-		local Data = ESPObjects[Artifact]
-
-		if Data then
-			Data.Box:Destroy()
-			Data.Info:Destroy()
-			Data.Line:Destroy()
-		end
-
+	for Artifact, Data in pairs(ESPObjects) do
+		Data.Box:Destroy()
+		Data.Info:Destroy()
+		Data.Line:Destroy()
 		ESPObjects[Artifact] = nil
 	end
 
+	if CurrentPlanet then
+		ScannedPlanets[CurrentPlanet] = nil
+	end
+
 end
-
-
 
 PlanetsFolder.ChildRemoved:Connect(function(Planet)
 
@@ -510,7 +506,7 @@ task.spawn(function()
 
 	while task.wait() do
 
-		local Gradient = ESPAnchor:FindFirstChild("ESPAnchorGradient")
+		local Gradient = ESPAnchorGradient
 
 		if Gradient then
 			Gradient.Rotation += 2
@@ -687,7 +683,7 @@ local function CreateESP(Artifact)
 
 		local Distance = (Camera.CFrame.Position - WorldPos).Magnitude
 		local Scale = math.clamp(
-			Distance / 400,
+			90 / Distance,
 			0.1,
 			0.3
 		)
@@ -717,21 +713,24 @@ local function CreateESP(Artifact)
 				ScreenPos.Y
 			)
 
-		local InfoScale = math.clamp(Scale / 0.3, 0.6, 1)
+		local InfoScale = math.clamp(Scale / 0.3,0.5,1)
 
-		Info.Size = UDim2.fromOffset(
-			120 * InfoScale,
-			80 * InfoScale
+		Info.Size = UDim2.fromScale(
+			math.clamp(Scale * 0.5,0.08,0.15),
+			math.clamp(Scale * 0.5,0.08,0.15)
 		)
+		
+		local AnchorPos = ESPAnchor.AbsolutePosition
+		local AnchorSize = ESPAnchor.AbsoluteSize
 
 		local Start = Vector2.new(
-			ESPAnchor.AbsolutePosition.X + ESPAnchor.AbsoluteSize.X * 0.5,
-			ESPAnchor.AbsolutePosition.Y + ESPAnchor.AbsoluteSize.Y * 0.5
+			AnchorPos.X + AnchorSize.X/2,
+			AnchorPos.Y + AnchorSize.Y/2
 		)
 
 		local End = Vector2.new(
-			ScreenPos.X,
-			ScreenPos.Y - Box.AbsoluteSize.Y * 0.45
+			Box.AbsolutePosition.X + Box.AbsoluteSize.X*0.15,
+			Box.AbsolutePosition.Y + Box.AbsoluteSize.Y*0.15
 		)
 
 		local Delta = End - Start
