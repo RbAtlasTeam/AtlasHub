@@ -691,7 +691,7 @@ local function Update()
 		BoxPixels * 2.8
 	)
 
-		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize * 0.5)
+		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize) ---- 0.5
 
 		local BoxPixels = Camera.ViewportSize.Y * Scale
 
@@ -929,4 +929,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Artifact ESP Loaded! v0.23!")
+warn("Atlas Hub Beta Artifact ESP Loaded! v0.24!")
