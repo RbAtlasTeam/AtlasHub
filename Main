@@ -22,15 +22,15 @@ ESPDatas.Name = "ESP_Datas"
 local function CreateESPValues()
 	
 local ESPBoxes = Instance.new("BoolValue", ESPDatas)
-ESPBoxes.Value = true
+ESPBoxes.Value = false
 ESPBoxes.Name = "ESPBoxes"
 
 local ESPInfo = Instance.new("BoolValue", ESPDatas)
-ESPInfo.Value = true
+ESPInfo.Value = false
 ESPInfo.Name = "ESPInfo"
 	
 local ESPLines = Instance.new("BoolValue", ESPDatas)
-ESPLines.Value = true
+ESPLines.Value = false
 ESPLines.Name = "ESPLines"
 
 end
