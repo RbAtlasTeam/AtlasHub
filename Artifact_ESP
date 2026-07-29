@@ -513,7 +513,7 @@ task.spawn(function()
 		local Gradient = ESPAnchorGradient
 
 		if Gradient then
-			Gradient.Rotation += 90
+			Gradient.Rotation += 25
 		end
 
 	end
