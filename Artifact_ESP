@@ -4,9 +4,22 @@ local Workspace = game:GetService("Workspace")
 
 local Player = Players.LocalPlayer
 local Camera = Workspace.CurrentCamera
+local ESPName = "AtlasHub_ArtifactESP"
+
+local OldESP = game.CoreGui:FindFirstChild(ESPName)
+if OldESP then
+	OldESP:Destroy()
+end
+
+local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
+local ESPDatas = AtlasHub_Datas:WaitForChild("ESP_Datas")
+
+local LinesValue = ESPDatas:WaitForChild("ESPLines")
+local BoxesValue = ESPDatas:WaitForChild("ESPBoxes")
+local InfoValue = ESPDatas:WaitForChild("ESPInfo")
 
 local AtlasHub_ArtifactESP = Instance.new("ScreenGui")
-AtlasHub_ArtifactESP.Name = "AtlasHub_ArtifactESP"
+AtlasHub_ArtifactESP.Name = ESPName
 AtlasHub_ArtifactESP.IgnoreGuiInset = true
 AtlasHub_ArtifactESP.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 AtlasHub_ArtifactESP.DisplayOrder = 250
@@ -483,7 +496,7 @@ local function ClearESP()
 		Data.Line:Destroy()
 		ESPObjects[Artifact] = nil
 	end
-	
+
 	Count.Text = "Detected: 0"
 
 	if CurrentPlanet then
@@ -594,7 +607,7 @@ local function CreateESP(Artifact)
 	local Box = BoxTemplate:Clone()
 	local Info = InfoTemplate:Clone()
 	local Line = LineTemplate:Clone()
-	
+
 	Line.AnchorPoint = Vector2.new(0.5,0.5)
 
 
@@ -644,36 +657,36 @@ local function CreateESP(Artifact)
 
 
 
-local function Update()
+	local function Update()
 
-	if not Artifact.Parent then
-		RemoveESP(Artifact)
-		return
-	end
+		if not Artifact.Parent then
+			RemoveESP(Artifact)
+			return
+		end
 
-	local Root = GetCharacterRoot()
-	if not Root then
-		Box.Visible = false
-		Info.Visible = false
-		Line.Visible = false
-		return
-	end
+		local Root = GetCharacterRoot()
+		if not Root then
+			Box.Visible = false
+			Info.Visible = false
+			Line.Visible = false
+			return
+		end
 
-	local WorldPos = Artifact.Position
-	local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
+		local WorldPos = Artifact.Position
+		local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
 
-	if not Visible or ScreenPos.Z <= 0 then
-		Box.Visible = false
-		Info.Visible = false
-		Line.Visible = false
-		return
-	end
+		if not Visible or ScreenPos.Z <= 0 then
+			Box.Visible = false
+			Info.Visible = false
+			Line.Visible = false
+			return
+		end
 
-	Box.Visible = true
-	Info.Visible = true
-	Line.Visible = true
+		Box.Visible = BoxesValue.Value
+		Info.Visible = InfoValue.Value
+		Line.Visible = LinesValue.Value
 
-	local Distance = (Root.Position - WorldPos).Magnitude
+		local Distance = (Root.Position - WorldPos).Magnitude
 
 		local Scale = math.clamp(ScreenPos.Z / 400, 0.01, 0.045)
 
@@ -681,21 +694,21 @@ local function Update()
 		Box.Position = UDim2.fromOffset(ScreenPos.X, ScreenPos.Y)
 		Box.Size = UDim2.new(Scale, 0, Scale, 0)
 
-	Info.AnchorPoint = Vector2.new(0,0.5)
-	local BoxPixels = Camera.ViewportSize.Y * Scale
-	Info.Position = UDim2.fromOffset(
-		ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
-		ScreenPos.Y
-	)
+		Info.AnchorPoint = Vector2.new(0,0.5)
+		local BoxPixels = Camera.ViewportSize.Y * Scale
+		Info.Position = UDim2.fromOffset(
+			ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
+			ScreenPos.Y
+		)
 
-	Info.Size = UDim2.fromOffset(
-		BoxPixels * 3.5,
-		BoxPixels * 2.8
-	)
+		Info.Size = UDim2.fromOffset(
+			BoxPixels * 3.5,
+			BoxPixels * 2.8
+		)
 
 		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize * 0.5)
 		Start -= MainInterface.AbsolutePosition
-		
+
 		local BoxPixels = Camera.ViewportSize.Y * Scale
 
 		local End = Vector2.new(
@@ -703,41 +716,41 @@ local function Update()
 			ScreenPos.Y - BoxPixels * 0.35
 		)
 
-	local Delta = End - Start
+		local Delta = End - Start
 
-	Line.AnchorPoint = Vector2.new(0.5,0.5)
+		Line.AnchorPoint = Vector2.new(0.5,0.5)
 
-	Line.Position = UDim2.fromOffset(
-		(Start.X + End.X)/2,
-		(Start.Y + End.Y)/2
-	)
-
-	Line.Size = UDim2.fromOffset(
-		Delta.Magnitude,
-		2
-	)
-
-	Line.Rotation = math.deg(
-		math.atan2(
-			Delta.Y,
-			Delta.X
+		Line.Position = UDim2.fromOffset(
+			(Start.X + End.X)/2,
+			(Start.Y + End.Y)/2
 		)
-	) -------
 
-	local At = Artifact:GetAttribute("aType") or "Unknown"
-	local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
-	local Mass = Artifact:GetAttribute("mass") or "?"
-	local Depth = Artifact:GetAttribute("depth") or "?"
+		Line.Size = UDim2.fromOffset(
+			Delta.Magnitude,
+			2
+		)
 
-	Data.A.Text = At
-	Data.B.Text = "Rarity: "..Rarity
-	Data.B.TextColor3 = GetRarityColor(Rarity)
-	Data.C.Text = "Mass: "..Mass
-	Data.D.Text = "Depth: " .. string.format("%.2f", Depth) .. " Studs ↓"
+		Line.Rotation = math.deg(
+			math.atan2(
+				Delta.Y,
+				Delta.X
+			)
+		) -------
 
-	Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
+		local At = Artifact:GetAttribute("aType") or "Unknown"
+		local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
+		local Mass = Artifact:GetAttribute("mass") or "?"
+		local Depth = Artifact:GetAttribute("depth") or "?"
 
-end
+		Data.A.Text = At
+		Data.B.Text = "Rarity: "..Rarity
+		Data.B.TextColor3 = GetRarityColor(Rarity)
+		Data.C.Text = "Mass: "..Mass
+		Data.D.Text = "Depth: " .. string.format("%.2f", Depth) .. " Studs ↓"
+
+		Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
+
+	end
 
 
 
@@ -893,7 +906,7 @@ local function CheckPlanets()
 	else
 
 		ClearESP()
-		
+
 		CurrentPlanet=nil
 
 
