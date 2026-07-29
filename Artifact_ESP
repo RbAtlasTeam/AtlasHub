@@ -697,7 +697,7 @@ local function Update()
 
 		local End = Vector2.new(
 			ScreenPos.X,
-			ScreenPos.Y - BoxPixels * 0.4
+			ScreenPos.Y - BoxPixels * 0.35
 		)
 
 	local Delta = End - Start
@@ -727,13 +727,10 @@ local function Update()
 	local Depth = Artifact:GetAttribute("depth") or "?"
 
 	Data.A.Text = At
-
 	Data.B.Text = "Rarity: "..Rarity
 	Data.B.TextColor3 = GetRarityColor(Rarity)
-
 	Data.C.Text = "Mass: "..Mass
-
-	Data.D.Text = "Depth: "..Depth.." Studs ↓"
+	Data.D.Text = "Depth: " .. string.format("%.2f", Depth) .. " Studs ↓"
 
 	Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
 
@@ -932,4 +929,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Artifact ESP Loaded! v0.22!")
+warn("Atlas Hub Beta Artifact ESP Loaded! v0.23!")
