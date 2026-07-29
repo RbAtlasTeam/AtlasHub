@@ -16,6 +16,25 @@ local AtlasHub_ValueDatas = Instance.new("Folder")
 AtlasHub_ValueDatas.Name = "AtlasHub_ValuesDatas"
 AtlasHub_ValueDatas.Parent = AtlasHub_Datas
 
+local ESPDatas = Instance.new("Folder", AtlasHub_Datas)
+ESPDatas.Name = "ESP_Datas"
+
+local function CreateESPValues()
+	
+local ESPBoxes = Instance.new("BoolValue", ESPDatas)
+ESPBoxes.Value = true
+ESPBoxes.Name = "ESPBoxes"
+
+local ESPInfo = Instance.new("BoolValue", ESPDatas)
+ESPInfo.Value = true
+ESPInfo.Name = "ESPInfo"
+	
+local ESPLines = Instance.new("BoolValue", ESPDatas)
+ESPLines.Value = true
+ESPLines.Name = "ESPLines"
+
+end
+
 local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
@@ -25,6 +44,8 @@ AtlasHub:Notify(
 	3
 )
 
+CreateESPValues()
+
 ----- Call LoadStrings -----
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
@@ -32,6 +53,8 @@ loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/
 local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))()
 local DrillConfi = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Drill_Configurations"))()
 local CommonConfig = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Common_Confi"))()
+
+local ArtifactESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Artifact_ESP"))()
 
 ------------------------------------------------------
 
@@ -46,6 +69,7 @@ local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("Col
 
 local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
+local ESPTab = AtlasHub:CreateTab("ESP", "ESP Tab","rbxassetid://7035631382")
 local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Inventory", "rbxassetid://120575375806036")
 local DrillTab = AtlasHub:CreateTab("Drill", "Drill Tab", "rbxassetid://11959189471")
 
@@ -232,6 +256,30 @@ ExtractBtn.Clicked:Connect(function()
 end)
 
 -----------------------------------------------------------------
+
+local ESPLines = AtlasHub.Toggle:Create(ESPTab, "ESP Lines", "Show ESP Lines for all ESP")
+local ESPBoxes = AtlasHub.Toggle:Create(ESPTab, "ESP Boxes", "Show ESP Boxes for all ESP")
+local ESPInfo = AtlasHub.Toggle:Create(ESPTab, "ESP Info", "Show ESP Info for all ESP")
+
+local ArtifactESP = AtlasHub.Toggle:Create(ESPTab, "Artifact ESP", "Show ESP for Artifacts")
+
+ESPLines.Changed:Connect(function(Value)
+	ESPDatas.ESPLines.Value = Value
+end)
+
+ESPBoxes.Changed:Connect(function(Value)
+	ESPDatas.ESPBoxes.Value = Value
+end)
+
+ESPInfo.Changed:Connect(function(Value)
+	ESPDatas.ESPInfo.Value = Value
+end)
+
+ArtifactESP.Changed:Connect(function(Value)
+	game.CoreGui:WaitForChild("AtlasHub_ArtifactESP").Enabled = Value
+end)
+
+------------------------------------------------------------------------------------------------------------------------------
 
 AtlasHub:Notify(
 	"Successfully loaded Atlas Hub!",
