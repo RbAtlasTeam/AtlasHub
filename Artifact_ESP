@@ -691,35 +691,27 @@ local function Update()
 		BoxPixels * 2.8
 	)
 
-		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize) ---- 0.5
+		local MainPos = MainInterface.AbsolutePosition
 
-		local BoxPixels = Camera.ViewportSize.Y * Scale
+		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize * 0.5)
 
 		local End = Vector2.new(
 			ScreenPos.X,
 			ScreenPos.Y - BoxPixels * 0.35
 		)
 
-	local Delta = End - Start
+		Start -= MainPos
+		End -= MainPos
 
-	Line.AnchorPoint = Vector2.new(0.5,0.5)
+		local Delta = End - Start
 
-	Line.Position = UDim2.fromOffset(
-		(Start.X + End.X)/2,
-		(Start.Y + End.Y)/2
-	)
-
-	Line.Size = UDim2.fromOffset(
-		Delta.Magnitude,
-		2
-	)
-
-	Line.Rotation = math.deg(
-		math.atan2(
-			Delta.Y,
-			Delta.X
+		Line.AnchorPoint = Vector2.new(0.5, 0.5)
+		Line.Position = UDim2.fromOffset(
+			(Start.X + End.X) * 0.5,
+			(Start.Y + End.Y) * 0.5
 		)
-	)
+		Line.Size = UDim2.fromOffset(Delta.Magnitude, 2)
+		Line.Rotation = math.deg(math.atan2(Delta.Y, Delta.X))
 
 	local At = Artifact:GetAttribute("aType") or "Unknown"
 	local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
@@ -929,4 +921,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Artifact ESP Loaded! v0.24!")
+warn("Atlas Hub Beta Artifact ESP Loaded! v0.25!")
