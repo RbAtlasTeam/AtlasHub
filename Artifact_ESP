@@ -425,6 +425,9 @@ UIStroke8.Name = "UIStroke"
 UIStroke8.Transparency = 0.5
 UIStroke8.Parent = E
 
+
+------------------------------
+
 local ESPUI = AtlasHub_ArtifactESP
 local BoxTemplate = Box
 local InfoTemplate = Info
@@ -494,9 +497,8 @@ PlanetsFolder.ChildRemoved:Connect(function(Planet)
 
 	if CurrentPlanet == Planet then
 
-		CurrentPlanet = nil
-
 		ClearESP()
+		CurrentPlanet = nil
 
 	end
 
@@ -640,131 +642,102 @@ local function CreateESP(Artifact)
 
 
 
-	local function Update()
+local function Update()
 
-		if not Artifact.Parent then
-			RemoveESP(Artifact)
-			return
-		end
-
-		local Root = GetCharacterRoot()
-		if not Root then
-			Box.Visible = false
-			Info.Visible = false
-			Line.Visible = false
-			return
-		end
-
-		local WorldPos = Artifact.Position
-		local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
-
-		if not Visible or ScreenPos.Z <= 0 then
-			Box.Visible = false
-			Info.Visible = false
-			Line.Visible = false
-			return
-		end
-
-		Box.Visible = true
-		Info.Visible = true
-		Line.Visible = true
-
-		--------------------------------------------------
-		-- Distance
-		--------------------------------------------------
-
-		local Distance = (Root.Position - WorldPos).Magnitude
-
-		--------------------------------------------------
-		-- Box (same feeling as old ESP)
-		--------------------------------------------------
-
-		local Size = math.clamp(
-			ScreenPos.Z / 400,
-			0.01,
-			0.045
-		)
-
-		Box.AnchorPoint = Vector2.new(0.5,0.5)
-		Box.Position = UDim2.fromOffset(
-			ScreenPos.X,
-			ScreenPos.Y
-		)
-		Box.Size = UDim2.fromScale(Size, Size)
-
-		--------------------------------------------------
-		-- Info Panel
-		--------------------------------------------------
-
-		Info.AnchorPoint = Vector2.new(0,0.5)
-
-		Info.Position = UDim2.fromOffset(
-			ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
-			ScreenPos.Y
-		)
-
-		Info.Size = UDim2.fromOffset(165,135)
-
-		--------------------------------------------------
-		-- Tracer
-		--------------------------------------------------
-
-		local AnchorPos = ESPAnchor.AbsolutePosition
-		local AnchorSize = ESPAnchor.AbsoluteSize
-
-		local Start = Vector2.new(
-			AnchorPos.X + AnchorSize.X/2,
-			AnchorPos.Y + AnchorSize.Y/2
-		)
-
-		-- slightly above the center of the object
-		local End = Vector2.new(
-			Box.AbsolutePosition.X + Box.AbsoluteSize.X/2,
-			Box.AbsolutePosition.Y + Box.AbsoluteSize.Y*0.35
-		)
-
-		local Delta = End - Start
-
-		Line.AnchorPoint = Vector2.new(0.5,0.5)
-
-		Line.Position = UDim2.fromOffset(
-			(Start.X + End.X)/2,
-			(Start.Y + End.Y)/2
-		)
-
-		Line.Size = UDim2.fromOffset(
-			Delta.Magnitude,
-			2
-		)
-
-		Line.Rotation = math.deg(
-			math.atan2(
-				Delta.Y,
-				Delta.X
-			)
-		)
-
-		--------------------------------------------------
-		-- Text
-		--------------------------------------------------
-
-		local At = Artifact:GetAttribute("atype") or "Unknown"
-		local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
-		local Mass = Artifact:GetAttribute("mass") or "?"
-		local Depth = Artifact:GetAttribute("depth") or "?"
-
-		Data.A.Text = At
-
-		Data.B.Text = "Rarity: "..Rarity
-		Data.B.TextColor3 = GetRarityColor(Rarity)
-
-		Data.C.Text = "Mass: "..Mass
-
-		Data.D.Text = "Depth: "..Depth.." Studs ↓"
-
-		Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
-
+	if not Artifact.Parent then
+		RemoveESP(Artifact)
+		return
 	end
+
+	local Root = GetCharacterRoot()
+	if not Root then
+		Box.Visible = false
+		Info.Visible = false
+		Line.Visible = false
+		return
+	end
+
+	local WorldPos = Artifact.Position
+	local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
+
+	if not Visible or ScreenPos.Z <= 0 then
+		Box.Visible = false
+		Info.Visible = false
+		Line.Visible = false
+		return
+	end
+
+	Box.Visible = true
+	Info.Visible = true
+	Line.Visible = true
+
+	local Distance = (Root.Position - WorldPos).Magnitude
+
+		local Scale = math.clamp(ScreenPos.Z / 400, 0.01, 0.045)
+
+		Box.AnchorPoint = Vector2.new(0.5, 0.5)
+		Box.Position = UDim2.fromOffset(ScreenPos.X, ScreenPos.Y)
+		Box.Size = UDim2.new(Scale, 0, Scale, 0)
+
+	Info.AnchorPoint = Vector2.new(0,0.5)
+
+	Info.Position = UDim2.fromOffset(
+		ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
+		ScreenPos.Y
+	)
+
+		Info.Size = UDim2.fromOffset(
+			BoxPixels * 3.5,
+			BoxPixels * 2.8
+		)
+
+		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize * 0.5)
+
+		local BoxPixels = Camera.ViewportSize.Y * Scale
+
+		local End = Vector2.new(
+			ScreenPos.X,
+			ScreenPos.Y - BoxPixels * 0.20
+		)
+
+	local Delta = End - Start
+
+	Line.AnchorPoint = Vector2.new(0.5,0.5)
+
+	Line.Position = UDim2.fromOffset(
+		(Start.X + End.X)/2,
+		(Start.Y + End.Y)/2
+	)
+
+	Line.Size = UDim2.fromOffset(
+		Delta.Magnitude,
+		2
+	)
+
+	Line.Rotation = math.deg(
+		math.atan2(
+			Delta.Y,
+			Delta.X
+		)
+	)
+
+	local At = Artifact:GetAttribute("aType") or "Unknown"
+	local Rarity = Artifact:GetAttribute("rarity") or "Unknown"
+	local Mass = Artifact:GetAttribute("mass") or "?"
+	local Depth = Artifact:GetAttribute("depth") or "?"
+
+	Data.A.Text = At
+
+	Data.B.Text = "Rarity: "..Rarity
+	Data.B.TextColor3 = GetRarityColor(Rarity)
+
+	Data.C.Text = "Mass: "..Mass
+
+	Data.D.Text = "Depth: "..Depth.." Studs ↓"
+
+	Data.E.Text = "Distance: "..math.floor(Distance).." Studs"
+
+end
 
 
 
@@ -919,10 +892,9 @@ local function CheckPlanets()
 
 	else
 
-
-		CurrentPlanet=nil
-
 		ClearESP()
+		
+		CurrentPlanet=nil
 
 
 	end
@@ -931,7 +903,6 @@ local function CheckPlanets()
 end
 
 RunService.RenderStepped:Connect(function()
-
 
 	CheckPlanets()
 
@@ -961,4 +932,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("ESP Loaded t")
+warn("Atlas Hub Beta Artifact ESP Loaded! v0.1!"")
