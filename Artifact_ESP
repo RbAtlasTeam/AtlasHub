@@ -450,6 +450,7 @@ local PlanetsFolder = Workspace:WaitForChild("Planets")
 
 local ESPObjects = {}
 local Planets = {}
+local ScannedPlanets = {}
 local CurrentPlanet = nil
 
 local function IsPlanet(Planet)
@@ -778,8 +779,6 @@ function RemoveESP(Artifact)
 
 
 end
-
-local ScannedPlanets = {}
 
 
 local function ScanPlanet(Planet)
