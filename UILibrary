@@ -57,6 +57,8 @@ function AtlasHub.CreateUI()
 	MainHub.Transparency = 0.20000000298023224
 	MainHub.Parent = Main
 	MainHub.Visible = false
+	
+	local MainHubDragger = Instance.new("UIDragDetector", MainHub)
 
 	local UICorner = Instance.new("UICorner")
 	UICorner.Name = "UICorner"
