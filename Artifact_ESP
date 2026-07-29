@@ -483,6 +483,8 @@ local function ClearESP()
 		Data.Line:Destroy()
 		ESPObjects[Artifact] = nil
 	end
+	
+	Count.Text = "Detected: 0"
 
 	if CurrentPlanet then
 		ScannedPlanets[CurrentPlanet] = nil
