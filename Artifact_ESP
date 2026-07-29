@@ -697,7 +697,7 @@ local function Update()
 
 		local End = Vector2.new(
 			ScreenPos.X,
-			ScreenPos.Y - BoxPixels * 0.25
+			ScreenPos.Y - BoxPixels * 0.35
 		)
 
 	local Delta = End - Start
@@ -932,4 +932,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Artifact ESP Loaded! v0.2!")
+warn("Atlas Hub Beta Artifact ESP Loaded! v0.21!")
