@@ -502,6 +502,7 @@ UIDragDetector.Parent = MainBackground
 
 local UIScale = Instance.new("UIScale")
 UIScale.Name = "UIScale"
+UIScale.Scale = 0
 
 UIScale.Parent = MainBackground
 
@@ -1168,6 +1169,3 @@ CheckBtn.MouseButton1Click:Connect(function()
 	Gui:Destroy()
 
 end)
-
-
-warn("Key Interface Loaded!!")
