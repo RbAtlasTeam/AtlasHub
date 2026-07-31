@@ -1,0 +1,1167 @@
+local TweenService = game:GetService("TweenService")
+local Parent = game.CoreGui
+
+if Parent:FindFirstChild("AtlasHub_KeyInterface") then
+return warn("Atlas Hub KeyInterface Already Loaded") end
+
+local AtlasHub_KeyInterface = Instance.new("ScreenGui")
+AtlasHub_KeyInterface.Name = "AtlasHub_KeyInterface"
+AtlasHub_KeyInterface.IgnoreGuiInset = true
+AtlasHub_KeyInterface.DisplayOrder = 800
+AtlasHub_KeyInterface.ScreenInsets = Enum.ScreenInsets.None
+AtlasHub_KeyInterface.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+AtlasHub_KeyInterface.Parent = game.StarterGui
+
+local MainBackground = Instance.new("ImageLabel")
+MainBackground.Name = "MainBackground"
+MainBackground.Position = UDim2.new(0.524643, 0, 0.508357, 0)
+MainBackground.Size = UDim2.new(0.7, 0, 0.7, 0)
+MainBackground.BackgroundColor3 = Color3.new(0.0431373, 0.101961, 0.47451)
+MainBackground.BackgroundTransparency = 0.20000000298023224
+MainBackground.BorderSizePixel = 0
+MainBackground.BorderColor3 = Color3.new(0, 0, 0)
+MainBackground.AnchorPoint = Vector2.new(0.5, 0.5)
+MainBackground.Transparency = 0.20000000298023224
+MainBackground.Image = "rbxassetid://105602923856213"
+MainBackground.Parent = AtlasHub_KeyInterface
+
+local UICorner = Instance.new("UICorner")
+UICorner.Name = "UICorner"
+UICorner.CornerRadius = UDim.new(0.02, 0)
+UICorner.Parent = MainBackground
+
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Position = UDim2.new(0.5, 0, 3.26951e-08, 0)
+TopBar.Size = UDim2.new(1, 0, 0.15, 0)
+TopBar.BackgroundColor3 = Color3.new(0, 0.329412, 1)
+TopBar.BorderSizePixel = 0
+TopBar.BorderColor3 = Color3.new(0, 0, 0)
+TopBar.AnchorPoint = Vector2.new(0.5, 0)
+TopBar.Parent = MainBackground
+
+local UICorner2 = Instance.new("UICorner")
+UICorner2.Name = "UICorner"
+UICorner2.CornerRadius = UDim.new(0.1, 0)
+UICorner2.Parent = TopBar
+
+local TitleIconF = Instance.new("Frame")
+TitleIconF.Name = "TitleIconF"
+TitleIconF.Position = UDim2.new(0.033, 0, 0.5, 0)
+TitleIconF.Size = UDim2.new(0.8, 0, 0.8, 0)
+TitleIconF.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIconF.BackgroundTransparency = 1
+TitleIconF.BorderSizePixel = 0
+TitleIconF.BorderColor3 = Color3.new(0, 0, 0)
+TitleIconF.AnchorPoint = Vector2.new(0.033, 0.5)
+TitleIconF.Transparency = 1
+TitleIconF.Parent = TopBar
+
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint.Parent = TitleIconF
+
+local TitleIcon = Instance.new("ImageLabel")
+TitleIcon.Name = "TitleIcon"
+TitleIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon.BackgroundTransparency = 1
+TitleIcon.BorderSizePixel = 0
+TitleIcon.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon.Transparency = 1
+TitleIcon.Image = "rbxassetid://101208360819397"
+TitleIcon.Parent = TitleIconF
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Position = UDim2.new(0.975, 0, 0.5, 0)
+CloseBtn.Size = UDim2.new(0.65, 0, 0.65, 0)
+CloseBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+CloseBtn.BackgroundTransparency = 0.800000011920929
+CloseBtn.BorderSizePixel = 0
+CloseBtn.BorderColor3 = Color3.new(0, 0, 0)
+CloseBtn.AnchorPoint = Vector2.new(0.975, 0.5)
+CloseBtn.Transparency = 0.800000011920929
+CloseBtn.Text = ""
+CloseBtn.TextColor3 = Color3.new(1, 1, 1)
+CloseBtn.TextSize = 14
+CloseBtn.FontFace = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.ExtraBold, Enum.FontStyle.Normal)
+CloseBtn.TextScaled = true
+CloseBtn.TextWrapped = true
+CloseBtn.Parent = TopBar
+
+local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint2.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint2.Parent = CloseBtn
+
+local TitleIcon2 = Instance.new("ImageLabel")
+TitleIcon2.Name = "TitleIcon"
+TitleIcon2.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon2.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon2.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon2.BackgroundTransparency = 1
+TitleIcon2.BorderSizePixel = 0
+TitleIcon2.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon2.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon2.Transparency = 1
+TitleIcon2.Image = "rbxassetid://16844961887"
+TitleIcon2.Parent = CloseBtn
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Name = "UIStroke"
+UIStroke.Color = Color3.new(1, 1, 1)
+UIStroke.Thickness = 1.2000000476837158
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = CloseBtn
+
+local UICorner3 = Instance.new("UICorner")
+UICorner3.Name = "UICorner"
+UICorner3.CornerRadius = UDim.new(0.1, 0)
+UICorner3.Parent = CloseBtn
+
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Position = UDim2.new(0.417, 0, 0.5, 0)
+Title.Size = UDim2.new(0.684, 0, 0.5, 0)
+Title.BackgroundColor3 = Color3.new(1, 1, 1)
+Title.BackgroundTransparency = 1
+Title.BorderSizePixel = 0
+Title.BorderColor3 = Color3.new(0, 0, 0)
+Title.AnchorPoint = Vector2.new(0.38, 0.5)
+Title.Transparency = 1
+Title.Text = "Atlas Hub - Key System"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextSize = 14
+Title.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Title.TextScaled = true
+Title.TextWrapped = true
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.Parent = TopBar
+Title.TextTransparency = 0
+
+local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint3.AspectRatio = 1.2000000476837158
+UIAspectRatioConstraint3.Parent = MainBackground
+
+local TopBarOutline = Instance.new("Frame")
+TopBarOutline.Name = "TopBarOutline"
+TopBarOutline.Position = UDim2.new(0.5, 0, 0.145, 0)
+TopBarOutline.Size = UDim2.new(1, 0, 0.005, 0)
+TopBarOutline.BackgroundColor3 = Color3.new(1, 1, 1)
+TopBarOutline.BorderSizePixel = 0
+TopBarOutline.BorderColor3 = Color3.new(0, 0, 0)
+TopBarOutline.AnchorPoint = Vector2.new(0.5, 0)
+TopBarOutline.Parent = MainBackground
+
+local UICorner4 = Instance.new("UICorner")
+UICorner4.Name = "UICorner"
+UICorner4.CornerRadius = UDim.new(0.1, 0)
+UICorner4.Parent = TopBarOutline
+
+local BorderShadow = Instance.new("UIStroke")
+BorderShadow.Name = "BorderShadow"
+BorderShadow.Thickness = 5
+BorderShadow.Transparency = 0.800000011920929
+BorderShadow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+BorderShadow.Parent = MainBackground
+
+local UIStroke2 = Instance.new("UIStroke")
+UIStroke2.Name = "UIStroke"
+UIStroke2.Color = Color3.new(1, 1, 1)
+UIStroke2.Thickness = 2
+UIStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke2.Parent = MainBackground
+
+local KeyF = Instance.new("Frame")
+KeyF.Name = "KeyF"
+KeyF.Position = UDim2.new(0.5, 0, 0.66, 0)
+KeyF.Size = UDim2.new(0.98, 0, 0.85, 0)
+KeyF.BackgroundColor3 = Color3.new(1, 1, 1)
+KeyF.BackgroundTransparency = 1
+KeyF.BorderSizePixel = 0
+KeyF.BorderColor3 = Color3.new(0, 0, 0)
+KeyF.AnchorPoint = Vector2.new(0.5, 0.6)
+KeyF.Transparency = 1
+KeyF.Parent = MainBackground
+
+local Logo = Instance.new("Frame")
+Logo.Name = "Logo"
+Logo.Position = UDim2.new(0.5, 0, 0, 0)
+Logo.Size = UDim2.new(0.23, 0, 0.23, 0)
+Logo.BackgroundColor3 = Color3.new(1, 1, 1)
+Logo.BackgroundTransparency = 1
+Logo.BorderSizePixel = 0
+Logo.BorderColor3 = Color3.new(0, 0, 0)
+Logo.AnchorPoint = Vector2.new(0.5, 0)
+Logo.Transparency = 1
+Logo.Parent = KeyF
+
+local UIAspectRatioConstraint4 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint4.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint4.Parent = Logo
+
+local TitleIcon3 = Instance.new("ImageLabel")
+TitleIcon3.Name = "TitleIcon"
+TitleIcon3.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon3.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon3.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon3.BackgroundTransparency = 1
+TitleIcon3.BorderSizePixel = 0
+TitleIcon3.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon3.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon3.Transparency = 1
+TitleIcon3.Image = "rbxassetid://101208360819397"
+TitleIcon3.Parent = Logo
+
+local HubName = Instance.new("TextLabel")
+HubName.Name = "HubName"
+HubName.Position = UDim2.new(0.5, 0, 0.23, 0)
+HubName.Size = UDim2.new(0.4, 0, 0.1, 0)
+HubName.BackgroundColor3 = Color3.new(1, 1, 1)
+HubName.BackgroundTransparency = 1
+HubName.BorderSizePixel = 0
+HubName.BorderColor3 = Color3.new(0, 0, 0)
+HubName.AnchorPoint = Vector2.new(0.5, 0.23)
+HubName.Transparency = 1
+HubName.Text = "Atlas Hub"
+HubName.TextColor3 = Color3.new(1, 1, 1)
+HubName.TextSize = 14
+HubName.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+HubName.TextScaled = true
+HubName.TextWrapped = true
+HubName.Parent = KeyF
+HubName.TextTransparency = 0
+
+local GameName = Instance.new("TextLabel")
+GameName.Name = "GameName"
+GameName.Position = UDim2.new(0.5, 0, 0.34, 0)
+GameName.Size = UDim2.new(0.8, 0, 0.07, 0)
+GameName.BackgroundColor3 = Color3.new(1, 1, 1)
+GameName.BackgroundTransparency = 1
+GameName.BorderSizePixel = 0
+GameName.BorderColor3 = Color3.new(0, 0, 0)
+GameName.AnchorPoint = Vector2.new(0.5, 0.34)
+GameName.Transparency = 1
+GameName.Text = "The Space Simulator"
+GameName.TextColor3 = Color3.new(1, 1, 1)
+GameName.TextSize = 14
+GameName.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+GameName.TextScaled = true
+GameName.TextWrapped = true
+GameName.Parent = KeyF
+GameName.TextTransparency = 0
+
+local KeyTitle = Instance.new("TextLabel")
+KeyTitle.Name = "KeyTitle"
+KeyTitle.Position = UDim2.new(0.5, 0, 0.44, 0)
+KeyTitle.Size = UDim2.new(0.7, 0, 0.05, 0)
+KeyTitle.BackgroundColor3 = Color3.new(0, 0, 0)
+KeyTitle.BackgroundTransparency = 1
+KeyTitle.BorderSizePixel = 0
+KeyTitle.BorderColor3 = Color3.new(0, 0, 0)
+KeyTitle.AnchorPoint = Vector2.new(0.5, 0.44)
+KeyTitle.Transparency = 1
+KeyTitle.Text = "Key Required! Enter The Key To Unlock Atlas Hub"
+KeyTitle.TextColor3 = Color3.new(1, 1, 1)
+KeyTitle.TextSize = 14
+KeyTitle.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+KeyTitle.TextScaled = true
+KeyTitle.TextWrapped = true
+KeyTitle.Parent = KeyF
+KeyTitle.TextTransparency = 0
+
+local KeyBox = Instance.new("Frame")
+KeyBox.Name = "KeyBox"
+KeyBox.Position = UDim2.new(0.5, 0, 0.6, 0)
+KeyBox.Size = UDim2.new(0.9, 0, 0.16, 0)
+KeyBox.BackgroundColor3 = Color3.new(0, 0, 0)
+KeyBox.BackgroundTransparency = 0.6499999761581421
+KeyBox.BorderSizePixel = 0
+KeyBox.BorderColor3 = Color3.new(0, 0, 0)
+KeyBox.AnchorPoint = Vector2.new(0.5, 0.6)
+KeyBox.Transparency = 0.6499999761581421
+KeyBox.Parent = KeyF
+
+local UIStroke3 = Instance.new("UIStroke")
+UIStroke3.Name = "UIStroke"
+UIStroke3.Color = Color3.new(1, 1, 1)
+UIStroke3.Thickness = 1.5
+UIStroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke3.Parent = KeyBox
+
+local UICorner5 = Instance.new("UICorner")
+UICorner5.Name = "UICorner"
+UICorner5.CornerRadius = UDim.new(0.1, 0)
+UICorner5.Parent = KeyBox
+
+local InputBox = Instance.new("TextBox")
+InputBox.Name = "InputBox"
+InputBox.Position = UDim2.new(0.9, 0, 0.5, 0)
+InputBox.Size = UDim2.new(0.8, 0, 0.7, 0)
+InputBox.BackgroundColor3 = Color3.new(1, 1, 1)
+InputBox.BackgroundTransparency = 1
+InputBox.BorderSizePixel = 0
+InputBox.BorderColor3 = Color3.new(0, 0, 0)
+InputBox.AnchorPoint = Vector2.new(0.9, 0.5)
+InputBox.Transparency = 1
+InputBox.Text = ""
+InputBox.TextColor3 = Color3.new(0, 0, 0)
+InputBox.TextSize = 14
+InputBox.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+InputBox.TextScaled = true
+InputBox.TextWrapped = true
+InputBox.TextXAlignment = Enum.TextXAlignment.Left
+InputBox.ClearTextOnFocus = false
+InputBox.PlaceholderText = "Eample Key: AtlasHub-TSS-KeyHere"
+InputBox.Parent = KeyBox
+InputBox.TextTransparency = 0
+
+local SideOutline = Instance.new("Frame")
+SideOutline.Name = "SideOutline"
+SideOutline.Position = UDim2.new(0.145, 0, 0.5, 0)
+SideOutline.Size = UDim2.new(0.003, 0, 1, 0)
+SideOutline.BackgroundColor3 = Color3.new(1, 1, 1)
+SideOutline.BackgroundTransparency = 0.30000001192092896
+SideOutline.BorderSizePixel = 0
+SideOutline.BorderColor3 = Color3.new(0, 0, 0)
+SideOutline.AnchorPoint = Vector2.new(0.145, 0.5)
+SideOutline.Transparency = 0.30000001192092896
+SideOutline.Parent = KeyBox
+
+local UICorner6 = Instance.new("UICorner")
+UICorner6.Name = "UICorner"
+UICorner6.CornerRadius = UDim.new(0.1, 0)
+UICorner6.Parent = SideOutline
+
+local StatusIcon = Instance.new("ImageLabel")
+StatusIcon.Name = "StatusIcon"
+StatusIcon.Position = UDim2.new(0.0338977, 0, 0.5, 0)
+StatusIcon.Size = UDim2.new(0.65, 0, 0.65, 0)
+StatusIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+StatusIcon.BackgroundTransparency = 1
+StatusIcon.BorderSizePixel = 0
+StatusIcon.BorderColor3 = Color3.new(0, 0, 0)
+StatusIcon.AnchorPoint = Vector2.new(0, 0.5)
+StatusIcon.Transparency = 1
+StatusIcon.Image = "rbxassetid://82285050019288"
+StatusIcon.Parent = KeyBox
+
+local UIAspectRatioConstraint5 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint5.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint5.Parent = StatusIcon
+
+local LockIcon = Instance.new("StringValue")
+LockIcon.Name = "LockIcon"
+
+LockIcon.Parent = StatusIcon
+
+local LoadingIcon = Instance.new("StringValue")
+LoadingIcon.Name = "LoadingIcon"
+
+LoadingIcon.Parent = StatusIcon
+
+local SubmitBtn = Instance.new("TextButton")
+SubmitBtn.Name = "SubmitBtn"
+SubmitBtn.Position = UDim2.new(0.755, 0, 0.81, 0)
+SubmitBtn.Size = UDim2.new(0.72, 0, 0.13, 0)
+SubmitBtn.BackgroundColor3 = Color3.new(0.188235, 0.407843, 0.917647)
+SubmitBtn.BorderSizePixel = 0
+SubmitBtn.BorderColor3 = Color3.new(0, 0, 0)
+SubmitBtn.AnchorPoint = Vector2.new(0.755, 0.81)
+SubmitBtn.Text = ""
+SubmitBtn.TextColor3 = Color3.new(0, 0, 0)
+SubmitBtn.TextSize = 14
+SubmitBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+SubmitBtn.TextScaled = true
+SubmitBtn.TextWrapped = true
+SubmitBtn.Parent = KeyF
+SubmitBtn.TextTransparency = 0
+
+local UICorner7 = Instance.new("UICorner")
+UICorner7.Name = "UICorner"
+UICorner7.CornerRadius = UDim.new(0.05, 0)
+UICorner7.Parent = SubmitBtn
+
+local DisplayT = Instance.new("TextLabel")
+DisplayT.Name = "DisplayT"
+DisplayT.Position = UDim2.new(0.5, 0, 0.5, 0)
+DisplayT.Size = UDim2.new(0.9, 0, 0.7, 0)
+DisplayT.BackgroundColor3 = Color3.new(1, 1, 1)
+DisplayT.BackgroundTransparency = 1
+DisplayT.BorderSizePixel = 0
+DisplayT.BorderColor3 = Color3.new(0, 0, 0)
+DisplayT.AnchorPoint = Vector2.new(0.5, 0.5)
+DisplayT.Transparency = 1
+DisplayT.Text = "Unlock Hub"
+DisplayT.TextColor3 = Color3.new(1, 1, 1)
+DisplayT.TextSize = 14
+DisplayT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+DisplayT.TextScaled = true
+DisplayT.TextWrapped = true
+DisplayT.Parent = SubmitBtn
+DisplayT.TextTransparency = 0
+
+local UIStroke4 = Instance.new("UIStroke")
+UIStroke4.Name = "UIStroke"
+UIStroke4.Color = Color3.new(0, 0.333333, 1)
+UIStroke4.Thickness = 1.5
+UIStroke4.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke4.Parent = SubmitBtn
+
+local UIAspectRatioConstraint6 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint6.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint6.AspectRatio = 7.699999809265137
+UIAspectRatioConstraint6.Parent = SubmitBtn
+
+local GetKeyBtn = Instance.new("TextButton")
+GetKeyBtn.Name = "GetKeyBtn"
+GetKeyBtn.Position = UDim2.new(0.065, 0, 0.81, 0)
+GetKeyBtn.Size = UDim2.new(0.72, 0, 0.13, 0)
+GetKeyBtn.BackgroundColor3 = Color3.new(0.188235, 0.407843, 0.917647)
+GetKeyBtn.BorderSizePixel = 0
+GetKeyBtn.BorderColor3 = Color3.new(0, 0, 0)
+GetKeyBtn.AnchorPoint = Vector2.new(0.065, 0.81)
+GetKeyBtn.Text = ""
+GetKeyBtn.TextColor3 = Color3.new(0, 0, 0)
+GetKeyBtn.TextSize = 14
+GetKeyBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+GetKeyBtn.TextScaled = true
+GetKeyBtn.TextWrapped = true
+GetKeyBtn.Parent = KeyF
+GetKeyBtn.TextTransparency = 0
+
+local UICorner8 = Instance.new("UICorner")
+UICorner8.Name = "UICorner"
+UICorner8.CornerRadius = UDim.new(0.05, 0)
+UICorner8.Parent = GetKeyBtn
+
+local Title2 = Instance.new("TextLabel")
+Title2.Name = "Title"
+Title2.Position = UDim2.new(0.5, 0, 0.5, 0)
+Title2.Size = UDim2.new(0.9, 0, 0.7, 0)
+Title2.BackgroundColor3 = Color3.new(1, 1, 1)
+Title2.BackgroundTransparency = 1
+Title2.BorderSizePixel = 0
+Title2.BorderColor3 = Color3.new(0, 0, 0)
+Title2.AnchorPoint = Vector2.new(0.5, 0.5)
+Title2.Transparency = 1
+Title2.Text = "Get Key"
+Title2.TextColor3 = Color3.new(1, 1, 1)
+Title2.TextSize = 14
+Title2.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Title2.TextScaled = true
+Title2.TextWrapped = true
+Title2.Parent = GetKeyBtn
+Title2.TextTransparency = 0
+
+local UIStroke5 = Instance.new("UIStroke")
+UIStroke5.Name = "UIStroke"
+UIStroke5.Color = Color3.new(0, 0.333333, 1)
+UIStroke5.Thickness = 1.5
+UIStroke5.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke5.Parent = GetKeyBtn
+
+local UIAspectRatioConstraint7 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint7.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint7.AspectRatio = 1.2999999523162842
+UIAspectRatioConstraint7.Parent = GetKeyBtn
+
+local KeyTitle2 = Instance.new("TextLabel")
+KeyTitle2.Name = "CreditsT"
+KeyTitle2.Position = UDim2.new(0.5, 0, 0.95, 0)
+KeyTitle2.Size = UDim2.new(0.8, 0, 0.05, 0)
+KeyTitle2.BackgroundColor3 = Color3.new(0, 0, 0)
+KeyTitle2.BackgroundTransparency = 1
+KeyTitle2.BorderSizePixel = 0
+KeyTitle2.BorderColor3 = Color3.new(0, 0, 0)
+KeyTitle2.AnchorPoint = Vector2.new(0.5, 0.95)
+KeyTitle2.Transparency = 1
+KeyTitle2.Text = "©  Atlas Hub. All Rights Reserved 2026"
+KeyTitle2.TextColor3 = Color3.new(1, 1, 1)
+KeyTitle2.TextSize = 14
+KeyTitle2.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+KeyTitle2.TextScaled = true
+KeyTitle2.TextWrapped = true
+KeyTitle2.Parent = KeyF
+KeyTitle2.TextTransparency = 0.65
+
+local UIDragDetector = Instance.new("UIDragDetector")
+UIDragDetector.Name = "UIDragDetector"
+
+UIDragDetector.Parent = MainBackground
+
+local UIScale = Instance.new("UIScale")
+UIScale.Name = "UIScale"
+
+UIScale.Parent = MainBackground
+
+local NotificationF = Instance.new("Frame")
+NotificationF.Name = "NotificationF"
+NotificationF.Position = UDim2.new(0.5, 0, 0, 0)
+NotificationF.Size = UDim2.new(0.8, 0, 0.2, 0)
+NotificationF.BackgroundColor3 = Color3.new(1, 1, 1)
+NotificationF.BackgroundTransparency = 1
+NotificationF.BorderSizePixel = 0
+NotificationF.BorderColor3 = Color3.new(0, 0, 0)
+NotificationF.AnchorPoint = Vector2.new(0.5, 0)
+NotificationF.Transparency = 1
+NotificationF.Parent = AtlasHub_KeyInterface
+
+local TemplateStorage = Instance.new("Frame")
+TemplateStorage.Name = "TemplateStorage"
+TemplateStorage.Position = UDim2.new(0.5, 0, 0.5, 0)
+TemplateStorage.Size = UDim2.new(0.98, 0, 0.96, 0)
+TemplateStorage.BackgroundColor3 = Color3.new(1, 1, 1)
+TemplateStorage.BackgroundTransparency = 0.8999999761581421
+TemplateStorage.BorderSizePixel = 0
+TemplateStorage.BorderColor3 = Color3.new(0, 0, 0)
+TemplateStorage.Visible = false
+TemplateStorage.AnchorPoint = Vector2.new(0.5, 0.5)
+TemplateStorage.ClipsDescendants = true
+TemplateStorage.Transparency = 0.8999999761581421
+TemplateStorage.Parent = AtlasHub_KeyInterface
+
+local NotiTemplate = Instance.new("TextButton")
+NotiTemplate.Name = "NotiTemplate"
+NotiTemplate.Position = UDim2.new(0.5, 0, 0.96, 0)
+NotiTemplate.Size = UDim2.new(0.65, 0, 0.65, 0)
+NotiTemplate.BackgroundColor3 = Color3.new(0.117647, 0.380392, 1)
+NotiTemplate.BorderSizePixel = 0
+NotiTemplate.BorderColor3 = Color3.new(0, 0, 0)
+NotiTemplate.AnchorPoint = Vector2.new(0.5, 0.96)
+NotiTemplate.Text = ""
+NotiTemplate.TextColor3 = Color3.new(0, 0, 0)
+NotiTemplate.TextSize = 14
+NotiTemplate.FontFace = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.ExtraBold, Enum.FontStyle.Normal)
+NotiTemplate.TextScaled = true
+NotiTemplate.TextWrapped = true
+NotiTemplate.Parent = TemplateStorage
+
+local NotiCorner = Instance.new("UICorner")
+NotiCorner.Name = "NotiCorner"
+NotiCorner.CornerRadius = UDim.new(0, 5)
+NotiCorner.Parent = NotiTemplate
+
+local NotiStroke = Instance.new("UIStroke")
+NotiStroke.Name = "NotiStroke"
+NotiStroke.Color = Color3.new(0, 0, 1)
+NotiStroke.Thickness = 2
+NotiStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+NotiStroke.Parent = NotiTemplate
+
+local NotiText = Instance.new("TextBox")
+NotiText.Name = "NotiText"
+NotiText.Position = UDim2.new(0.54268, 0, 0.5, 0)
+NotiText.Size = UDim2.new(0.814641, 0, 0.7, 0)
+NotiText.BackgroundColor3 = Color3.new(1, 1, 1)
+NotiText.BackgroundTransparency = 1
+NotiText.BorderSizePixel = 0
+NotiText.BorderColor3 = Color3.new(0, 0, 0)
+NotiText.AnchorPoint = Vector2.new(0.5, 0.5)
+NotiText.Transparency = 1
+NotiText.Selectable = false
+NotiText.Active = false
+NotiText.Text = "This is a notification!"
+NotiText.TextColor3 = Color3.new(1, 1, 1)
+NotiText.TextSize = 14
+NotiText.TextEditable = false
+NotiText.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+NotiText.TextScaled = true
+NotiText.TextWrapped = true
+NotiText.TextXAlignment = Enum.TextXAlignment.Left
+NotiText.TextYAlignment = Enum.TextYAlignment.Top
+NotiText.RichText = true
+NotiText.ClearTextOnFocus = false
+NotiText.MultiLine = true
+NotiText.Parent = NotiTemplate
+NotiText.TextTransparency = 0
+
+local NotiIconF = Instance.new("Frame")
+NotiIconF.Name = "NotiIconF"
+NotiIconF.Position = UDim2.new(0.033, 0, 0.5, 0)
+NotiIconF.Size = UDim2.new(0.8, 0, 0.8, 0)
+NotiIconF.BackgroundColor3 = Color3.new(1, 1, 1)
+NotiIconF.BackgroundTransparency = 1
+NotiIconF.BorderSizePixel = 0
+NotiIconF.BorderColor3 = Color3.new(0, 0, 0)
+NotiIconF.AnchorPoint = Vector2.new(0.033, 0.5)
+NotiIconF.Transparency = 1
+NotiIconF.Parent = NotiTemplate
+
+local NotiIconAspect = Instance.new("UIAspectRatioConstraint")
+NotiIconAspect.Name = "NotiIconAspect"
+
+NotiIconAspect.Parent = NotiIconF
+
+local NotiTitleIcon = Instance.new("ImageLabel")
+NotiTitleIcon.Name = "NotiTitleIcon"
+NotiTitleIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+NotiTitleIcon.Size = UDim2.new(0.9, 0, 0.9, 0)
+NotiTitleIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+NotiTitleIcon.BackgroundTransparency = 1
+NotiTitleIcon.BorderSizePixel = 0
+NotiTitleIcon.BorderColor3 = Color3.new(0, 0, 0)
+NotiTitleIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+NotiTitleIcon.Transparency = 1
+NotiTitleIcon.Image = "rbxassetid://101208360819397"
+NotiTitleIcon.Parent = NotiIconF
+
+local NotiAspect = Instance.new("UIAspectRatioConstraint")
+NotiAspect.Name = "NotiAspect"
+NotiAspect.AspectRatio = 12
+NotiAspect.Parent = NotiTemplate
+
+local TemplateGridLayout = Instance.new("UIGridLayout")
+TemplateGridLayout.Name = "TemplateGridLayout"
+TemplateGridLayout.CellPadding = UDim2.new(0.045, 0, 0.045, 0)
+TemplateGridLayout.CellSize = UDim2.new(1, 0, 0.2, 0)
+TemplateGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+TemplateGridLayout.Parent = TemplateStorage
+
+local LoadingF = Instance.new("Frame")
+LoadingF.Name = "LoadingF"
+LoadingF.Position = UDim2.new(0.5, 0, 0.66, 0)
+LoadingF.Size = UDim2.new(0.98, 0, 0.85, 0)
+LoadingF.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingF.BackgroundTransparency = 1
+LoadingF.BorderSizePixel = 0
+LoadingF.BorderColor3 = Color3.new(0, 0, 0)
+LoadingF.AnchorPoint = Vector2.new(0.5, 0.6)
+LoadingF.Transparency = 1
+LoadingF.Parent = MainBackground
+LoadingF.Visible = false
+
+local LoadingLogo = Instance.new("Frame")
+LoadingLogo.Name = "LoadingLogo"
+LoadingLogo.Position = UDim2.new(0.5, 0, 0.01, 0)
+LoadingLogo.Size = UDim2.new(0.27, 0, 0.27, 0)
+LoadingLogo.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingLogo.BackgroundTransparency = 1
+LoadingLogo.BorderSizePixel = 0
+LoadingLogo.BorderColor3 = Color3.new(0, 0, 0)
+LoadingLogo.AnchorPoint = Vector2.new(0.5, 0.01)
+LoadingLogo.Transparency = 1
+LoadingLogo.Parent = LoadingF
+
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint.Parent = LoadingLogo
+
+local TitleIcon = Instance.new("ImageLabel")
+TitleIcon.Name = "TitleIcon"
+TitleIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon.BackgroundTransparency = 1
+TitleIcon.BorderSizePixel = 0
+TitleIcon.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon.Transparency = 1
+TitleIcon.Image = "rbxassetid://101208360819397"
+TitleIcon.Parent = LoadingLogo
+
+local LoadingHubName = Instance.new("TextLabel")
+LoadingHubName.Name = "LoadingHubName"
+LoadingHubName.Position = UDim2.new(0.5, 0, 0.3, 0)
+LoadingHubName.Size = UDim2.new(0.5, 0, 0.1, 0)
+LoadingHubName.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingHubName.BackgroundTransparency = 1
+LoadingHubName.BorderSizePixel = 0
+LoadingHubName.BorderColor3 = Color3.new(0, 0, 0)
+LoadingHubName.AnchorPoint = Vector2.new(0.5, 0.3)
+LoadingHubName.Transparency = 1
+LoadingHubName.Text = "Atlas Hub"
+LoadingHubName.TextColor3 = Color3.new(1, 1, 1)
+LoadingHubName.TextSize = 14
+LoadingHubName.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoadingHubName.TextScaled = true
+LoadingHubName.TextWrapped = true
+LoadingHubName.Parent = LoadingF
+LoadingHubName.TextTransparency = 0
+
+local LoadingGameName = Instance.new("TextLabel")
+LoadingGameName.Name = "LoadingGameName"
+LoadingGameName.Position = UDim2.new(0.5, 0, 0.4, 0)
+LoadingGameName.Size = UDim2.new(0.8, 0, 0.08, 0)
+LoadingGameName.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingGameName.BackgroundTransparency = 1
+LoadingGameName.BorderSizePixel = 0
+LoadingGameName.BorderColor3 = Color3.new(0, 0, 0)
+LoadingGameName.AnchorPoint = Vector2.new(0.5, 0.4)
+LoadingGameName.Transparency = 1
+LoadingGameName.Text = "The Space Simulator"
+LoadingGameName.TextColor3 = Color3.new(1, 1, 1)
+LoadingGameName.TextSize = 14
+LoadingGameName.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoadingGameName.TextScaled = true
+LoadingGameName.TextWrapped = true
+LoadingGameName.Parent = LoadingF
+LoadingGameName.TextTransparency = 0
+
+local LoadingCreditsT = Instance.new("TextLabel")
+LoadingCreditsT.Name = "LoadingCreditsT"
+LoadingCreditsT.Position = UDim2.new(0.5, 0, 0.95, 0)
+LoadingCreditsT.Size = UDim2.new(0.8, 0, 0.05, 0)
+LoadingCreditsT.BackgroundColor3 = Color3.new(0, 0, 0)
+LoadingCreditsT.BackgroundTransparency = 1
+LoadingCreditsT.BorderSizePixel = 0
+LoadingCreditsT.BorderColor3 = Color3.new(0, 0, 0)
+LoadingCreditsT.AnchorPoint = Vector2.new(0.5, 0.95)
+LoadingCreditsT.Transparency = 1
+LoadingCreditsT.Text = "©  Atlas Hub. All Rights Reserved 2026"
+LoadingCreditsT.TextColor3 = Color3.new(1, 1, 1)
+LoadingCreditsT.TextSize = 14
+LoadingCreditsT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoadingCreditsT.TextScaled = true
+LoadingCreditsT.TextWrapped = true
+LoadingCreditsT.Parent = LoadingF
+LoadingCreditsT.TextTransparency = 0.65
+
+local LoadingIconF = Instance.new("ImageLabel")
+LoadingIconF.Name = "LoadingIconF"
+LoadingIconF.Position = UDim2.new(0.5, 0, 0.64, 0)
+LoadingIconF.Size = UDim2.new(0.23, 0, 0.23, 0)
+LoadingIconF.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingIconF.BackgroundTransparency = 1
+LoadingIconF.BorderSizePixel = 0
+LoadingIconF.BorderColor3 = Color3.new(0, 0, 0)
+LoadingIconF.AnchorPoint = Vector2.new(0.5, 0.64)
+LoadingIconF.Transparency = 1
+LoadingIconF.Image = "rbxassetid://82285050019288"
+LoadingIconF.Parent = LoadingF
+
+local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint2.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint2.Parent = LoadingIconF
+
+local LockIcon = Instance.new("StringValue")
+LockIcon.Name = "LockIcon"
+
+LockIcon.Parent = LoadingIconF
+
+local LoadingIcon = Instance.new("StringValue")
+LoadingIcon.Name = "LoadingIcon"
+
+LoadingIcon.Parent = LoadingIconF
+
+local LoadingTextP = Instance.new("TextLabel")
+LoadingTextP.Name = "LoadingTextP"
+LoadingTextP.Position = UDim2.new(0.5, 0, 0.83, 0)
+LoadingTextP.Size = UDim2.new(0.8, 0, 0.085, 0)
+LoadingTextP.BackgroundColor3 = Color3.new(1, 1, 1)
+LoadingTextP.BackgroundTransparency = 1
+LoadingTextP.BorderSizePixel = 0
+LoadingTextP.BorderColor3 = Color3.new(0, 0, 0)
+LoadingTextP.AnchorPoint = Vector2.new(0.5, 0.83)
+LoadingTextP.Transparency = 1
+LoadingTextP.Text = "Loading Atlas Hub . . ."
+LoadingTextP.TextColor3 = Color3.new(1, 1, 1)
+LoadingTextP.TextSize = 14
+LoadingTextP.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+LoadingTextP.TextScaled = true
+LoadingTextP.TextWrapped = true
+LoadingTextP.Parent = LoadingF
+LoadingTextP.TextTransparency = 0
+
+local LoadingIconImage = "rbxassetid://82285050019288"
+local LockIconImage = "rbxassetid://15117261700"
+local CGame = "The Space Simulator"
+
+local CheckKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/CheckKey"))
+
+local Gui = AtlasHub_KeyInterface
+local MainKeyF = KeyF
+local LoadingMainF = LoadingF
+local TemplateObjects = TemplateStorage
+local NotificationBar = NotificationF
+
+local MainUIScale = UIScale
+
+local KeyBoxF = KeyBox
+local input = InputBox
+local StatusImage = StatusIcon
+local CheckBtn = SubmitBtn
+local CopyDiscordLinkBtn = GetKeyBtn
+local XBtn = CloseBtn
+local GameT = GameName
+
+local LoadingIconStatus = LoadingIcon
+local LoadingGameT = LoadingGameName
+local LoadingProcess = LoadingTextP
+
+local NotifyTemplate = NotiTemplate
+
+local CurrentNotify
+local Checking = false
+local KU = false
+
+local CheckingRotation = false
+
+local Sounds = Instance.new("Folder")
+Sounds.Name = "SoundSources"
+Sounds.Parent = Gui
+
+local NotifSFX = Instance.new("Sound", Sounds)
+NotifSFX.Name = "NotifSFX"
+NotifSFX.SoundId = "rbxassetid://136211732441165"
+NotifSFX.Volume = 0.6
+NotifSFX.Looped = false
+
+local OpenSFX = Instance.new("Sound", Sounds)
+OpenSFX.Name = "OpenSFX"
+OpenSFX.SoundId = "rbxassetid://70452176150315"
+OpenSFX.Volume = 0.6
+OpenSFX.Looped = false
+
+local CloseSFX = Instance.new("Sound", Sounds)
+CloseSFX.Name = "CloseSFX"
+CloseSFX.SoundId = "rbxassetid://74766266183741"
+CloseSFX.Volume = 0.6
+CloseSFX.Looped = false
+
+local ClickSFX = Instance.new("Sound", Sounds)
+ClickSFX.Name = "ClickSFX"
+ClickSFX.SoundId = "rbxassetid://116080744084010"
+ClickSFX.Volume = 0.6
+ClickSFX.Looped = false
+
+local function ShowNotify(txt, dur)
+	dur = dur or 3
+
+	if CurrentNotify then
+		CurrentNotify:Destroy()
+		CurrentNotify = nil
+	end
+
+	local Noti = NotifyTemplate:Clone()
+	Noti.Parent = NotificationBar
+	CurrentNotify = Noti
+
+	local NotiText = Noti:WaitForChild("NotiText")
+
+	NotiText.Text = txt
+	
+	local OriginalPos = Noti.Position
+
+	Noti.Position = UDim2.new(
+		OriginalPos.X.Scale,
+		OriginalPos.X.Offset,
+		-1,
+		OriginalPos.Y.Offset
+	)
+
+	local ShowTween = TweenService:Create(
+		Noti,
+		TweenInfo.new(
+			0.35,
+			Enum.EasingStyle.Quart,
+			Enum.EasingDirection.Out
+		),
+		{
+			Position = OriginalPos
+		}
+	)
+
+	ShowTween:Play()
+	ShowTween.Completed:Wait()
+
+	NotifSFX.TimePosition = 0
+	NotifSFX:Play()
+
+	task.wait(dur)
+
+	local HideTween = TweenService:Create(
+		Noti,
+		TweenInfo.new(
+			0.35,
+			Enum.EasingStyle.Quart,
+			Enum.EasingDirection.In
+		),
+		{
+			Position = UDim2.new(
+				OriginalPos.X.Scale,
+				OriginalPos.X.Offset,
+				-1,
+				OriginalPos.Y.Offset
+			)
+		}
+	)
+
+	HideTween:Play()
+	HideTween.Completed:Wait()
+
+	if CurrentNotify == Noti then
+		CurrentNotify = nil
+	end
+
+	Noti:Destroy()
+end
+
+MainUIScale.Scale = 0
+
+TweenService:Create(
+	MainUIScale,
+	TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.Out),
+	{Scale = 1}
+):Play()
+
+OpenSFX.TimePosition = 0
+OpenSFX:Play()
+
+XBtn.MouseButton1Click:Connect(function()
+	CloseSFX.TimePosition = 0
+	CloseSFX:Play()
+
+	local Tween = TweenService:Create(
+		MainUIScale,
+		TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+		{Scale = 0}
+	)
+
+
+	Tween:Play()
+	Tween.Completed:Wait()
+
+	Gui:Destroy()
+end)
+
+local function PlayClick()
+	ClickSFX.TimePosition = 0
+	ClickSFX:Play()
+end
+
+for _, Button in ipairs({
+	CheckBtn,
+	CopyDiscordLinkBtn
+	}) do
+	Button.MouseButton1Click:Connect(function()
+		PlayClick()
+	end)
+end
+
+input.Focused:Connect(function()
+	PlayClick()
+end)
+
+CopyDiscordLinkBtn.MouseButton1Click:Connect(function()
+	setclipboard("https://discord.com/invite/KDF5gVKEzZ")
+	ShowNotify("Discord link copied to your clipboard", 4)
+end)
+
+local function StartRotation()
+	if CheckingRotation then return end
+
+	CheckingRotation = true
+
+	task.spawn(function()
+		while CheckingRotation do
+			StatusImage.Rotation += 25
+			task.wait(0.03)
+		end
+	end)
+end
+
+
+local function StopRotation()
+	CheckingRotation = false
+
+	TweenService:Create(
+		StatusImage,
+		TweenInfo.new(0.2),
+		{
+			Rotation = 0
+		}
+	):Play()
+end
+
+
+local function SetStatus(Image, Color)
+	StatusImage.Image = Image
+	StatusImage.ImageColor3 = Color
+end
+
+SetStatus(
+	LockIconImage,
+	Color3.fromRGB(255,255,255)
+)
+
+CheckBtn.DisplayT.Text = "Unlock Hub"
+
+CheckBtn.MouseButton1Click:Connect(function()
+
+	if KU then
+		return
+	end
+
+	if Checking then
+		return
+	end
+
+	Checking = true
+
+
+	SetStatus(
+		LoadingIconImage,
+		Color3.fromRGB(255,255,255)
+	)
+
+	StartRotation()
+
+
+	local EnteredKey = input.Text
+
+
+	task.wait(1)
+
+
+	if EnteredKey == CheckKey.Key then
+
+		Checking = false
+		KU = true
+
+		StopRotation()
+
+		SetStatus(
+			LockIconImage,
+			Color3.fromRGB(0,255,0)
+		)
+
+		CheckBtn.DisplayT.Text = "Execute Hub"
+
+		ShowNotify(
+			"Successfully unlocked hub, correct key",
+			3
+		)
+
+	else
+
+		Checking = false
+
+		StopRotation()
+
+		SetStatus(
+			LockIconImage,
+			Color3.fromRGB(255,0,0)
+		)
+
+		ShowNotify(
+			"Failed to unlock hub, wrong key",
+			3
+		)
+
+	end
+
+end)
+
+
+
+local function StartLoadingAnimation()
+	Loading = true
+
+	task.spawn(function()
+		while Loading do
+			LoadingIconStatus.Rotation += 25
+			task.wait(0.03)
+		end
+	end)
+
+
+	task.spawn(function()
+		local Dots = {
+			"",
+			".",
+			"..",
+			"..."
+		}
+
+		local Index = 1
+
+		while Loading do
+			LoadingProcess.Text = "Loading Atlas Hub" .. Dots[Index]
+
+			Index += 1
+
+			if Index > #Dots then
+				Index = 1
+			end
+
+			task.wait(0.4)
+		end
+	end)
+end
+
+
+local function StopLoadingAnimation()
+	Loading = false
+
+	TweenService:Create(
+		LoadingIconStatus,
+		TweenInfo.new(0.2),
+		{
+			Rotation = 0
+		}
+	):Play()
+end
+
+
+
+CheckBtn.MouseButton1Click:Connect(function()
+
+	if not KU then
+		return
+	end
+
+
+	MainKeyF.Visible = false
+	LoadingMainF.Visible = true
+
+
+	StartLoadingAnimation()
+
+
+	task.wait(3)
+
+
+	StopLoadingAnimation()
+
+	local function s(t)
+		local r = ""
+		for _,v in ipairs(t) do
+			r ..= string.char(v)
+		end
+		return r
+	end
+
+	local url = s({
+		104,116,116,112,115,58,47,47,
+		114,97,119,46,103,105,116,104,117,98,117,115,101,114,99,111,110,116,101,110,116,46,99,111,109,47,
+		82,98,65,116,108,97,115,84,101,97,109,47,
+		65,116,108,97,115,72,117,98,47,
+		114,101,102,115,47,104,101,97,100,115,47,109,97,105,110,47,
+		77,97,105,110
+	})
+
+	loadstring(game:HttpGet(url))()
+
+	local Tween = TweenService:Create(
+		MainUIScale,
+		TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+		{Scale = 0}
+	)
+
+
+	Tween:Play()
+	Tween.Completed:Wait()
+
+	Gui:Destroy()
+
+end)
