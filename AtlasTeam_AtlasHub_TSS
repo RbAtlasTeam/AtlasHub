@@ -323,6 +323,7 @@ InputBox.ClearTextOnFocus = false
 InputBox.PlaceholderText = "Eample Key: AtlasHub-TSS-KeyHere"
 InputBox.Parent = KeyBox
 InputBox.TextTransparency = 0
+InputBox.TextColor = Color3.new(1, 1, 1)
 
 local SideOutline = Instance.new("Frame")
 SideOutline.Name = "SideOutline"
