@@ -2,7 +2,7 @@ local TweenService = game:GetService("TweenService")
 local Parent = game.CoreGui
 
 if Parent:FindFirstChild("AtlasHub_KeyInterface") then
-return warn("Atlas Hub KeyInterface Already Loaded") end
+	return warn("Atlas Hub KeyInterface Already Loaded") end
 
 local AtlasHub_KeyInterface = Instance.new("ScreenGui")
 AtlasHub_KeyInterface.Name = "AtlasHub_KeyInterface"
@@ -1001,6 +1001,10 @@ SetStatus(
 CheckBtn.DisplayT.Text = "Unlock Hub"
 
 CheckBtn.MouseButton1Click:Connect(function()
+	
+	if Parent:FindFirstChild("AtlasInterface") then ShowNotify("Atlas Hub detected, failed to check key")
+		return
+	end
 	
 	if KU then
 		return
