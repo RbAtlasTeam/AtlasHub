@@ -780,7 +780,7 @@ local LoadingIconImage = "rbxassetid://82285050019288"
 local LockIconImage = "rbxassetid://15117261700"
 local CGame = "The Space Simulator"
 
-local CheckKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/CheckKey"))
+local CheckKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/CheckKey"))()
 
 local Gui = AtlasHub_KeyInterface
 local MainKeyF = KeyF
