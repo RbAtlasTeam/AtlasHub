@@ -1001,7 +1001,9 @@ SetStatus(
 CheckBtn.DisplayT.Text = "Unlock Hub"
 
 CheckBtn.MouseButton1Click:Connect(function()
-
+	
+	warn(CheckKey.Key)
+	
 	if KU then
 		return
 	end
