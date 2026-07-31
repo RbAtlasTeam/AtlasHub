@@ -10,7 +10,7 @@ AtlasHub_KeyInterface.IgnoreGuiInset = true
 AtlasHub_KeyInterface.DisplayOrder = 800
 AtlasHub_KeyInterface.ScreenInsets = Enum.ScreenInsets.None
 AtlasHub_KeyInterface.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
-AtlasHub_KeyInterface.Parent = game.StarterGui
+AtlasHub_KeyInterface.Parent = Parent
 
 local MainBackground = Instance.new("ImageLabel")
 MainBackground.Name = "MainBackground"
