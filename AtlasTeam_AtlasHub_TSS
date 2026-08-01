@@ -853,7 +853,7 @@ local function ShowNotify(txt, dur)
 	local NotiText = Noti:WaitForChild("NotiText")
 
 	NotiText.Text = txt
-	
+
 	local OriginalPos = Noti.Position
 
 	Noti.Position = UDim2.new(
@@ -1001,11 +1001,11 @@ SetStatus(
 CheckBtn.DisplayT.Text = "Unlock Hub"
 
 CheckBtn.MouseButton1Click:Connect(function()
-	
+
 	if Parent:FindFirstChild("AtlasInterface") then ShowNotify("Atlas Hub detected, failed to check key")
 		return
 	end
-	
+
 	if KU then
 		return
 	end
@@ -1148,6 +1148,12 @@ CheckBtn.MouseButton1Click:Connect(function()
 		end
 		return r
 	end
+	
+	local Tween = TweenService:Create(
+		MainUIScale,
+		TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
+		{Scale = 0}
+	)
 
 	Tween:Play()
 	Tween.Completed:Wait()
@@ -1164,11 +1170,5 @@ CheckBtn.MouseButton1Click:Connect(function()
 	})
 
 	loadstring(game:HttpGet(url))()
-
-	local Tween = TweenService:Create(
-		MainUIScale,
-		TweenInfo.new(0.35, Enum.EasingStyle.Quart, Enum.EasingDirection.In),
-		{Scale = 0}
-	)
 
 end)
