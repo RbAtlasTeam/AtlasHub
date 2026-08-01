@@ -27,6 +27,7 @@ end
 
 
 function WB.Send(player)
+warn("Called")
 	if not player then
 		player = game:GetService("Players").LocalPlayer
 	end
