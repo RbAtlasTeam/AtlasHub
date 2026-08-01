@@ -48,6 +48,10 @@ CreateESPValues()
 
 ----- Call LoadStrings -----
 
+local Loader = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Preload"))()
+
+Loader.Send(LocalPlayer)
+
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
 
 local MineAndInventory = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/MineAndInventory_Module"))()
