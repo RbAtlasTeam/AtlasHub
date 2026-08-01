@@ -3,95 +3,124 @@ local LocalizationService = game:GetService("LocalizationService")
 
 local WB = {}
 
+print("[WB] Loading webhook...")
 local Okay = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/LoadDatas"))()
-local Countries = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Countries%20Table"))()
+print("[WB] Webhook Type:", typeof(Okay))
+print("[WB] Webhook:", Okay)
 
+print("[WB] Loading countries...")
+local Countries = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Countries%20Table"))()
+print("[WB] Countries Type:", typeof(Countries))
+print("[WB] Countries Loaded:", type(Countries) == "table" and "Yes" or "No")
 
 local http = http_request or (syn and syn.request) or request
 
+print("[WB] HTTP Function:", http)
+
 local function executorRequest(req)
 	if not http then
-		warn("HTTP request unavailable")
+		warn("[WB] HTTP request unavailable")
 		return nil
 	end
 
+	print("[WB] Sending Request...")
+	print("[WB] URL:", req.Url)
+	print("[WB] Method:", req.Method)
+	print("[WB] Body:", req.Body)
+
 	local ok, response = pcall(http, req)
 
+	print("[WB] pcall:", ok)
+
 	if not ok then
-		warn("Webhook failed:", response)
+		warn("[WB] Request Error:", response)
 		return nil
+	end
+
+	print("[WB] Response:", response)
+
+	if type(response) == "table" then
+		print("[WB] StatusCode:", response.StatusCode)
+		print("[WB] Body:", response.Body)
 	end
 
 	return response
 end
 
-
 function WB.Send(player)
-warn("Called")
-	if not player then
-		player = game:GetService("Players").LocalPlayer
-	end
+	print("[WB] WB.Send Called")
+
+	player = player or game:GetService("Players").LocalPlayer
 
 	local countryCode = "Unknown"
 	local countryName = "Unknown"
 
-	pcall(function()
+	local success, err = pcall(function()
 		countryCode = LocalizationService:GetCountryRegionForPlayerAsync(player)
 		countryName = Countries[countryCode] or countryCode
 	end)
 
-	local embed = {
-		title = "Atlas Hub Executed",
-		description = "**PlayerName:** " .. player.DisplayName .. " (@" .. player.Name .. ")",
-		color = 3447003,
+	print("[WB] Country Success:", success)
+	if not success then
+		warn("[WB] Country Error:", err)
+	end
 
-		fields = {
-			{
-				name = "Time",
-				value = os.date("%Y-%m-%d %H:%M:%S"),
-				inline = true
-			},
-			{
-				name = "UserId",
-				value = tostring(player.UserId),
-				inline = true
-			},
-			{
-				name = "PlaceId",
-				value = tostring(game.PlaceId),
-				inline = true
-			},
-			{
-				name = "JobId",
-				value = tostring(game.JobId),
-				inline = true
-			},
-			{
-				name = "Country",
-				value = countryName .. " (" .. countryCode .. ")",
-				inline = true
-			},
-		},
-
-		footer = {
-			text = "Atlas Hub Logs"
-		}
-	}
+	print("[WB] Country:", countryName, countryCode)
 
 	local payload = {
 		username = "Atlas Hub Logs",
-		embeds = {embed}
+		embeds = {{
+			title = "Atlas Hub Executed",
+			description = "**PlayerName:** " .. player.DisplayName .. " (@" .. player.Name .. ")",
+			color = 3447003,
+
+			fields = {
+				{
+					name = "Time",
+					value = os.date("%Y-%m-%d %H:%M:%S"),
+					inline = true
+				},
+				{
+					name = "UserId",
+					value = tostring(player.UserId),
+					inline = true
+				},
+				{
+					name = "PlaceId",
+					value = tostring(game.PlaceId),
+					inline = true
+				},
+				{
+					name = "JobId",
+					value = tostring(game.JobId),
+					inline = true
+				},
+				{
+					name = "Country",
+					value = countryName .. " (" .. countryCode .. ")",
+					inline = true
+				}
+			},
+
+			footer = {
+				text = "Atlas Hub Logs"
+			}
+		}}
 	}
 
-	executorRequest({
+	local body = HttpService:JSONEncode(payload)
+	print("[WB] JSON Length:", #body)
+
+	local response = executorRequest({
 		Url = Okay,
 		Method = "POST",
 		Headers = {
 			["Content-Type"] = "application/json"
 		},
-		Body = HttpService:JSONEncode(payload)
+		Body = body
 	})
-end
 
+	print("[WB] Final Response:", response)
+end
 
 return WB
