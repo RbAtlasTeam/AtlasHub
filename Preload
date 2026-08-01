@@ -1,0 +1,96 @@
+local HttpService = game:GetService("HttpService")
+local LocalizationService = game:GetService("LocalizationService")
+
+local WB = {}
+
+local Okay = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/LoadDatas"))()
+local Countries = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Countries%20Table"))()
+
+
+local http = http_request or (syn and syn.request) or request
+
+local function executorRequest(req)
+	if not http then
+		warn("HTTP request unavailable")
+		return nil
+	end
+
+	local ok, response = pcall(http, req)
+
+	if not ok then
+		warn("Webhook failed:", response)
+		return nil
+	end
+
+	return response
+end
+
+
+function WB.Send(player)
+	if not player then
+		player = game:GetService("Players").LocalPlayer
+	end
+
+	local countryCode = "Unknown"
+	local countryName = "Unknown"
+
+	pcall(function()
+		countryCode = LocalizationService:GetCountryRegionForPlayerAsync(player)
+		countryName = Countries[countryCode] or countryCode
+	end)
+
+	local embed = {
+		title = "Atlas Hub Executed",
+		description = "**PlayerName:** " .. player.DisplayName .. " (@" .. player.Name .. ")",
+		color = 3447003,
+
+		fields = {
+			{
+				name = "Time",
+				value = os.date("%Y-%m-%d %H:%M:%S"),
+				inline = true
+			},
+			{
+				name = "UserId",
+				value = tostring(player.UserId),
+				inline = true
+			},
+			{
+				name = "PlaceId",
+				value = tostring(game.PlaceId),
+				inline = true
+			},
+			{
+				name = "JobId",
+				value = tostring(game.JobId),
+				inline = true
+			},
+			{
+				name = "Country",
+				value = countryName .. " (" .. countryCode .. ")",
+				inline = true
+			},
+		},
+
+		footer = {
+			text = "Atlas Hub Logs"
+		}
+	}
+
+	local payload = {
+		username = "Atlas Hub Logs",
+		embeds = {embed}
+	}
+
+	executorRequest({
+		Url = Okay,
+		Method = "POST",
+		Headers = {
+			["Content-Type"] = "application/json"
+		},
+		Body = HttpService:JSONEncode(payload)
+	})
+end
+
+
+return WB
