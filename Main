@@ -98,6 +98,7 @@ local DrillConfi = loadstring(game:HttpGet("https://raw.githubusercontent.com/Rb
 local CommonConfig = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Common_Confi"))()
 
 local ArtifactESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Artifact_ESP"))()
+local HiddenObjectESP = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/HiddenObject_ESP"))()
 
 ------------------------------------------------------
 
@@ -110,8 +111,8 @@ local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("Col
 
 -------------------------------------------------------------------------------------------------------------------------
 
-local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
+local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local ESPTab = AtlasHub:CreateTab("ESP", "ESP Tab","rbxassetid://7035631382")
 local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Inventory", "rbxassetid://120575375806036")
 local DrillTab = AtlasHub:CreateTab("Drill", "Drill Tab", "rbxassetid://11959189471")
@@ -124,6 +125,9 @@ local JumpPower = AtlasHub.TextBox:Create(PlayerTab, "JumpPower", "Enter JumpPow
 local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeight amount...")
 local CameraMaxZoom = AtlasHub.TextBox:Create(PlayerTab, "CameraMaxZoom", "Enter CameraMaxZoom amount...")
 local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
+
+local JoinGameId = AtlasHub.TextBox:Create(PlayerTab, "Join Server", "Enter Server JobId...")
+local TPToOldGame = AtlasHub.Button:Create(PlayerTab,"Teleport to old place of game")
 local RejoinBtn = AtlasHub.Button:Create(PlayerTab,"Rejoin Server")
 
 --- TextBox Functions -------------------------------
@@ -158,6 +162,20 @@ CameraMaxZoom.Submitted:Connect(function(Text)
 	LocalPlayer.CameraMaxZoomDistance = v
 end)
 
+JoinGameId.Submitted:Connect(function(Text)
+	local v = tostring(Text)
+	if not v or v == "" then ShowNotify("Invalid JobId...", 3) return end
+	ShowNotify("Teleporting to server...", 4)
+	wait(1)
+	TeleportService:TeleportToPlaceInstance(CurrentPlace, v, LocalPlayer)
+end)
+
+TPToOldGame.Clicked:Connect(function()
+	ShowNotify("Teleporting to old place server...", 4)
+	wait(1)
+	TeleportService:Teleport(18796422159, LocalPlayer)
+end)
+
 
 RejoinBtn.Clicked:Connect(function()
 	ShowNotify("Teleporting to same server...", 4)
@@ -171,11 +189,11 @@ end)
 
 local ShipNoClip = AtlasHub.Toggle:Create(ShipTab, "ShipNoClip", "Fly the ship through walls")
 local DebrisPlotterLimits = AtlasHub.Toggle:Create(ShipTab, "No Debris Plotter Limits", "Infinite speed limits for Debris Plotter module")
-local DestoryShip = AtlasHub.Button:Create(ShipTab,"Destroy Ship")
 local ShipSpeed = AtlasHub.TextBox:Create(ShipTab,"Ship Speed", "Enter ShipSpeed amount...")
 local ShipAcceleration = AtlasHub.TextBox:Create(ShipTab,"Ship Acceleration", "Enter Ship Acceleration amount...")
 local ShipDeceleration = AtlasHub.TextBox:Create(ShipTab,"Ship Deceleration", "Enter Ship Deceleration amount...")
 local ShipAgility = AtlasHub.TextBox:Create(ShipTab,"Ship Agility", "Enter Ship Agility amount...")
+local DestoryShip = AtlasHub.Button:Create(ShipTab,"Destroy Ship")
 
 
 
@@ -305,6 +323,7 @@ local ESPBoxes = AtlasHub.Toggle:Create(ESPTab, "ESP Boxes", "Show ESP Boxes for
 local ESPInfo = AtlasHub.Toggle:Create(ESPTab, "ESP Info", "Show ESP Info for all ESP")
 
 local ArtifactESP = AtlasHub.Toggle:Create(ESPTab, "Artifact ESP", "Show ESP for Artifacts")
+local HiddenObjectESP = AtlasHub.Toggle:Create(ESPTab, "Hidden Object ESP", "Show ESP for Hidden Objects (PlanetX, Voyager, Shepherd Prism and Keycards")
 
 ESPLines.Changed:Connect(function(Value)
 	ESPDatas.ESPLines.Value = Value
@@ -321,6 +340,11 @@ end)
 ArtifactESP.Changed:Connect(function(Value)
 	game.CoreGui:WaitForChild("AtlasHub_ArtifactESP").Enabled = Value
 end)
+
+HiddenObjectESP.Changed:Connect(function(Value)
+	game.CoreGui:WaitForChild("AtlasHub_HiddenObjectESP").Enabled = Value
+end)
+
 
 ------------------------------------------------------------------------------------------------------------------------------
 
