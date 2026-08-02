@@ -1,0 +1,805 @@
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local Workspace = game:GetService("Workspace")
+
+local Player = Players.LocalPlayer
+local Camera = Workspace.CurrentCamera
+local ESPName = "AtlasHub_HiddenObjectESP"
+
+local OldESP = game.CoreGui:FindFirstChild(ESPName)
+if OldESP then
+	OldESP:Destroy()
+end
+
+local ESPUI = Instance.new("ScreenGui")
+ESPUI.Name = ESPName
+ESPUI.IgnoreGuiInset = true
+ESPUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+ESPUI.DisplayOrder = 250
+ESPUI.ResetOnSpawn = false
+ESPUI.Enabled = false
+ESPUI.ScreenInsets = Enum.ScreenInsets.None
+ESPUI.IgnoreGuiInset = true
+ESPUI.Parent = game.CoreGui
+
+local AnchorF = Instance.new("Frame")
+AnchorF.Name = "AnchorF"
+AnchorF.Position = UDim2.new(0.5, 0, 0.06, 0)
+AnchorF.Size = UDim2.new(0.13, 0, 0.13, 0)
+AnchorF.BackgroundColor3 = Color3.new(0.0431373, 0.101961, 0.47451)
+AnchorF.BackgroundTransparency = 0.4000000059604645
+AnchorF.BorderSizePixel = 0
+AnchorF.BorderColor3 = Color3.new(0, 0, 0)
+AnchorF.ZIndex = 5
+AnchorF.AnchorPoint = Vector2.new(0.5, 0.06)
+AnchorF.LayoutOrder = 500
+AnchorF.Transparency = 0.4000000059604645
+AnchorF.Parent = ESPUI
+
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint.AspectRatio = 3
+UIAspectRatioConstraint.Parent = AnchorF
+
+local UICorner = Instance.new("UICorner")
+UICorner.Name = "UICorner"
+UICorner.CornerRadius = UDim.new(0.2, 0)
+UICorner.Parent = AnchorF
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Name = "UIStroke"
+UIStroke.Color = Color3.new(1, 1, 1)
+UIStroke.Thickness = 2
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = AnchorF
+
+local ESPAnchorGradient = Instance.new("UIGradient")
+ESPAnchorGradient.Name = "ESPAnchorGradient"
+ESPAnchorGradient.Color = ColorSequence.new({ColorSequenceKeypoint.new(0, Color3.new(1, 1, 1)), ColorSequenceKeypoint.new(1, Color3.new(0, 0.666667, 1))})
+ESPAnchorGradient.Transparency = NumberSequence.new({NumberSequenceKeypoint.new(0, 0.4, 0), NumberSequenceKeypoint.new(1, 0.4, 0)})
+ESPAnchorGradient.Rotation = 180
+ESPAnchorGradient.Parent = UIStroke
+
+local TopBall = Instance.new("Frame")
+TopBall.Name = "TopBall"
+TopBall.Position = UDim2.new(0.5, 0, -0.2, 0)
+TopBall.Size = UDim2.new(0.4, 0, 0.4, 0)
+TopBall.BackgroundColor3 = Color3.new(1, 1, 1)
+TopBall.BackgroundTransparency = 0.4000000059604645
+TopBall.BorderSizePixel = 0
+TopBall.BorderColor3 = Color3.new(0, 0, 0)
+TopBall.AnchorPoint = Vector2.new(0.5, 0)
+TopBall.Transparency = 0.4000000059604645
+TopBall.Parent = AnchorF
+
+local UICorner2 = Instance.new("UICorner")
+UICorner2.Name = "UICorner"
+UICorner2.CornerRadius = UDim.new(1, 0)
+UICorner2.Parent = TopBall
+
+local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint2.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint2.Parent = TopBall
+
+local InnerBall = Instance.new("Frame")
+InnerBall.Name = "InnerBall"
+InnerBall.Position = UDim2.new(0.5, 0, 0.5, 0)
+InnerBall.Size = UDim2.new(0.6, 0, 0.6, 0)
+InnerBall.BackgroundColor3 = Color3.new(0, 0.329412, 1)
+InnerBall.BackgroundTransparency = 0.4000000059604645
+InnerBall.BorderSizePixel = 0
+InnerBall.BorderColor3 = Color3.new(0, 0, 0)
+InnerBall.AnchorPoint = Vector2.new(0.5, 0.5)
+InnerBall.Transparency = 0.4000000059604645
+InnerBall.Parent = TopBall
+
+local UICorner3 = Instance.new("UICorner")
+UICorner3.Name = "UICorner"
+UICorner3.CornerRadius = UDim.new(1, 0)
+UICorner3.Parent = InnerBall
+
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Position = UDim2.new(0.5, 0, 0.28, 0)
+Title.Size = UDim2.new(0.9, 0, 0.3, 0)
+Title.BackgroundColor3 = Color3.new(1, 1, 1)
+Title.BackgroundTransparency = 1
+Title.BorderSizePixel = 0
+Title.BorderColor3 = Color3.new(0, 0, 0)
+Title.AnchorPoint = Vector2.new(0.5, 0.28)
+Title.Transparency = 1
+Title.Text = "Atlas's Hidden Object ESP"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextSize = 14
+Title.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Title.TextScaled = true
+Title.TextWrapped = true
+Title.Parent = AnchorF
+Title.TextTransparency = 0
+
+local Count = Instance.new("TextLabel")
+Count.Name = "Count"
+Count.Position = UDim2.new(0.5, 0, 0.72, 0)
+Count.Size = UDim2.new(0.95, 0, 0.27, 0)
+Count.BackgroundColor3 = Color3.new(1, 1, 1)
+Count.BackgroundTransparency = 1
+Count.BorderSizePixel = 0
+Count.BorderColor3 = Color3.new(0, 0, 0)
+Count.AnchorPoint = Vector2.new(0.5, 0.72)
+Count.Transparency = 1
+Count.Text = "Total Objects: 0"
+Count.TextColor3 = Color3.new(1, 1, 1)
+Count.TextSize = 14
+Count.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Count.TextScaled = true
+Count.TextWrapped = true
+Count.TextTransparency = 0
+Count.Parent = AnchorF
+
+local ESPAnchor = Instance.new("Frame")
+ESPAnchor.Name = "ESPAnchor"
+ESPAnchor.Position = UDim2.new(0.5, 0, 1.14, 0)
+ESPAnchor.Size = UDim2.new(0.3, 0, 0.3, 0)
+ESPAnchor.BackgroundColor3 = Color3.new(1, 1, 1)
+ESPAnchor.BackgroundTransparency = 0.4000000059604645
+ESPAnchor.BorderSizePixel = 0
+ESPAnchor.BorderColor3 = Color3.new(0, 0, 0)
+ESPAnchor.AnchorPoint = Vector2.new(0.5, 1)
+ESPAnchor.Transparency = 0.4000000059604645
+ESPAnchor.Parent = AnchorF
+
+local UICorner4 = Instance.new("UICorner")
+UICorner4.Name = "UICorner"
+UICorner4.CornerRadius = UDim.new(1, 0)
+UICorner4.Parent = ESPAnchor
+
+local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint3.Parent = ESPAnchor
+
+local InnerBall2 = Instance.new("Frame")
+InnerBall2.Name = "InnerBall"
+InnerBall2.Position = UDim2.new(0.5, 0, 0.5, 0)
+InnerBall2.Size = UDim2.new(0.6, 0, 0.6, 0)
+InnerBall2.BackgroundColor3 = Color3.new(0, 0.329412, 1)
+InnerBall2.BackgroundTransparency = 0.4000000059604645
+InnerBall2.BorderSizePixel = 0
+InnerBall2.BorderColor3 = Color3.new(0, 0, 0)
+InnerBall2.AnchorPoint = Vector2.new(0.5, 0.5)
+InnerBall2.Transparency = 0.4000000059604645
+InnerBall2.Parent = ESPAnchor
+
+local UICorner5 = Instance.new("UICorner")
+UICorner5.Name = "UICorner"
+UICorner5.CornerRadius = UDim.new(1, 0)
+UICorner5.Parent = InnerBall2
+
+local UIDragDetector = Instance.new("UIDragDetector")
+UIDragDetector.Name = "UIDragDetector"
+
+UIDragDetector.Parent = AnchorF
+
+local MainInterface = Instance.new("Frame")
+MainInterface.Name = "MainInterface"
+MainInterface.Position = UDim2.new(0.5, 0, 0.5, 0)
+MainInterface.Size = UDim2.new(1, 0, 1, 0)
+MainInterface.BackgroundColor3 = Color3.new(0, 0, 0)
+MainInterface.BackgroundTransparency = 0.5
+MainInterface.BorderSizePixel = 0
+MainInterface.BorderColor3 = Color3.new(0, 0, 0)
+MainInterface.Visible = true
+MainInterface.AnchorPoint = Vector2.new(0.5, 0.5)
+MainInterface.Transparency = 1
+MainInterface.Parent = ESPUI
+
+local TemplateStorage = Instance.new("Frame")
+TemplateStorage.Name = "TemplateStorage"
+TemplateStorage.Position = UDim2.new(0.5, 0, 0.5, 0)
+TemplateStorage.Size = UDim2.new(1, 0, 1, 0)
+TemplateStorage.BackgroundColor3 = Color3.new(0, 0, 0)
+TemplateStorage.BackgroundTransparency = 0.5
+TemplateStorage.BorderSizePixel = 0
+TemplateStorage.BorderColor3 = Color3.new(0, 0, 0)
+TemplateStorage.Visible = false
+TemplateStorage.AnchorPoint = Vector2.new(0.5, 0.5)
+TemplateStorage.Transparency = 0.5
+TemplateStorage.Parent = ESPUI
+
+local Line = Instance.new("Frame")
+Line.Name = "Line"
+Line.Position = UDim2.new(0.499536, 0, 0.13895, 0)
+Line.Size = UDim2.new(0, 2, 0, 173)
+Line.BackgroundColor3 = Color3.new(1, 1, 1)
+Line.BorderSizePixel = 0
+Line.BorderColor3 = Color3.new(0, 0, 0)
+Line.Parent = TemplateStorage
+
+local Box = Instance.new("Frame")
+Box.Name = "Box"
+Box.Position = UDim2.new(0.5, 0, 0.589041, 0)
+Box.Size = UDim2.new(0, 50, 0, 50)
+Box.BackgroundColor3 = Color3.new(0, 0.666667, 1)
+Box.BackgroundTransparency = 0.8999999761581421
+Box.BorderSizePixel = 0
+Box.BorderColor3 = Color3.new(0, 0, 0)
+Box.AnchorPoint = Vector2.new(0.5, 0.5)
+Box.Transparency = 0.8999999761581421
+Box.Parent = TemplateStorage
+
+local UIStroke2 = Instance.new("UIStroke")
+UIStroke2.Name = "UIStroke"
+UIStroke2.Color = Color3.new(1, 1, 1)
+UIStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke2.Parent = Box
+
+local UICorner6 = Instance.new("UICorner")
+UICorner6.Name = "UICorner"
+UICorner6.CornerRadius = UDim.new(0.15, 0)
+UICorner6.Parent = Box
+
+local UIAspectRatioConstraint4 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint4.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint4.Parent = Box
+
+local Info = Instance.new("Frame")
+Info.Name = "Info"
+Info.Position = UDim2.new(0.547, 0, 0.507, 0)
+Info.Size = UDim2.new(0, 100, 0, 100)
+Info.BackgroundColor3 = Color3.new(0, 0.666667, 1)
+Info.BackgroundTransparency = 0.800000011920929
+Info.BorderSizePixel = 0
+Info.BorderColor3 = Color3.new(0, 0, 0)
+Info.Transparency = 0.800000011920929
+Info.Parent = TemplateStorage
+
+local UIStroke3 = Instance.new("UIStroke")
+UIStroke3.Name = "UIStroke"
+UIStroke3.Color = Color3.new(1, 1, 1)
+UIStroke3.Thickness = 1.5
+UIStroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke3.Parent = Info
+
+local UICorner7 = Instance.new("UICorner")
+UICorner7.Name = "UICorner"
+UICorner7.CornerRadius = UDim.new(0.08, 0)
+UICorner7.Parent = Info
+
+local UIAspectRatioConstraint5 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint5.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint5.AspectRatio = 1.7
+UIAspectRatioConstraint5.Parent = Info
+
+local HolderF = Instance.new("Frame")
+HolderF.Name = "HolderF"
+HolderF.Position = UDim2.new(0.5, 0, 0.5, 0)
+HolderF.Size = UDim2.new(0.85, 0, 0.8, 0)
+HolderF.BackgroundColor3 = Color3.new(1, 1, 1)
+HolderF.BackgroundTransparency = 1
+HolderF.BorderSizePixel = 0
+HolderF.BorderColor3 = Color3.new(0, 0, 0)
+HolderF.AnchorPoint = Vector2.new(0.5, 0.5)
+HolderF.Transparency = 1
+HolderF.Parent = Info
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Name = "UIListLayout"
+UIListLayout.Padding = UDim.new(0.15, 0)
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Parent = HolderF
+
+local A = Instance.new("TextLabel")
+A.Name = "A"
+A.Size = UDim2.new(1, 0, 0.37, 0)
+A.BackgroundColor3 = Color3.new(1, 1, 1)
+A.BackgroundTransparency = 1
+A.BorderSizePixel = 0
+A.BorderColor3 = Color3.new(0, 0, 0)
+A.Transparency = 1
+A.Text = "Sauron Key Key"
+A.TextColor3 = Color3.new(1, 1, 1)
+A.TextSize = 14
+A.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+A.TextScaled = true
+A.TextWrapped = true
+A.TextXAlignment = Enum.TextXAlignment.Left
+A.Parent = HolderF
+A.TextTransparency = 0
+
+local UIAspectRatioConstraint6 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint6.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint6.AspectRatio = 7
+UIAspectRatioConstraint6.Parent = A
+
+local UIStroke4 = Instance.new("UIStroke")
+UIStroke4.Name = "UIStroke"
+UIStroke4.Transparency = 0.5
+UIStroke4.Parent = A
+
+local B = Instance.new("TextLabel")
+B.Name = "B"
+B.Size = UDim2.new(1, 0, 0.37, 0)
+B.BackgroundColor3 = Color3.new(1, 1, 1)
+B.BackgroundTransparency = 1
+B.BorderSizePixel = 0
+B.BorderColor3 = Color3.new(0, 0, 0)
+B.Transparency = 1
+B.Text = "Rarity: Legendary"
+B.TextColor3 = Color3.new(1, 0.666667, 0)
+B.TextSize = 14
+B.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+B.TextScaled = true
+B.TextWrapped = true
+B.TextXAlignment = Enum.TextXAlignment.Left
+B.Parent = HolderF
+B.TextTransparency = 0
+
+local UIAspectRatioConstraint7 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint7.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint7.AspectRatio = 8
+UIAspectRatioConstraint7.Parent = B
+
+local UIStroke5 = Instance.new("UIStroke")
+UIStroke5.Name = "UIStroke"
+UIStroke5.Transparency = 0.5
+UIStroke5.Parent = B
+
+local C = Instance.new("TextLabel")
+C.Name = "C"
+C.Size = UDim2.new(1, 0, 0.37, 0)
+C.BackgroundColor3 = Color3.new(1, 1, 1)
+C.BackgroundTransparency = 1
+C.BorderSizePixel = 0
+C.BorderColor3 = Color3.new(0, 0, 0)
+C.Transparency = 1
+C.Text = "Mass: 200 kg"
+C.TextColor3 = Color3.new(1, 1, 1)
+C.TextSize = 14
+C.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+C.TextScaled = true
+C.TextWrapped = true
+C.TextXAlignment = Enum.TextXAlignment.Left
+C.Parent = HolderF
+C.TextTransparency = 0
+
+local UIAspectRatioConstraint8 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint8.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint8.AspectRatio = 8
+UIAspectRatioConstraint8.Parent = C
+
+local UIStroke6 = Instance.new("UIStroke")
+UIStroke6.Name = "UIStroke"
+UIStroke6.Transparency = 0.5
+UIStroke6.Parent = C
+
+---- Hi Chat GPT this is old Artifact ESP and i wanna make for hidden objects.
+-- You can see the objects at line 388-402
+
+--- First we dont need planet 100 studs check anymore second for distance check from there
+-- If Voyager check Voyager.Skin
+-- if PlanetX then check PlanetX.Skin
+-- For Keycard and ShepherdPrism they are part so check from them
+
+-- so A show Name of object
+-- B show Distance from player like 1,000 Studs
+-- C show like WorldPos: 0, 0, 0 but for voyager its Has Golden Record: true or false (its base on is there Golden Record or Golden Record:GetAttribute("hitpoints" are not 0)) 
+-- if record found but hitpoints is 0 then it line will color trun into red and show Has Golden Record: False also it will shiw like this if not found also if has and not 0 then line color  trun Gold
+-- Since HiddenObjects are not in same path so we'll check they removed or added or found if removed destory esp for it if found but no esp create like planet artifact did
+--- even hitpoints of Record or Keycard trun 0 destory esp for them
+
+-- So can u tell me what i neeed to change in code?
+
+local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
+local ESPDatas = AtlasHub_Datas:WaitForChild("ESP_Datas")
+
+local LinesValue = ESPDatas:WaitForChild("ESPLines")
+local BoxesValue = ESPDatas:WaitForChild("ESPBoxes")
+local InfoValue = ESPDatas:WaitForChild("ESPInfo")
+
+local hiddenobjects = {
+	Planetoids = Workspace:FindFirstChild("Planetoids"),
+	Planets = Workspace:FindFirstChild("Planets"),
+	Other = Workspace:FindFirstChild("Other")
+}
+
+local PlanetX = hiddenobjects.PlanetX
+local ShepherdPrism = hiddenobjects.OtherMinerals:FindFirstChild("Shepherd Prism")
+
+------------------------------
+
+local ESPUI = ESPUI
+local BoxTemplate = Box
+local InfoTemplate = Info
+local LineTemplate = Line
+
+local ESPObjects = {}
+
+local function ClearESP()
+
+	for Artifact, Data in pairs(ESPObjects) do
+		Data.Box:Destroy()
+		Data.Info:Destroy()
+		Data.Line:Destroy()
+		ESPObjects[Artifact] = nil
+	end
+
+	Count.Text = "Total Objects: 0"
+
+end
+
+task.spawn(function()
+
+	while task.wait() do
+
+		local Gradient = ESPAnchorGradient
+
+		if Gradient then
+			Gradient.Rotation += 25
+		end
+
+	end
+
+end)
+
+local Character
+local CharacterRoot
+
+
+local function SetupCharacter(Char)
+
+	Character = Char
+	CharacterRoot = Char:WaitForChild("HumanoidRootPart")
+
+end
+
+
+Player.CharacterAdded:Connect(SetupCharacter)
+
+
+if Player.Character then
+	SetupCharacter(Player.Character)
+end
+
+local function GetCharacterRoot()
+
+	return CharacterRoot
+
+end
+
+local function CreateESP(Object, PositionPart, ObjectType)
+
+
+	if ESPObjects[Object] then
+		return
+	end
+	
+	if not PositionPart then
+
+		if Object:IsA("Model") then
+			PositionPart = Object:FindFirstChild("Skin")
+		else
+			PositionPart = Object
+		end
+	end
+	
+	if Object.Name == "Red Keycard" or Object.Name == "Blue Keycard" then
+
+		local HP = Object:GetAttribute("hitpoints")
+
+		if HP and HP <= 0 then
+			RemoveESP(Object)
+			return
+		end
+
+	end
+
+
+	if not PositionPart then
+		return
+	end
+
+	local Box = BoxTemplate:Clone()
+	local Info = InfoTemplate:Clone()
+	local Line = LineTemplate:Clone()
+
+	Line.AnchorPoint = Vector2.new(0.5,0.5)
+
+
+	Box.Parent = MainInterface
+	Info.Parent = MainInterface
+	Line.Parent = MainInterface
+
+	local Holder = Info:WaitForChild("HolderF")
+
+
+	local Data = {
+
+		Box = Box,
+		Info = Info,
+		Line = Line,
+
+		Object = Object,
+		PositionPart = PositionPart,
+
+		ObjectType = ObjectType or "Normal",
+
+		A = Holder.A,
+		B = Holder.B,
+		C = Holder.C,
+
+	}
+
+
+	ESPObjects[Object] = Data
+
+
+
+	Object.AncestryChanged:Connect(function(_,Parent)
+
+		if not Parent then
+
+			if ESPObjects[Object] then
+				RemoveESP(Object)
+			end
+
+		end
+
+	end)
+
+	local function Update()
+
+		if not Object.Parent then
+			RemoveESP(Object)
+			return
+		end
+		
+		if not PositionPart.Parent then
+			RemoveESP(Object)
+			return
+		end
+
+		local Root = GetCharacterRoot()
+		if not Root then
+			Box.Visible = false
+			Info.Visible = false
+			Line.Visible = false
+			return
+		end
+
+		local WorldPos = PositionPart.Position
+		local ScreenPos, Visible = Camera:WorldToViewportPoint(WorldPos)
+
+		if not Visible or ScreenPos.Z <= 0 then
+			Box.Visible = false
+			Info.Visible = false
+			Line.Visible = false
+			return
+		end
+
+		Box.Visible = BoxesValue.Value
+		Info.Visible = InfoValue.Value
+		Line.Visible = LinesValue.Value
+
+		local Distance = (Root.Position - WorldPos).Magnitude
+		
+		Data.A.Text = Object.Name
+
+
+		Data.B.Text =
+			string.format(
+				"Distance: %.0f Studs",
+				Distance
+			)
+
+		if Data.ObjectType == "Voyager" then
+
+			local Minerals = Object:FindFirstChild("Minerals")
+			local Record = Minerals and Minerals:FindFirstChild("Golden Record")
+
+			local HasRecord = false
+
+			if Record then
+
+				local HP = Record:GetAttribute("hitpoints")
+
+				if HP and HP > 0 then
+					HasRecord = true
+				end
+
+			end
+
+
+			Data.C.Text =
+				"Has Golden Record: "..tostring(HasRecord)
+
+
+			if HasRecord then
+				Line.BackgroundColor3 = Color3.fromRGB(255,215,0)
+			else
+				Line.BackgroundColor3 = Color3.fromRGB(255,0,0)
+			end
+
+
+		else
+
+			Data.C.Text =
+				string.format(
+					"WorldPos: %.0f, %.0f, %.0f",
+					WorldPos.X,
+					WorldPos.Y,
+					WorldPos.Z
+				)
+
+		end
+		
+
+		local Scale = math.clamp(ScreenPos.Z / 400, 0.01, 0.045)
+
+		Box.AnchorPoint = Vector2.new(0.5, 0.5)
+		Box.Position = UDim2.fromOffset(ScreenPos.X, ScreenPos.Y)
+		Box.Size = UDim2.new(Scale, 0, Scale, 0)
+
+		Info.AnchorPoint = Vector2.new(0,0.5)
+		local BoxPixels = Camera.ViewportSize.Y * Scale
+		Info.Position = UDim2.fromOffset(
+			ScreenPos.X + Box.AbsoluteSize.X/2 + 10,
+			ScreenPos.Y
+		)
+
+		Info.Size = UDim2.fromOffset(
+			BoxPixels * 3.5,
+			BoxPixels * 2.8
+		)
+
+		local Start = ESPAnchor.AbsolutePosition + (ESPAnchor.AbsoluteSize * 0.5)
+		Start -= MainInterface.AbsolutePosition
+
+		local BoxPixels = Camera.ViewportSize.Y * Scale
+
+		local End = Vector2.new(
+			ScreenPos.X,
+			ScreenPos.Y - BoxPixels * 0.35
+		)
+
+		local Delta = End - Start
+
+		Line.AnchorPoint = Vector2.new(0.5,0.5)
+
+		Line.Position = UDim2.fromOffset(
+			(Start.X + End.X)/2,
+			(Start.Y + End.Y)/2
+		)
+
+		Line.Size = UDim2.fromOffset(
+			Delta.Magnitude,
+			2
+		)
+
+		Line.Rotation = math.deg(
+			math.atan2(
+				Delta.Y,
+				Delta.X
+			)
+		) -------
+
+	end
+
+
+
+	Data.Update = Update
+
+
+
+end
+
+function RemoveESP(Artifact)
+
+
+	local Data = ESPObjects[Artifact]
+
+
+	if Data then
+
+		Data.Box:Destroy()
+		Data.Info:Destroy()
+		Data.Line:Destroy()
+
+		ESPObjects[Artifact]=nil
+
+	end
+end
+
+local function CheckHiddenObjects()
+
+	local Planetoids = Workspace:FindFirstChild("Planetoids")
+
+	if Planetoids then
+
+		local Voyager = Planetoids:FindFirstChild("Voyager")
+
+		if Voyager then
+			CreateESP(
+				Voyager,
+				Voyager:FindFirstChild("Skin"),
+				"Voyager"
+			)
+		end
+
+	end
+
+	local Planets = Workspace:FindFirstChild("Planets")
+
+	if Planets then
+
+		local PlanetX = Planets:FindFirstChild("Planet X")
+
+		if PlanetX then
+
+			CreateESP(
+				PlanetX,
+				PlanetX:FindFirstChild("Skin"),
+				"Normal"
+			)
+		end
+
+	end
+
+
+	local Other = Workspace:FindFirstChild("Other")
+
+	if Other then
+
+		local Minerals = Other:FindFirstChild("Minerals")
+
+		if Minerals then
+
+			local Prism = Minerals:FindFirstChild("Shepherd Prism")
+
+			if Prism then
+
+				CreateESP(
+					Prism,
+					Prism,
+					"Normal"
+				)
+
+			end
+
+		end
+
+	end
+
+end
+
+RunService.RenderStepped:Connect(function()
+	
+	CheckHiddenObjects()
+	
+	for _,Data in pairs(ESPObjects) do
+
+
+		if Data.Update then
+
+			Data.Update()
+
+		end
+
+
+	end
+
+
+	local CountObjects = 0
+
+	for _ in pairs(ESPObjects) do
+		CountObjects += 1
+	end
+
+	Count.Text = "Total Objects: "..CountObjects
+
+
+end)
+
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.1!")
