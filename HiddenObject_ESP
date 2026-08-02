@@ -719,7 +719,9 @@ local function CanCreateESP(Object)
 		return false
 	end
 
-	if Object.Name == "Red Keycard" or Object.Name == "Blue Keycard" then
+	if Object.Name == "Red Keycard"
+		or Object.Name == "Blue Keycard"
+		or Object.Name == "Shepherd Prism" then
 
 		local HP = Object:GetAttribute("hitpoints")
 
@@ -773,8 +775,9 @@ workspace.DescendantAdded:Connect(function(Object)
 
 
 	if Object.Name == "Red Keycard"
-		or Object.Name == "Blue Keycard" then
-
+		or Object.Name == "Blue Keycard"
+		or Object.Name == "Shepherd Prism" then
+		
 		Object:GetAttributeChangedSignal("hitpoints"):Connect(function()
 
 			local HP = Object:GetAttribute("hitpoints")
@@ -899,7 +902,8 @@ local function ValidateESPObjects()
 		end
 
 		if Object.Name == "Red Keycard"
-			or Object.Name == "Blue Keycard" then
+			or Object.Name == "Blue Keycard"
+			or Object.Name == "Shepherd Prism" then
 			local HP = Object:GetAttribute("hitpoints")
 			if HP and HP <= 0 then
 				RemoveESP(Object)
@@ -937,4 +941,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.4!")
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.45!")
