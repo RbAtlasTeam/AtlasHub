@@ -286,7 +286,7 @@ HolderF.Parent = Info
 
 local UIListLayout = Instance.new("UIListLayout")
 UIListLayout.Name = "UIListLayout"
-UIListLayout.Padding = UDim.new(0.15, 0)
+UIListLayout.Padding = UDim.new(0.12, 0)
 UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
 UIListLayout.Parent = HolderF
@@ -627,7 +627,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 
 			Data.C.Text =
 				string.format(
-					"WorldPos: %.0f, %.0f, %.0f",
+					"Pos: %.0f, %.0f, %.0f",
 					WorldPos.X,
 					WorldPos.Y,
 					WorldPos.Z
@@ -802,4 +802,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.2!")
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.25!")
