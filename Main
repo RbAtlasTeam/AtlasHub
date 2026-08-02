@@ -46,11 +46,50 @@ AtlasHub:Notify(
 
 CreateESPValues()
 
+local NoticeText = [[
+Thanks for using Atlas Hub!
+
+We appreciate everyone who use Atlas Hub. We are always working on improving features, fixing issues and bringing new updates.
+
+⚠️ Important Notice:
+
+Atlas Hub is still under Beta. Features may change, break, or stop working after game updates.
+
+Once you are in Public Server, Please remember:
+• Don't get detected by Anti-Cheat.
+• Do not negatively affect other players' experiences.
+
+Be aware when playing in servers with:
+• VIP Players
+• Beta Testers
+• Game Developer Friends
+
+Game Beta Testers:
+• JediMaster
+• BattleBella
+• Applee
+• I forgot other Testers...
+
+Game Moderators:
+• Sauron (Developer)
+• MasterSpaceExplorer
+• NightKnight (NK)
+• BattleBella
+• I forgot other Moderators...
+
+Thank you for using Atlas Hub!
+
+  Current Version: 0.15
+- Developed By Atlas Team
+]]
+
 ----- Call LoadStrings -----
 
 local Loader = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Preload"))()
+local Notice = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/NoticeInterface"))()
 
 Loader.Send(LocalPlayer)
+Notice.SetUp(NoticeText)
 
 loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Ship%2C%20Mine%20and%20Inventory%20AtlasHub"))()
 
