@@ -1,0 +1,428 @@
+local AtlasHub_Notice = {}
+
+function AtlasHub_Notice.SetUp(NoticeText)
+
+	local AtlasHub_NoticeGui = Instance.new("ScreenGui")
+	AtlasHub_NoticeGui.Name = "AtlasHub_NoticeGui"
+	AtlasHub_NoticeGui.IgnoreGuiInset = true
+	AtlasHub_NoticeGui.ResetOnSpawn = false
+	AtlasHub_NoticeGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+	AtlasHub_NoticeGui.Parent = game.CoreGui
+	AtlasHub_NoticeGui.ScreenInsets = Enum.ScreenInsets.None
+	AtlasHub_NoticeGui.DisplayOrder = 850
+
+	local MainBackground = Instance.new("ImageLabel")
+	MainBackground.Name = "MainBackground"
+	MainBackground.Position = UDim2.new(0.524643, 0, 0.508357, 0)
+	MainBackground.Size = UDim2.new(0.75, 0, 0.75, 0)
+	MainBackground.BackgroundColor3 = Color3.new(0.0431373, 0.101961, 0.47451)
+	MainBackground.BackgroundTransparency = 0.20000000298023224
+	MainBackground.BorderSizePixel = 0
+	MainBackground.BorderColor3 = Color3.new(0, 0, 0)
+	MainBackground.AnchorPoint = Vector2.new(0.5, 0.5)
+	MainBackground.Transparency = 0.20000000298023224
+	MainBackground.Image = "rbxassetid://105602923856213"
+	MainBackground.Parent = AtlasHub_NoticeGui
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.CornerRadius = UDim.new(0.02, 0)
+	UICorner.Parent = MainBackground
+
+	local TopBar = Instance.new("Frame")
+	TopBar.Name = "TopBar"
+	TopBar.Position = UDim2.new(0.5, 0, 3.26951e-08, 0)
+	TopBar.Size = UDim2.new(1, 0, 0.15, 0)
+	TopBar.BackgroundColor3 = Color3.new(0, 0.329412, 1)
+	TopBar.BorderSizePixel = 0
+	TopBar.BorderColor3 = Color3.new(0, 0, 0)
+	TopBar.AnchorPoint = Vector2.new(0.5, 0)
+	TopBar.Parent = MainBackground
+
+	local UICorner2 = Instance.new("UICorner")
+	UICorner2.Name = "UICorner"
+	UICorner2.CornerRadius = UDim.new(0.1, 0)
+	UICorner2.Parent = TopBar
+
+	local TitleIconF = Instance.new("Frame")
+	TitleIconF.Name = "TitleIconF"
+	TitleIconF.Position = UDim2.new(0.033, 0, 0.5, 0)
+	TitleIconF.Size = UDim2.new(0.8, 0, 0.8, 0)
+	TitleIconF.BackgroundColor3 = Color3.new(1, 1, 1)
+	TitleIconF.BackgroundTransparency = 1
+	TitleIconF.BorderSizePixel = 0
+	TitleIconF.BorderColor3 = Color3.new(0, 0, 0)
+	TitleIconF.AnchorPoint = Vector2.new(0.033, 0.5)
+	TitleIconF.Transparency = 1
+	TitleIconF.Parent = TopBar
+
+	local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+	UIAspectRatioConstraint.Name = "UIAspectRatioConstraint"
+
+	UIAspectRatioConstraint.Parent = TitleIconF
+
+	local TitleIcon = Instance.new("ImageLabel")
+	TitleIcon.Name = "TitleIcon"
+	TitleIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+	TitleIcon.Size = UDim2.new(0.9, 0, 0.9, 0)
+	TitleIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+	TitleIcon.BackgroundTransparency = 1
+	TitleIcon.BorderSizePixel = 0
+	TitleIcon.BorderColor3 = Color3.new(0, 0, 0)
+	TitleIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+	TitleIcon.Transparency = 1
+	TitleIcon.Image = "rbxassetid://101208360819397"
+	TitleIcon.Parent = TitleIconF
+
+	local Title = Instance.new("TextLabel")
+	Title.Name = "Title"
+	Title.Position = UDim2.new(0.417, 0, 0.5, 0)
+	Title.Size = UDim2.new(0.684, 0, 0.5, 0)
+	Title.BackgroundColor3 = Color3.new(1, 1, 1)
+	Title.BackgroundTransparency = 1
+	Title.BorderSizePixel = 0
+	Title.BorderColor3 = Color3.new(0, 0, 0)
+	Title.AnchorPoint = Vector2.new(0.38, 0.5)
+	Title.Transparency = 1
+	Title.Text = "Atlas Hub Notice"
+	Title.TextColor3 = Color3.new(1, 1, 1)
+	Title.TextSize = 14
+	Title.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	Title.TextScaled = true
+	Title.TextWrapped = true
+	Title.TextXAlignment = Enum.TextXAlignment.Left
+	Title.Parent = TopBar
+	Title.TextTransparency = 0
+
+	local CloseBtn = Instance.new("TextButton")
+	CloseBtn.Name = "CloseBtn"
+	CloseBtn.Position = UDim2.new(0.975, 0, 0.5, 0)
+	CloseBtn.Size = UDim2.new(0.65, 0, 0.65, 0)
+	CloseBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+	CloseBtn.BackgroundTransparency = 0.800000011920929
+	CloseBtn.BorderSizePixel = 0
+	CloseBtn.BorderColor3 = Color3.new(0, 0, 0)
+	CloseBtn.AnchorPoint = Vector2.new(0.975, 0.5)
+	CloseBtn.Transparency = 0.800000011920929
+	CloseBtn.Text = ""
+	CloseBtn.TextColor3 = Color3.new(1, 1, 1)
+	CloseBtn.TextSize = 14
+	CloseBtn.FontFace = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.ExtraBold, Enum.FontStyle.Normal)
+	CloseBtn.TextScaled = true
+	CloseBtn.TextWrapped = true
+	CloseBtn.Parent = TopBar
+
+	local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
+	UIAspectRatioConstraint2.Name = "UIAspectRatioConstraint"
+
+	UIAspectRatioConstraint2.Parent = CloseBtn
+
+	local TitleIcon2 = Instance.new("ImageLabel")
+	TitleIcon2.Name = "TitleIcon"
+	TitleIcon2.Position = UDim2.new(0.5, 0, 0.5, 0)
+	TitleIcon2.Size = UDim2.new(0.9, 0, 0.9, 0)
+	TitleIcon2.BackgroundColor3 = Color3.new(1, 1, 1)
+	TitleIcon2.BackgroundTransparency = 1
+	TitleIcon2.BorderSizePixel = 0
+	TitleIcon2.BorderColor3 = Color3.new(0, 0, 0)
+	TitleIcon2.AnchorPoint = Vector2.new(0.5, 0.5)
+	TitleIcon2.Transparency = 1
+	TitleIcon2.Image = "rbxassetid://16844961887"
+	TitleIcon2.Parent = CloseBtn
+
+	local UIStroke = Instance.new("UIStroke")
+	UIStroke.Name = "UIStroke"
+	UIStroke.Color = Color3.new(1, 1, 1)
+	UIStroke.Thickness = 1.2000000476837158
+	UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke.Parent = CloseBtn
+
+	local UICorner3 = Instance.new("UICorner")
+	UICorner3.Name = "UICorner"
+	UICorner3.CornerRadius = UDim.new(0.1, 0)
+	UICorner3.Parent = CloseBtn
+
+	local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
+	UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
+	UIAspectRatioConstraint3.AspectRatio = 1.2000000476837158
+	UIAspectRatioConstraint3.Parent = MainBackground
+
+	local TopBarOutline = Instance.new("Frame")
+	TopBarOutline.Name = "TopBarOutline"
+	TopBarOutline.Position = UDim2.new(0.5, 0, 0.145, 0)
+	TopBarOutline.Size = UDim2.new(1, 0, 0.005, 0)
+	TopBarOutline.BackgroundColor3 = Color3.new(1, 1, 1)
+	TopBarOutline.BorderSizePixel = 0
+	TopBarOutline.BorderColor3 = Color3.new(0, 0, 0)
+	TopBarOutline.AnchorPoint = Vector2.new(0.5, 0)
+	TopBarOutline.Parent = MainBackground
+
+	local UICorner4 = Instance.new("UICorner")
+	UICorner4.Name = "UICorner"
+	UICorner4.CornerRadius = UDim.new(0.1, 0)
+	UICorner4.Parent = TopBarOutline
+
+	local BorderShadow = Instance.new("UIStroke")
+	BorderShadow.Name = "BorderShadow"
+	BorderShadow.Thickness = 5
+	BorderShadow.Transparency = 0.800000011920929
+	BorderShadow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	BorderShadow.Parent = MainBackground
+
+	local UIStroke2 = Instance.new("UIStroke")
+	UIStroke2.Name = "UIStroke"
+	UIStroke2.Color = Color3.new(1, 1, 1)
+	UIStroke2.Thickness = 2
+	UIStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke2.Parent = MainBackground
+
+	local HolderF = Instance.new("Frame")
+	HolderF.Name = "HolderF"
+	HolderF.Position = UDim2.new(0.5, 0, 0.66, 0)
+	HolderF.Size = UDim2.new(0.98, 0, 0.85, 0)
+	HolderF.BackgroundColor3 = Color3.new(1, 1, 1)
+	HolderF.BackgroundTransparency = 1
+	HolderF.BorderSizePixel = 0
+	HolderF.BorderColor3 = Color3.new(0, 0, 0)
+	HolderF.AnchorPoint = Vector2.new(0.5, 0.6)
+	HolderF.Transparency = 1
+	HolderF.Parent = MainBackground
+
+	local Logo = Instance.new("Frame")
+	Logo.Name = "Logo"
+	Logo.Position = UDim2.new(0.5, 0, 0, 0)
+	Logo.Size = UDim2.new(0.23, 0, 0.23, 0)
+	Logo.BackgroundColor3 = Color3.new(1, 1, 1)
+	Logo.BackgroundTransparency = 1
+	Logo.BorderSizePixel = 0
+	Logo.BorderColor3 = Color3.new(0, 0, 0)
+	Logo.AnchorPoint = Vector2.new(0.5, 0)
+	Logo.Transparency = 1
+	Logo.Parent = HolderF
+
+	local UIAspectRatioConstraint4 = Instance.new("UIAspectRatioConstraint")
+	UIAspectRatioConstraint4.Name = "UIAspectRatioConstraint"
+
+	UIAspectRatioConstraint4.Parent = Logo
+
+	local TitleIcon3 = Instance.new("ImageLabel")
+	TitleIcon3.Name = "TitleIcon"
+	TitleIcon3.Position = UDim2.new(0.5, 0, 0.5, 0)
+	TitleIcon3.Size = UDim2.new(0.9, 0, 0.9, 0)
+	TitleIcon3.BackgroundColor3 = Color3.new(1, 1, 1)
+	TitleIcon3.BackgroundTransparency = 1
+	TitleIcon3.BorderSizePixel = 0
+	TitleIcon3.BorderColor3 = Color3.new(0, 0, 0)
+	TitleIcon3.AnchorPoint = Vector2.new(0.5, 0.5)
+	TitleIcon3.Transparency = 1
+	TitleIcon3.Image = "rbxassetid://101208360819397"
+	TitleIcon3.Parent = Logo
+
+	local Info = Instance.new("TextLabel")
+	Info.Name = "Info"
+	Info.Position = UDim2.new(0.5, 0, 0.24, 0)
+	Info.Size = UDim2.new(0.9, 0, 0.13, 0)
+	Info.BackgroundColor3 = Color3.new(1, 1, 1)
+	Info.BackgroundTransparency = 1
+	Info.BorderSizePixel = 0
+	Info.BorderColor3 = Color3.new(0, 0, 0)
+	Info.AnchorPoint = Vector2.new(0.5, 0.24)
+	Info.Transparency = 1
+	Info.Text = [[
+Atlas Hub
+Please read this important message
+]]
+	Info.TextColor3 = Color3.new(1, 1, 1)
+	Info.TextSize = 14
+	Info.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	Info.TextScaled = true
+	Info.TextWrapped = true
+	Info.Parent = HolderF
+	Info.TextTransparency = 0
+
+	local MainBox = Instance.new("Frame")
+	MainBox.Name = "MainBox"
+	MainBox.Position = UDim2.new(0.5, 0, 0.57, 0)
+	MainBox.Size = UDim2.new(0.95, 0, 0.34, 0)
+	MainBox.BackgroundColor3 = Color3.new(0, 0, 0)
+	MainBox.BackgroundTransparency = 0.6499999761581421
+	MainBox.BorderSizePixel = 0
+	MainBox.BorderColor3 = Color3.new(0, 0, 0)
+	MainBox.AnchorPoint = Vector2.new(0.5, 0.57)
+	MainBox.Transparency = 0.6499999761581421
+	MainBox.Parent = HolderF
+
+	local UIStroke3 = Instance.new("UIStroke")
+	UIStroke3.Name = "UIStroke"
+	UIStroke3.Color = Color3.new(1, 1, 1)
+	UIStroke3.Thickness = 1.5
+	UIStroke3.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke3.Parent = MainBox
+
+	local UICorner5 = Instance.new("UICorner")
+	UICorner5.Name = "UICorner"
+	UICorner5.CornerRadius = UDim.new(0.05, 0)
+	UICorner5.Parent = MainBox
+
+	local ScrollF = Instance.new("ScrollingFrame")
+	ScrollF.Name = "ScrollF"
+	ScrollF.Position = UDim2.new(0.5, 0, 0.5, 0)
+	ScrollF.Size = UDim2.new(0.98, 0, 0.9, 0)
+	ScrollF.BackgroundColor3 = Color3.new(1, 1, 1)
+	ScrollF.BackgroundTransparency = 1
+	ScrollF.BorderSizePixel = 0
+	ScrollF.BorderColor3 = Color3.new(0, 0, 0)
+	ScrollF.AnchorPoint = Vector2.new(0.5, 0.5)
+	ScrollF.Transparency = 1
+	ScrollF.Active = true
+	ScrollF.CanvasSize = UDim2.new(0, 0, 6, 0)
+	ScrollF.ScrollBarThickness = 2
+	ScrollF.Parent = MainBox
+
+	local InputBox = Instance.new("TextBox")
+	InputBox.Name = "InputBox"
+	InputBox.Position = UDim2.new(0.5, 0, 0.5, 0)
+	InputBox.Size = UDim2.new(1, 0, 1, 0)
+	InputBox.BackgroundColor3 = Color3.new(1, 1, 1)
+	InputBox.BackgroundTransparency = 1
+	InputBox.BorderSizePixel = 0
+	InputBox.BorderColor3 = Color3.new(0, 0, 0)
+	InputBox.AnchorPoint = Vector2.new(0.5, 0.5)
+	InputBox.Transparency = 1
+	InputBox.Text = NoticeText
+	InputBox.TextColor3 = Color3.new(1, 1, 1)
+	InputBox.TextSize = 14
+	InputBox.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	InputBox.TextScaled = true
+	InputBox.TextWrapped = true
+	InputBox.TextXAlignment = Enum.TextXAlignment.Left
+	InputBox.ClearTextOnFocus = false
+	InputBox.PlaceholderText = "Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty Unknown Empty"
+	InputBox.PlaceholderColor3 = Color3.new(0.498039, 0.498039, 0.498039)
+	InputBox.Parent = ScrollF
+	InputBox.TextTransparency = 0
+
+	local OkBtn = Instance.new("TextButton")
+	OkBtn.Name = "OkBtn"
+	OkBtn.Position = UDim2.new(0.5, 0, 0.87, 0)
+	OkBtn.Size = UDim2.new(0.72, 0, 0.13, 0)
+	OkBtn.BackgroundColor3 = Color3.new(0.188235, 0.407843, 0.917647)
+	OkBtn.BorderSizePixel = 0
+	OkBtn.BorderColor3 = Color3.new(0, 0, 0)
+	OkBtn.AnchorPoint = Vector2.new(0.5, 0.87)
+	OkBtn.Text = ""
+	OkBtn.TextColor3 = Color3.new(0, 0, 0)
+	OkBtn.TextSize = 14
+	OkBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	OkBtn.TextScaled = true
+	OkBtn.TextWrapped = true
+	OkBtn.Parent = HolderF
+	OkBtn.TextTransparency = 0
+
+	local UICorner6 = Instance.new("UICorner")
+	UICorner6.Name = "UICorner"
+	UICorner6.CornerRadius = UDim.new(0.05, 0)
+	UICorner6.Parent = OkBtn
+
+	local DisplayT = Instance.new("TextLabel")
+	DisplayT.Name = "DisplayT"
+	DisplayT.Position = UDim2.new(0.5, 0, 0.5, 0)
+	DisplayT.Size = UDim2.new(0.9, 0, 0.7, 0)
+	DisplayT.BackgroundColor3 = Color3.new(1, 1, 1)
+	DisplayT.BackgroundTransparency = 1
+	DisplayT.BorderSizePixel = 0
+	DisplayT.BorderColor3 = Color3.new(0, 0, 0)
+	DisplayT.AnchorPoint = Vector2.new(0.5, 0.5)
+	DisplayT.Transparency = 1
+	DisplayT.Text = "Got It"
+	DisplayT.TextColor3 = Color3.new(1, 1, 1)
+	DisplayT.TextSize = 14
+	DisplayT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	DisplayT.TextScaled = true
+	DisplayT.TextWrapped = true
+	DisplayT.Parent = OkBtn
+	DisplayT.TextTransparency = 0
+
+	local UIStroke4 = Instance.new("UIStroke")
+	UIStroke4.Name = "UIStroke"
+	UIStroke4.Color = Color3.new(0, 0.333333, 1)
+	UIStroke4.Thickness = 1.5
+	UIStroke4.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke4.Parent = OkBtn
+
+	local UIAspectRatioConstraint5 = Instance.new("UIAspectRatioConstraint")
+	UIAspectRatioConstraint5.Name = "UIAspectRatioConstraint"
+	UIAspectRatioConstraint5.AspectRatio = 7.699999809265137
+	UIAspectRatioConstraint5.Parent = OkBtn
+
+	local CreditsT = Instance.new("TextLabel")
+	CreditsT.Name = "CreditsT"
+	CreditsT.Position = UDim2.new(0.5, 0, 0.97, 0)
+	CreditsT.Size = UDim2.new(0.8, 0, 0.06, 0)
+	CreditsT.BackgroundColor3 = Color3.new(0, 0, 0)
+	CreditsT.BackgroundTransparency = 1
+	CreditsT.BorderSizePixel = 0
+	CreditsT.BorderColor3 = Color3.new(0, 0, 0)
+	CreditsT.AnchorPoint = Vector2.new(0.5, 0.98)
+	CreditsT.Transparency = 1
+	CreditsT.Text = "©  Atlas Hub. All Rights Reserved 2026"
+	CreditsT.TextColor3 = Color3.new(1, 1, 1)
+	CreditsT.TextSize = 14
+	CreditsT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	CreditsT.TextScaled = true
+	CreditsT.TextWrapped = true
+	CreditsT.Parent = HolderF
+	CreditsT.TextTransparency = 0.8
+
+	local UIDragDetector = Instance.new("UIDragDetector")
+	UIDragDetector.Name = "UIDragDetector"
+
+	UIDragDetector.Parent = MainBackground
+
+	local UIScale = Instance.new("UIScale")
+	UIScale.Name = "UIScale"
+
+	UIScale.Parent = MainBackground
+
+	local ClickSFX = Instance.new("Sound", AtlasHub_NoticeGui)
+	local CloseSFX = Instance.new("Sound", AtlasHub_NoticeGui)
+	local OpenSFX = Instance.new("Sound", AtlasHub_NoticeGui)
+	
+	OpenSFX.Name = "OpenSFX"
+	OpenSFX.SoundId = "rbxassetid://70452176150315"
+	OpenSFX.Volume = 0.6
+	OpenSFX.Looped = false
+	
+	CloseSFX.Name = "CloseSFX"
+	CloseSFX.SoundId = "rbxassetid://74766266183741"
+	CloseSFX.Volume = 0.6
+	CloseSFX.Looped = false
+
+	ClickSFX.Name = "ClickSFX"
+	ClickSFX.SoundId = "rbxassetid://116080744084010"
+	ClickSFX.Volume = 0.6
+	ClickSFX.Looped = false
+	
+	local function PlaySFX(sound)
+		sound.TimePosition = 0
+		sound:Play()
+	end
+	
+	CloseBtn.MouseButton1Click:Connect(function()
+		PlaySFX(CloseSFX)
+		PlaySFX(ClickSFX)
+		AtlasHub_NoticeGui:Destroy()
+	end)
+	
+	OkBtn.MouseButton1Click:Connect(function()
+		PlaySFX(CloseSFX)
+		PlaySFX(ClickSFX)
+		AtlasHub_NoticeGui:Destroy()
+	end)
+	
+	PlaySFX(OpenSFX)
+	AtlasHub_NoticeGui.Enabled = true
+	
+end
+
+return AtlasHub_Notice
