@@ -402,17 +402,17 @@ local ESPObjects = {}
 
 local function ClearESP()
 
-	for Artifact, Data in pairs(ESPObjects) do
+	for Object, Data in pairs(ESPObjects) do
 		Data.Box:Destroy()
 		Data.Info:Destroy()
 		Data.Line:Destroy()
-		ESPObjects[Artifact] = nil
+		ESPObjects[Object] = nil
 	end
 
 	Count.Text = "Total Objects: 0"
 
 end
-
+ 
 task.spawn(function()
 
 	while task.wait() do
@@ -450,6 +450,23 @@ local function GetCharacterRoot()
 
 	return CharacterRoot
 
+end
+
+function RemoveESP(Object)
+
+
+	local Data = ESPObjects[Object]
+
+
+	if Data then
+
+		Data.Box:Destroy()
+		Data.Info:Destroy()
+		Data.Line:Destroy()
+
+		ESPObjects[Object]=nil
+
+	end
 end
 
 local function CreateESP(Object, PositionPart, ObjectType)
@@ -520,18 +537,18 @@ local function CreateESP(Object, PositionPart, ObjectType)
 
 
 
-	Object.AncestryChanged:Connect(function(_,Parent)
+	Object.AncestryChanged:Connect(function()
 
-		if not Parent then
+		task.wait()
+
+		if not Object:IsDescendantOf(workspace) then
 
 			if ESPObjects[Object] then
 				RemoveESP(Object)
 			end
-
 		end
-
 	end)
-
+	
 	local function Update()
 
 		if not Object:IsDescendantOf(game) then
@@ -691,151 +708,182 @@ local function CreateESP(Object, PositionPart, ObjectType)
 
 end
 
-function RemoveESP(Artifact)
-
-
-	local Data = ESPObjects[Artifact]
-
-
-	if Data then
-
-		Data.Box:Destroy()
-		Data.Info:Destroy()
-		Data.Line:Destroy()
-
-		ESPObjects[Artifact]=nil
-
-	end
+local function IsInWorkspace(Object)
+	return Object and Object:IsDescendantOf(workspace)
 end
 
-local function CheckHiddenObjects()
 
-	local Planetoids = Workspace:FindFirstChild("Planetoids")
+local function CanCreateESP(Object)
 
-	if Planetoids then
-
-		local Voyager = Planetoids:FindFirstChild("Voyager")
-
-		if Voyager then
-			CreateESP(
-				Voyager,
-				Voyager:FindFirstChild("Skin"),
-				"Voyager"
-			)
-		end
-
+	if not IsInWorkspace(Object) then
+		return false
 	end
 
-	local Planets = Workspace:FindFirstChild("Planets")
+	if Object.Name == "Red Keycard" or Object.Name == "Blue Keycard" then
 
-	if Planets then
+		local HP = Object:GetAttribute("hitpoints")
 
-		local PlanetX = Planets:FindFirstChild("Planet X")
-
-		if PlanetX then
-
-			CreateESP(
-				PlanetX,
-				PlanetX:FindFirstChild("Skin"),
-				"Normal"
-			)
+		if HP and HP <= 0 then
+			return false
 		end
 
 	end
 
 
-	local Other = Workspace:FindFirstChild("Other")
+	return true
+end
 
-	if Other then
 
-		local Minerals = Other:FindFirstChild("Minerals")
 
-		if Minerals then
+local function SafeCreateESP(Object, PositionPart, Type)
 
-			local Prism = Minerals:FindFirstChild("Shepherd Prism")
+	if CanCreateESP(Object) then
 
-			if Prism then
+		CreateESP(
+			Object,
+			PositionPart,
+			Type
+		)
 
-				CreateESP(
-					Prism,
-					Prism,
+	end
+
+end
+
+workspace.DescendantAdded:Connect(function(Object)
+
+	if Object.Name == "Red Keycard"
+		or Object.Name == "Blue Keycard" then
+
+
+		Object:GetAttributeChangedSignal("hitpoints"):Connect(function()
+
+			local HP = Object:GetAttribute("hitpoints")
+
+
+			if HP and HP <= 0 then
+
+				RemoveESP(Object)
+
+			elseif IsInWorkspace(Object) then
+
+				SafeCreateESP(
+					Object,
+					Object,
 					"Normal"
 				)
 
 			end
 
-		end
 
-	end	
-end
+		end)
 
-Workspace.DescendantAdded:Connect(function(Object)
 
-	if Object.Name == "Red Keycard"
-		or Object.Name == "Blue Keycard" then
+		task.wait()
 
-		local HP = Object:GetAttribute("hitpoints")
+		SafeCreateESP(
+			Object,
+			Object,
+			"Normal"
+		)
 
-		if not HP or HP > 0 then
+	end
 
-			CreateESP(
+end)
+
+local function CheckHiddenObjects()
+
+	local Planetoids = workspace:FindFirstChild("Planetoids")
+
+	local Voyager = Planetoids and Planetoids:FindFirstChild("Voyager")
+
+
+	if Voyager then
+
+		SafeCreateESP(
+			Voyager,
+			Voyager:FindFirstChild("Skin"),
+			"Voyager"
+		)
+
+	end
+
+	local Planets = workspace:FindFirstChild("Planets")
+
+	local PlanetX = Planets and Planets:FindFirstChild("Planet X")
+
+
+	if PlanetX then
+
+		SafeCreateESP(
+			PlanetX,
+			PlanetX:FindFirstChild("Skin"),
+			"Normal"
+		)
+
+	end
+
+	local Other = workspace:FindFirstChild("Other")
+
+	local Minerals = Other and Other:FindFirstChild("Minerals")
+
+	local Prism = Minerals and Minerals:FindFirstChild("Shepherd Prism")
+
+
+	if Prism then
+
+		SafeCreateESP(
+			Prism,
+			Prism,
+			"Normal"
+		)
+
+	end
+	
+	for _,Object in ipairs(workspace:GetDescendants()) do
+
+		if Object.Name == "Red Keycard"
+			or Object.Name == "Blue Keycard" then
+
+
+			SafeCreateESP(
 				Object,
 				Object,
 				"Normal"
 			)
+
 
 		end
 
 	end
-	
-	Object:GetAttributeChangedSignal("hitpoints"):Connect(function()
 
-		local HP = Object:GetAttribute("hitpoints")
+end
 
-		if HP and HP > 0 then
-
-			CreateESP(
-				Object,
-				Object,
-				"Normal"
-			)
-
-		else
-
-			RemoveESP(Object)
-
-		end
-
-	end)
-
-end)
 
 local function ValidateESPObjects()
 
 	for Object, Data in pairs(ESPObjects) do
-		if not Object:IsDescendantOf(game) then
+
+		if not IsInWorkspace(Object) then
 
 			RemoveESP(Object)
 			continue
 
 		end
 
-
-		if Object.Name == "Red Keycard" or Object.Name == "Blue Keycard" then
-
+		if Object.Name == "Red Keycard"
+			or Object.Name == "Blue Keycard" then
 			local HP = Object:GetAttribute("hitpoints")
-
 			if HP and HP <= 0 then
 				RemoveESP(Object)
 			end
 		end
 	end
-
 end
 
 RunService.RenderStepped:Connect(function()
 
 	CheckHiddenObjects()
+	ValidateESPObjects()
 
 	for _,Data in pairs(ESPObjects) do
 
@@ -861,4 +909,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.3!")
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.35!")
