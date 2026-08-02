@@ -749,16 +749,35 @@ local function SafeCreateESP(Object, PositionPart, Type)
 
 end
 
+local function IsAllowedFolder(Object)
+
+	local Planetoids = workspace:FindFirstChild("Planetoids")
+	local Planets = workspace:FindFirstChild("Planets")
+	local Other = workspace:FindFirstChild("Other")
+
+
+	return 
+		(Planetoids and Object:IsDescendantOf(Planetoids))
+		or
+		(Planets and Object:IsDescendantOf(Planets))
+		or
+		(Other and Object:IsDescendantOf(Other))
+
+end
+
 workspace.DescendantAdded:Connect(function(Object)
+
+	if not IsAllowedFolder(Object) then
+		return
+	end
+
 
 	if Object.Name == "Red Keycard"
 		or Object.Name == "Blue Keycard" then
 
-
 		Object:GetAttributeChangedSignal("hitpoints"):Connect(function()
 
 			local HP = Object:GetAttribute("hitpoints")
-
 
 			if HP and HP <= 0 then
 
@@ -773,7 +792,6 @@ workspace.DescendantAdded:Connect(function(Object)
 				)
 
 			end
-
 
 		end)
 
@@ -795,7 +813,30 @@ local function CheckHiddenObjects()
 	local Planetoids = workspace:FindFirstChild("Planetoids")
 
 	local Voyager = Planetoids and Planetoids:FindFirstChild("Voyager")
+	
+	local function ScanFolder(Folder)
 
+		if not Folder then
+			return
+		end
+
+
+		for _,Object in ipairs(Folder:GetDescendants()) do
+
+			if Object.Name == "Red Keycard"
+				or Object.Name == "Blue Keycard" then
+
+				SafeCreateESP(
+					Object,
+					Object,
+					"Normal"
+				)
+
+			end
+
+		end
+
+	end
 
 	if Voyager then
 
@@ -839,22 +880,9 @@ local function CheckHiddenObjects()
 
 	end
 	
-	for _,Object in ipairs(workspace:GetDescendants()) do
-
-		if Object.Name == "Red Keycard"
-			or Object.Name == "Blue Keycard" then
-
-
-			SafeCreateESP(
-				Object,
-				Object,
-				"Normal"
-			)
-
-
-		end
-
-	end
+	ScanFolder(workspace:FindFirstChild("Planetoids"))
+	ScanFolder(workspace:FindFirstChild("Planets"))
+	ScanFolder(workspace:FindFirstChild("Other"))
 
 end
 
@@ -909,4 +937,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.35!")
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.4!")
