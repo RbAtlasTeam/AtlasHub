@@ -613,7 +613,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 
 
 			Data.C.Text =
-				"Has Golden Record: "..tostring(HasRecord)
+				"Golden Record: "..tostring(HasRecord)
 
 
 			if HasRecord then
