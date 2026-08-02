@@ -111,6 +111,7 @@ local CollectAllLocalPlanetArtifactValue = AtlasHub_ValueDatas:WaitForChild("Col
 
 -------------------------------------------------------------------------------------------------------------------------
 
+local PlaceTab = AtlasHub:CreateTab("Place", "Place Tab","rbxassetid://2129457772")
 local PlayerTab = AtlasHub:CreateTab("Player", "Player Tab","rbxassetid://117259180607823")
 local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local ESPTab = AtlasHub:CreateTab("ESP", "ESP Tab","rbxassetid://7035631382")
@@ -125,10 +126,6 @@ local JumpPower = AtlasHub.TextBox:Create(PlayerTab, "JumpPower", "Enter JumpPow
 local HipHeight = AtlasHub.TextBox:Create(PlayerTab, "HipHeight", "Enter HipHeight amount...")
 local CameraMaxZoom = AtlasHub.TextBox:Create(PlayerTab, "CameraMaxZoom", "Enter CameraMaxZoom amount...")
 local JetpackSpeed = AtlasHub.TextBox:Create(PlayerTab, "JetpackSpeed", "Enter JetpackSpeed amount...")
-
-local JoinGameId = AtlasHub.TextBox:Create(PlayerTab, "Join Server", "Enter Server JobId...")
-local TPToOldGame = AtlasHub.Button:Create(PlayerTab,"Teleport to old place of game")
-local RejoinBtn = AtlasHub.Button:Create(PlayerTab,"Rejoin Server")
 
 --- TextBox Functions -------------------------------
 
@@ -161,6 +158,12 @@ CameraMaxZoom.Submitted:Connect(function(Text)
 	if not v or v < 1 then ShowNotify("Value must be at least 1, resetting CameraMaxZoom...", 3); v = 40 end
 	LocalPlayer.CameraMaxZoomDistance = v
 end)
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+local JoinGameId = AtlasHub.TextBox:Create(PlaceTab, "Join Server", "Enter Server JobId...")
+local TPToOldGame = AtlasHub.Button:Create(PlaceTab,"Teleport to old place of game")
+local RejoinBtn = AtlasHub.Button:Create(PlaceTab,"Rejoin Server")
 
 JoinGameId.Submitted:Connect(function(Text)
 	local v = tostring(Text)
@@ -323,7 +326,7 @@ local ESPBoxes = AtlasHub.Toggle:Create(ESPTab, "ESP Boxes", "Show ESP Boxes for
 local ESPInfo = AtlasHub.Toggle:Create(ESPTab, "ESP Info", "Show ESP Info for all ESP")
 
 local ArtifactESP = AtlasHub.Toggle:Create(ESPTab, "Artifact ESP", "Show ESP for Artifacts")
-local HiddenObjectESP = AtlasHub.Toggle:Create(ESPTab, "Hidden Object ESP", "Show ESP for Hidden Objects (PlanetX, Voyager, Shepherd Prism and Keycards")
+local HiddenObjectESP = AtlasHub.Toggle:Create(ESPTab, "Hidden Object ESP", "Show ESP for Hidden Objects (PlanetX, Voyager, Shepherd Prism etc....")
 
 ESPLines.Changed:Connect(function(Value)
 	ESPDatas.ESPLines.Value = Value
