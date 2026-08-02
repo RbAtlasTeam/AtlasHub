@@ -406,7 +406,7 @@ local hiddenobjects = {
 }
 
 local PlanetX = hiddenobjects.PlanetX
-local ShepherdPrism = hiddenobjects.OtherMinerals:FindFirstChild("Shepherd Prism")
+local ShepherdPrism = hiddenobjects.Other.Minerals:FindFirstChild("Shepherd Prism")
 
 ------------------------------
 
@@ -475,7 +475,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 	if ESPObjects[Object] then
 		return
 	end
-	
+
 	if not PositionPart then
 
 		if Object:IsA("Model") then
@@ -484,7 +484,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 			PositionPart = Object
 		end
 	end
-	
+
 	if Object.Name == "Red Keycard" or Object.Name == "Blue Keycard" then
 
 		local HP = Object:GetAttribute("hitpoints")
@@ -555,7 +555,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 			RemoveESP(Object)
 			return
 		end
-		
+
 		if not PositionPart.Parent then
 			RemoveESP(Object)
 			return
@@ -584,7 +584,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 		Line.Visible = LinesValue.Value
 
 		local Distance = (Root.Position - WorldPos).Magnitude
-		
+
 		Data.A.Text = Object.Name
 
 
@@ -634,7 +634,7 @@ local function CreateESP(Object, PositionPart, ObjectType)
 				)
 
 		end
-		
+
 
 		local Scale = math.clamp(ScreenPos.Z / 400, 0.01, 0.045)
 
@@ -775,9 +775,9 @@ local function CheckHiddenObjects()
 end
 
 RunService.RenderStepped:Connect(function()
-	
+
 	CheckHiddenObjects()
-	
+
 	for _,Data in pairs(ESPObjects) do
 
 
@@ -802,4 +802,4 @@ RunService.RenderStepped:Connect(function()
 
 end)
 
-warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.1!")
+warn("Atlas Hub Beta Hidden Object ESP Loaded! v0.2!")
