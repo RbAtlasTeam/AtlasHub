@@ -2177,21 +2177,20 @@ function AtlasHub:Notify(Text, Duration)
 
 	Duration = Duration or 3
 
+	self.NotificationID = (self.NotificationID or 0) + 1
+	local CurrentID = self.NotificationID
+
 
 	if AtlasHub.ActiveNotification then
-
 		AtlasHub.ActiveNotification:Destroy()
 		AtlasHub.ActiveNotification = nil
-
 	end
-
 
 
 	local Noti = AtlasHub.Templates.Notification:Clone()
 
 	Noti.Name = "ActiveNotiF"
 	Noti.Parent = AtlasHub.NotificationF
-
 
 	Noti.NotiText.Text = Text
 
@@ -2203,7 +2202,8 @@ function AtlasHub:Notify(Text, Duration)
 	)
 
 
-	AtlasHub.ActiveNotification = Noti
+	self.ActiveNotification = Noti
+
 
 	TweenService:Create(
 		Noti,
@@ -2222,42 +2222,53 @@ function AtlasHub:Notify(Text, Duration)
 		}
 	):Play()
 
-	AtlasHub.NotiSFX.TimePosition = 0
-	AtlasHub.NotiSFX:Play()
 
-	task.wait(Duration)
-
-	if AtlasHub.ActiveNotification == Noti then
-
-		local Tween = TweenService:Create(
-			Noti,
-			TweenInfo.new(
-				0.35,
-				Enum.EasingStyle.Quart,
-				Enum.EasingDirection.In
-			),
-			{
-				Position = UDim2.new(
-					Noti.Position.X.Scale,
-					Noti.Position.X.Offset,
-					-0.1,
-					0
-				)
-			}
-		)
+	self.NotiSFX.TimePosition = 0
+	self.NotiSFX:Play()
 
 
-		Tween:Play()
+	task.delay(Duration, function()
+
+		if self.NotificationID ~= CurrentID then
+			return
+		end
 
 
-		Tween.Completed:Connect(function()
+		if self.ActiveNotification == Noti then
 
-			Noti:Destroy()
-			self.ActiveNotification = nil
+			local Tween = TweenService:Create(
+				Noti,
+				TweenInfo.new(
+					0.35,
+					Enum.EasingStyle.Quart,
+					Enum.EasingDirection.In
+				),
+				{
+					Position = UDim2.new(
+						Noti.Position.X.Scale,
+						Noti.Position.X.Offset,
+						-0.1,
+						0
+					)
+				}
+			)
 
-		end)
 
-	end
+			Tween:Play()
+
+
+			Tween.Completed:Connect(function()
+
+				if self.ActiveNotification == Noti then
+					Noti:Destroy()
+					self.ActiveNotification = nil
+				end
+
+			end)
+
+		end
+
+	end)
 
 end
 
