@@ -445,10 +445,10 @@ end)
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-local NotificationSounds = AtlasHub.Toggle:Create(SettingsDatas, "Notifications Sound Effects", "Enable Notifications Sound Effects")
-local ClickSounds = AtlasHub.Toggle:Create(SettingsDatas, "Click Sound Effects", "Enable Click Sound Effects")
-local ToggleNotification = AtlasHub.Toggle:Create(SettingsDatas, "Toggle Notifications", "Enable Toggle Status Notifications")
-local TextBoxNotification = AtlasHub.Toggle:Create(SettingsDatas, "TextBox Notifications", "Enable TextBox Changed Notifications")
+local NotificationSounds = AtlasHub.Toggle:Create(SettingsTab, "Notifications Sound Effects", "Enable Notifications Sound Effects")
+local ClickSounds = AtlasHub.Toggle:Create(SettingsTab, "Click Sound Effects", "Enable Click Sound Effects")
+local ToggleNotification = AtlasHub.Toggle:Create(SettingsTab, "Toggle Notifications", "Enable Toggle Status Notifications")
+local TextBoxNotification = AtlasHub.Toggle:Create(SettingsTab, "TextBox Notifications", "Enable TextBox Changed Notifications")
 
 NotificationSounds.Changed:Connect(function(Value)
 	NotifySoundST.Value = Value
