@@ -2282,7 +2282,42 @@ function AtlasHub:StartLibrary()
 	task.wait(2)
 
 	AtlasHub:SetUp()
+	
+	wait(1)
+	
+	local DataBase = UIParent:WaitForChild("AtlasHub_Datas")
+	local Sounds = DataBase:WaitForChild("SoundSources")
 
+	local function UpdateClickSFX()
+		local Value = DataBase:GetAttribute("ClickSFX")
+
+		if Value == true then
+			Sounds.ClickSFX.Volume = 0.6
+		else
+			Sounds.ClickSFX.Volume = 0
+		end
+	end
+
+	local function UpdateNotifySFX()
+		local Value = DataBase:GetAttribute("NotiSFX")
+
+		if Value == true then
+			Sounds.NotifySFX.Volume = 0.6
+		else
+			Sounds.NotifySFX.Volume = 0
+		end
+	end
+
+	UpdateClickSFX()
+	UpdateNotifySFX()
+	
+	DataBase:GetAttributeChangedSignal("ClickSFX"):Connect(function()
+		UpdateClickSFX()
+	end)
+	
+	DataBase:GetAttributeChangedSignal("NotiSFX"):Connect(function()
+		UpdateNotifySFX()
+	end)
 end
 
 return AtlasHub
