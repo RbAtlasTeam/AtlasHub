@@ -2296,7 +2296,7 @@ function AtlasHub:StartLibrary()
 	local function UpdateClickSFX()
 		local Value = DataBase:GetAttribute("ClickSFX")
 
-		if Value == true then
+		if Value == false then
 			Sounds.ClickSFX.Volume = 0.6
 		else
 			Sounds.ClickSFX.Volume = 0
@@ -2306,7 +2306,7 @@ function AtlasHub:StartLibrary()
 	local function UpdateNotifySFX()
 		local Value = DataBase:GetAttribute("NotiSFX")
 
-		if Value == true then
+		if Value == false then
 			Sounds.NotifSFX.Volume = 0.6
 		else
 			Sounds.NotifSFX.Volume = 0
