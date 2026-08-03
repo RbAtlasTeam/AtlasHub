@@ -26,11 +26,11 @@ end
 local CommonModule, CommonError = SafeRequire(game.ReplicatedStorage.RModules.CommonModule)
 
 function DrillConfig.SetForwardSpeed(Value)
-	
+
 	if not CommonModule then
 		return false, "Your Executor deos not support this feature!"
 	end
-	
+
 	Value = tonumber(Value)
 	if not Value then
 		return false
@@ -44,11 +44,11 @@ function DrillConfig.SetForwardSpeed(Value)
 end
 
 function DrillConfig.SetDetectionRange(Value)
-	
+
 	if not CommonModule then
-		return false, "Your Executor deos not support this feature!"
+		return false, "Your executor does not support this feature!"
 	end
-	
+
 	Value = tonumber(Value)
 	if not Value then
 		return false, "Invalid value, resetting Detection Range..."
@@ -57,14 +57,16 @@ function DrillConfig.SetDetectionRange(Value)
 	for _, Drill in pairs(CommonModule.Drills) do
 		Drill.detectRange = Value
 	end
+
+	return true, "Detection Range set to " .. Value
 end
 
 function DrillConfig.SetRetractSpeed(Value)
-	
+
 	if not CommonModule then
 		return false, "Your Executor deos not support this feature!"
 	end
-	
+
 	Value = tonumber(Value)
 	if not Value then
 		return false
