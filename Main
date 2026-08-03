@@ -16,6 +16,9 @@ local AtlasHub_ValueDatas = Instance.new("Folder")
 AtlasHub_ValueDatas.Name = "AtlasHub_ValuesDatas"
 AtlasHub_ValueDatas.Parent = AtlasHub_Datas
 
+local SettingsDatas = Instance.new("Folder", AtlasHub_Datas)
+SettingsDatas.Name = "Settings_Datas"
+
 local ESPDatas = Instance.new("Folder", AtlasHub_Datas)
 ESPDatas.Name = "ESP_Datas"
 
@@ -35,6 +38,26 @@ ESPLines.Name = "ESPLines"
 
 end
 
+local function CreateSettingsValues()
+	
+	local NotifySound = Instance.new("BoolValue", SettingsDatas)
+	NotifySound.Value = true
+	NotifySound.Name = "NotifySound"
+	
+	local ClickSound = Instance.new("BoolValue", SettingsDatas)
+	ClickSound.Value = true
+	ClickSound.Name = "ClickSound"
+	
+	local ToggleNotify = Instance.new("BoolValue", SettingsDatas)
+	ToggleNotify.Value = true
+	ToggleNotify.Name = "ToggleNotify"
+
+	local TextBoxNotify = Instance.new("BoolValue", SettingsDatas)
+	TextBoxNotify.Value = true
+	TextBoxNotify.Name = "TextBoxNotify"
+
+end
+
 local function ShowNotify(Text, Duration)
 	AtlasHub:Notify(Text, Duration)
 end
@@ -45,6 +68,7 @@ AtlasHub:Notify(
 )
 
 CreateESPValues()
+CreateSettingsValues()
 
 local NoticeText = [[
 Thanks for using Atlas Hub!
@@ -83,6 +107,29 @@ Thank you for using Atlas Hub!
 - Developed By Atlas Team
 ]]
 
+------------- Local -------------
+
+local NotifySoundST = SettingsDatas:WaitForChild("NotifySound")
+local ClickSoundST = SettingsDatas:WaitForChild("ClickSound")
+local ToggleNotifyST = SettingsDatas:WaitForChild("ToggleNotify")
+local TextBoxNotifyST = SettingsDatas:WaitForChild("TextBoxNotify")
+
+NotifySoundST.Changed:Connect(function(Value)
+	AtlasHub_Datas:SetAttribute("NotiSFX", Value)
+end)
+
+ClickSoundST.Changed:Connect(function(Value)
+	AtlasHub_Datas:SetAttribute("ClickSFX", Value)
+end)
+
+ToggleNotifyST.Changed:Connect(function(Value)
+	AtlasHub_Datas:SetAttribute("ToggleNotify", Value)
+end)
+
+TextBoxNotifyST.Changed:Connect(function(Value)
+	AtlasHub_Datas:SetAttribute("TextBoxNotify", Value)
+end)
+
 ----- Call LoadStrings -----
 
 local Loader = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/Preload"))()
@@ -117,6 +164,7 @@ local ShipTab = AtlasHub:CreateTab("Ship","Ship Tab","rbxassetid://16149155528")
 local ESPTab = AtlasHub:CreateTab("ESP", "ESP Tab","rbxassetid://7035631382")
 local MineAndInventoryTab = AtlasHub:CreateTab("Inventory", "Mine and Inventory", "rbxassetid://120575375806036")
 local DrillTab = AtlasHub:CreateTab("Drill", "Drill Tab", "rbxassetid://11959189471")
+local SettingsTab = AtlasHub:CreateTab("Settings", "Settings Tab", "rbxassetid://9405931578")
 
 
 ---- Player Tab ------------------------------------------------------------------------------
@@ -216,7 +264,9 @@ DebrisPlotterLimits.Changed:Connect(function(Value)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		ShowNotify(Message, 3)
+		if ToggleNotifyST then
+			ShowNotify(Message, 3)
+		end
 	end
 end)
 
@@ -294,14 +344,15 @@ ForwardSpeed.Submitted:Connect(function(Text)
 		ShowNotify("Value must be at least 10 and no more than 250, resetting Forward Speed...", 3)
 		v = 45
 	end
-	
 
 	local Success, Message = DrillConfi.SetForwardSpeed(v)
 
 	if not Success then
 		ShowNotify(Message, 3)
 	else
+		if TextBoxNotifyST then
 		ShowNotify("Forward Speed set to "..v, 3)
+		end
 	end
 end)
 
@@ -319,7 +370,9 @@ RetractSpeed.Submitted:Connect(function(Text)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		ShowNotify("Retract Speed set to "..v, 3)
+		if TextBoxNotifyST then
+			ShowNotify("Retract Speed set to "..v, 3)
+		end
 	end
 end)
 
@@ -337,7 +390,9 @@ DetectionRange.Submitted:Connect(function(Text)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		ShowNotify("Detection Range set to "..v, 3)
+		if TextBoxNotifyST then
+			ShowNotify("Detection Range set to "..v, 3)
+		end
 	end
 end)
 
@@ -390,6 +445,28 @@ HiddenObjectESP.Changed:Connect(function(Value)
 	game.CoreGui:WaitForChild("AtlasHub_HiddenObjectESP").Enabled = Value
 end)
 
+------------------------------------------------------------------------------------------------------------------------------
+
+local NotificationSounds = AtlasHub.Toggle:Create(SettingsDatas, "Notifications Sound Effects", "Enable Notifications Sound Effects")
+local ClickSounds = AtlasHub.Toggle:Create(SettingsDatas, "Click Sound Effects", "Enable Click Sound Effects")
+local ToggleNotification = AtlasHub.Toggle:Create(SettingsDatas, "Toggle Notifications", "Enable Toggle Status Notifications")
+local TextBoxNotification = AtlasHub.Toggle:Create(SettingsDatas, "TextBox Notifications", "Enable TextBox Changed Notifications")
+
+NotificationSounds.Changed:Connect(function(Value)
+	NotifySoundST.Value = Value
+end)
+
+ClickSounds.Changed:Connect(function(Value)
+	ClickSoundST.Value = Value
+end)
+
+ToggleNotification.Changed:Connect(function(Value)
+	ToggleNotifyST.Value = Value
+end)
+
+TextBoxNotification.Changed:Connect(function(Value)
+	TextBoxNotifyST.Value = Value
+end)
 
 ------------------------------------------------------------------------------------------------------------------------------
 
