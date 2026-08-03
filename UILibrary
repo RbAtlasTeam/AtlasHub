@@ -2178,7 +2178,7 @@ end
 
 function AtlasHub:Notify(Text, Duration)
 
-	Text = tostring(Text or "Hey Stop Spamming!!")
+	Text = tostring(Text or "Unknown Notification Error!!")
 	Duration = Duration or 3
 
 	self.NotificationID = (self.NotificationID or 0) + 1
