@@ -440,6 +440,9 @@ local ClickSounds = AtlasHub.Toggle:Create(SettingsTab, "Click Sound Effects", "
 local ToggleNotification = AtlasHub.Toggle:Create(SettingsTab, "Toggle Notifications", "Disable Toggle Status Notifications")
 local TextBoxNotification = AtlasHub.Toggle:Create(SettingsTab, "TextBox Notifications", "Disable TextBox Changed Notifications")
 
+local RestartAtlasHub = AtlasHub.Button:Create(SettingsTab, "Restart Atlas Hub", "Restart Atlas Hub")
+local DestoryAtlasHub = AtlasHub.Button:Create(SettingsTab, "Destroy Atlas Hub", "Destroy Atlas Hub")
+
 NotificationSounds.Changed:Connect(function(Value)
 	NotifySoundST.Value = Value
 end)
@@ -454,6 +457,24 @@ end)
 
 TextBoxNotification.Changed:Connect(function(Value)
 	TextBoxNotifyST.Value = Value
+end)
+
+RestartAtlasHub.Clicked:Connect(function()
+	local Gui = game.CoreGui:FindFirstChild("AtlasInterface")
+	if Gui then 
+		Gui:Destroy()
+		
+		wait(1)
+		
+		loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/AtlasTeam_AtlasHub_TSS"))()
+	end
+end)
+
+DestoryAtlasHub.Clicked:Connect(function()
+	local Gui = game.CoreGui:FindFirstChild("AtlasInterface")
+	if Gui then 
+		Gui:Destroy()
+	end
 end)
 
 ------------------------------------------------------------------------------------------------------------------------------
