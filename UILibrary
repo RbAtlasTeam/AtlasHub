@@ -8,6 +8,8 @@ local LocalPlayer = Players.LocalPlayer
 local UIParent = game.CoreGui
 
 function AtlasHub.CreateUI()
+	
+	print("Loading Atlas Hub Library ...")
 
 	local OldGui = UIParent:FindFirstChild("AtlasInterface")
 	if OldGui then
@@ -33,7 +35,7 @@ function AtlasHub.CreateUI()
 	DataBase.Name = "AtlasHub_Datas"
 	
 	local STDatas = Instance.new("Folder", DataBase)
-	DataBase.Name = "Settings_Datas"
+	STDatas.Name = "Settings_Datas"
 
 	local Main = Instance.new("Frame")
 	Main.Name = "Main"
@@ -2278,9 +2280,6 @@ end
 function AtlasHub:StartLibrary()
 
 	AtlasHub.CreateUI()
-	
-	task.wait(1)
-	
 	AtlasHub.CreateSounds()
 
 	AtlasHub.PrepareUI()
@@ -2324,6 +2323,8 @@ function AtlasHub:StartLibrary()
 	DataBase:GetAttributeChangedSignal("NotiSFX"):Connect(function()
 		UpdateNotifySFX()
 	end)
+	
+	print("Loaded Atlas Hub Library!")
 end
 
 return AtlasHub
