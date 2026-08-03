@@ -381,8 +381,6 @@ DetectionRange.Submitted:Connect(function(Text)
 
 	if not Success then
 		ShowNotify(Message, 3)
-	else
-		if not AtlasHub_Datas:GetAttribute("TextBoxNotify") then ShowNotify("Detection Range set to "..v, 3) end
 	end
 end)
 
