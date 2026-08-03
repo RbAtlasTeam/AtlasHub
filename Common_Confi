@@ -46,7 +46,7 @@ function Config.SetDebrisPlotter(Value)
 			100000
 		}
 
-		return true, "Debris Plotter enabled."
+		return true, "No Debris Plotter Limits Enabled"
 	else
 		if getgenv().OldDebrisPlotterLevels then
 			DebrisPlotter.bonusLevels = table.clone(getgenv().OldDebrisPlotterLevels)
@@ -59,7 +59,7 @@ function Config.SetDebrisPlotter(Value)
 			}
 		end
 
-		return true, "Debris Plotter disabled."
+		return true, "No Debris Plotter Limits Disabled"
 	end
 end
 
