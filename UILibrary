@@ -2302,9 +2302,9 @@ function AtlasHub:StartLibrary()
 		local Value = DataBase:GetAttribute("NotiSFX")
 
 		if Value == true then
-			Sounds.NotiSFX.Volume = 0.6
+			Sounds.NotifSFX.Volume = 0.6
 		else
-			Sounds.NotiSFX.Volume = 0
+			Sounds.NotifSFX.Volume = 0
 		end
 	end
 
