@@ -214,7 +214,7 @@ DebrisPlotterLimits.Changed:Connect(function(Value)
 	local Success, Message = CommonConfig.SetDebrisPlotter(Value)
 
 	if not Success then
-		ShowNotify(Message, 5)
+		ShowNotify(Message, 3)
 	else
 		ShowNotify(Message, 3)
 	end
@@ -294,11 +294,12 @@ ForwardSpeed.Submitted:Connect(function(Text)
 		ShowNotify("Value must be at least 10 and no more than 250, resetting Forward Speed...", 3)
 		v = 45
 	end
+	
 
 	local Success, Message = DrillConfi.SetForwardSpeed(v)
 
 	if not Success then
-		ShowNotify(Message, 5)
+		ShowNotify(Message, 3)
 	else
 		ShowNotify("Forward Speed set to "..v, 3)
 	end
@@ -316,7 +317,7 @@ RetractSpeed.Submitted:Connect(function(Text)
 	local Success, Message = DrillConfi.SetRetractSpeed(v)
 
 	if not Success then
-		ShowNotify(Message, 5)
+		ShowNotify(Message, 3)
 	else
 		ShowNotify("Retract Speed set to "..v, 3)
 	end
@@ -334,7 +335,7 @@ DetectionRange.Submitted:Connect(function(Text)
 	local Success, Message = DrillConfi.SetDetectionRange(v)
 
 	if not Success then
-		ShowNotify(Message, 5)
+		ShowNotify(Message, 3)
 	else
 		ShowNotify("Detection Range set to "..v, 3)
 	end
