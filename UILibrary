@@ -2278,6 +2278,9 @@ end
 function AtlasHub:StartLibrary()
 
 	AtlasHub.CreateUI()
+	
+	wait(1)
+	
 	AtlasHub.CreateSounds()
 
 	AtlasHub.PrepareUI()
