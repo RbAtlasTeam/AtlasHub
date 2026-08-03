@@ -31,6 +31,9 @@ function AtlasHub.CreateUI()
 
 	local DataBase = Instance.new("Folder", UIParent)
 	DataBase.Name = "AtlasHub_Datas"
+	
+	local STDatas = Instance.new("Folder", DataBase)
+	DataBase.Name = "Settings_Datas"
 
 	local Main = Instance.new("Frame")
 	Main.Name = "Main"
