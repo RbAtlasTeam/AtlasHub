@@ -39,19 +39,19 @@ end
 local function CreateSettingsValues()
 	
 	local NotifySound = Instance.new("BoolValue", SettingsDatas)
-	NotifySound.Value = true
+	NotifySound.Value = false
 	NotifySound.Name = "NotifySound"
 	
 	local ClickSound = Instance.new("BoolValue", SettingsDatas)
-	ClickSound.Value = true
+	ClickSound.Value = false
 	ClickSound.Name = "ClickSound"
 	
 	local ToggleNotify = Instance.new("BoolValue", SettingsDatas)
-	ToggleNotify.Value = true
+	ToggleNotify.Value = false
 	ToggleNotify.Name = "ToggleNotify"
 
 	local TextBoxNotify = Instance.new("BoolValue", SettingsDatas)
-	TextBoxNotify.Value = true
+	TextBoxNotify.Value = false
 	TextBoxNotify.Name = "TextBoxNotify"
 
 end
