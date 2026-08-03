@@ -51,7 +51,7 @@ function DrillConfig.SetDetectionRange(Value)
 	
 	Value = tonumber(Value)
 	if not Value then
-		return false
+		return false, "Invalid value, resetting Detection Range..."
 	end
 
 	for _, Drill in pairs(CommonModule.Drills) do
