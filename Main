@@ -11,13 +11,11 @@ local CurrentPlace = game.PlaceId
 AtlasHub:StartLibrary()
 
 local AtlasHub_Datas = game.CoreGui:WaitForChild("AtlasHub_Datas")
+local SettingsDatas = game.CoreGui:WaitForChild("Settings_Datas")
 
 local AtlasHub_ValueDatas = Instance.new("Folder")
 AtlasHub_ValueDatas.Name = "AtlasHub_ValuesDatas"
 AtlasHub_ValueDatas.Parent = AtlasHub_Datas
-
-local SettingsDatas = Instance.new("Folder", AtlasHub_Datas)
-SettingsDatas.Name = "Settings_Datas"
 
 local ESPDatas = Instance.new("Folder", AtlasHub_Datas)
 ESPDatas.Name = "ESP_Datas"
