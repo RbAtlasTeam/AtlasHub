@@ -2290,6 +2290,9 @@ function AtlasHub:StartLibrary()
 	
 	local DataBase = UIParent:WaitForChild("AtlasHub_Datas")
 	local Sounds = DataBase:WaitForChild("SoundSources")
+	
+	DataBase:SetAttribute("NotiSFX", false)
+	DataBase:SetAttribute("ClickSFX", false)
 
 	local function UpdateClickSFX()
 		local Value = DataBase:GetAttribute("ClickSFX")
