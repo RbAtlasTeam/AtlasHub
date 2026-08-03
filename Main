@@ -262,9 +262,7 @@ DebrisPlotterLimits.Changed:Connect(function(Value)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		if ToggleNotifyST then
-			ShowNotify(Message, 3)
-		end
+		if not AtlasHub_Datas:GetAttribute("ToggleNotify")	then ShowNotify(Message, 3) end
 	end
 end)
 
@@ -348,9 +346,7 @@ ForwardSpeed.Submitted:Connect(function(Text)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		if TextBoxNotifyST then
-		ShowNotify("Forward Speed set to "..v, 3)
-		end
+		if not AtlasHub_Datas:GetAttribute("TextBoxNotify") then ShowNotify("Forward Speed set to "..v, 3) end
 	end
 end)
 
@@ -368,9 +364,7 @@ RetractSpeed.Submitted:Connect(function(Text)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		if TextBoxNotifyST then
-			ShowNotify("Retract Speed set to "..v, 3)
-		end
+		if not AtlasHub_Datas:GetAttribute("TextBoxNotify") then ShowNotify("Retract Speed set to "..v, 3) end
 	end
 end)
 
@@ -388,9 +382,7 @@ DetectionRange.Submitted:Connect(function(Text)
 	if not Success then
 		ShowNotify(Message, 3)
 	else
-		if TextBoxNotifyST then
-			ShowNotify("Detection Range set to "..v, 3)
-		end
+		if not AtlasHub_Datas:GetAttribute("TextBoxNotify") then ShowNotify("Detection Range set to "..v, 3) end
 	end
 end)
 
@@ -445,10 +437,10 @@ end)
 
 ------------------------------------------------------------------------------------------------------------------------------
 
-local NotificationSounds = AtlasHub.Toggle:Create(SettingsTab, "Notifications Sound Effects", "Enable Notifications Sound Effects")
-local ClickSounds = AtlasHub.Toggle:Create(SettingsTab, "Click Sound Effects", "Enable Click Sound Effects")
-local ToggleNotification = AtlasHub.Toggle:Create(SettingsTab, "Toggle Notifications", "Enable Toggle Status Notifications")
-local TextBoxNotification = AtlasHub.Toggle:Create(SettingsTab, "TextBox Notifications", "Enable TextBox Changed Notifications")
+local NotificationSounds = AtlasHub.Toggle:Create(SettingsTab, "Notifications Sound Effects", "Disable Notifications Sound Effects")
+local ClickSounds = AtlasHub.Toggle:Create(SettingsTab, "Click Sound Effects", "Disable Click Sound Effects")
+local ToggleNotification = AtlasHub.Toggle:Create(SettingsTab, "Toggle Notifications", "Disable Toggle Status Notifications")
+local TextBoxNotification = AtlasHub.Toggle:Create(SettingsTab, "TextBox Notifications", "Disable TextBox Changed Notifications")
 
 NotificationSounds.Changed:Connect(function(Value)
 	NotifySoundST.Value = Value
