@@ -5,11 +5,32 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local LocalPlayer = Players.LocalPlayer
 
-local CommonModule = require(
-	ReplicatedStorage.RModules:WaitForChild("CommonModule")
-)
+function SafeRequire(Module)
+	if not Module or not Module:IsA("ModuleScript") then
+		warn("Invalid module")
+		return nil, "Invalid module"
+	end
+
+	local Success, Result = pcall(function()
+		return require(Module)
+	end)
+
+	if Success then
+		return Result, nil
+	end
+
+	warn("Cannot require module:", Result)
+	return nil, Result
+end
+
+local CommonModule, CommonError = SafeRequire(game.ReplicatedStorage.RModules.CommonModule)
 
 function DrillConfig.SetForwardSpeed(Value)
+	
+	if not CommonModule then
+		return false, "Your Executor deos not support this feature!"
+	end
+	
 	Value = tonumber(Value)
 	if not Value then
 		return false
@@ -23,6 +44,11 @@ function DrillConfig.SetForwardSpeed(Value)
 end
 
 function DrillConfig.SetDetectionRange(Value)
+	
+	if not CommonModule then
+		return false, "Your Executor deos not support this feature!"
+	end
+	
 	Value = tonumber(Value)
 	if not Value then
 		return false
@@ -34,6 +60,11 @@ function DrillConfig.SetDetectionRange(Value)
 end
 
 function DrillConfig.SetRetractSpeed(Value)
+	
+	if not CommonModule then
+		return false, "Your Executor deos not support this feature!"
+	end
+	
 	Value = tonumber(Value)
 	if not Value then
 		return false
