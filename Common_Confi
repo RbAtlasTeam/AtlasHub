@@ -1,14 +1,38 @@
 local Config = {}
 
-local CommonModule = require(game.ReplicatedStorage.RModules.CommonModule)
+function SafeRequire(Module)
+	if not Module or not Module:IsA("ModuleScript") then
+		warn("Invalid module")
+		return nil, "Invalid module"
+	end
+
+	local Success, Result = pcall(function()
+		return require(Module)
+	end)
+
+	if Success then
+		return Result, nil
+	end
+
+	warn("Cannot require module:", Result)
+	return nil, Result
+end
+
+local CommonModule, CommonError = SafeRequire(game.ReplicatedStorage.RModules.CommonModule)
 
 function Config.SetDebrisPlotter(Value)
+
+	if not CommonModule then
+		return false, "Your Executor deos not support this feature!"
+	end
+
 	local DebrisPlotter = CommonModule.ModuleTypes["Debris plotter"]
 
 	if not DebrisPlotter then
 		warn("Debris Plotter module not found.")
-		return
+		return false, "Debris Plotter module not found."
 	end
+
 
 	if Value then
 		if not getgenv().OldDebrisPlotterLevels then
@@ -21,10 +45,11 @@ function Config.SetDebrisPlotter(Value)
 			100000,
 			100000
 		}
+
+		return true, "Debris Plotter enabled."
 	else
 		if getgenv().OldDebrisPlotterLevels then
 			DebrisPlotter.bonusLevels = table.clone(getgenv().OldDebrisPlotterLevels)
-			print("Debris Plotter bonus restored.")
 		else
 			DebrisPlotter.bonusLevels = {
 				5,
@@ -33,6 +58,8 @@ function Config.SetDebrisPlotter(Value)
 				20
 			}
 		end
+
+		return true, "Debris Plotter disabled."
 	end
 end
 
