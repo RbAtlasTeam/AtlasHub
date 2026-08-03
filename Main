@@ -211,7 +211,13 @@ DestoryShip.Clicked:Connect(function()
 end)
 
 DebrisPlotterLimits.Changed:Connect(function(Value)
-	CommonConfig.SetDebrisPlotter(Value)
+	local Success, Message = CommonConfig.SetDebrisPlotter(Value)
+
+	if not Success then
+		ShowNotify(Message, 5)
+	else
+		ShowNotify(Message, 3)
+	end
 end)
 
 ShipSpeed.Submitted:Connect(function(Text)
@@ -283,20 +289,55 @@ local ExtractBtn = AtlasHub.Button:Create(DrillTab,"End the drill mini-game")
 
 ForwardSpeed.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 20 and no more than 250, resetting Forward Speed...", 3); v = 45 end
-	DrillConfi.SetForwardSpeed(v)
+
+	if not v or v < 10 or v > 250 then
+		ShowNotify("Value must be at least 10 and no more than 250, resetting Forward Speed...", 3)
+		v = 45
+	end
+
+	local Success, Message = DrillConfi.SetForwardSpeed(v)
+
+	if not Success then
+		ShowNotify(Message, 5)
+	else
+		ShowNotify("Forward Speed set to "..v, 3)
+	end
 end)
+
 
 RetractSpeed.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if not v or v < 10 or v > 250 then ShowNotify("Value must be at least 10 and no more than 250, resetting Retract Speed...", 3); v = 123 end
-	DrillConfi.SetRetractSpeed(v)
+
+	if not v or v < 10 or v > 250 then
+		ShowNotify("Value must be at least 10 and no more than 250, resetting Retract Speed...", 3)
+		v = 123
+	end
+
+	local Success, Message = DrillConfi.SetRetractSpeed(v)
+
+	if not Success then
+		ShowNotify(Message, 5)
+	else
+		ShowNotify("Retract Speed set to "..v, 3)
+	end
 end)
+
 
 DetectionRange.Submitted:Connect(function(Text)
 	local v = tonumber(Text) or 0
-	if not v or v < 1 or v > 6000 then ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3); v = 8 end
-	DrillConfi.SetDetectionRange(v)
+
+	if not v or v < 1 or v > 6000 then
+		ShowNotify("Value must be at least 1 and no more than 6000, resetting Detection Range...", 3)
+		v = 8
+	end
+
+	local Success, Message = DrillConfi.SetDetectionRange(v)
+
+	if not Success then
+		ShowNotify(Message, 5)
+	else
+		ShowNotify("Detection Range set to "..v, 3)
+	end
 end)
 
 ArtifactTp.Clicked:Connect(function()
