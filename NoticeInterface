@@ -301,6 +301,7 @@ Please read this important message
 	InputBox.PlaceholderColor3 = Color3.new(0.498039, 0.498039, 0.498039)
 	InputBox.Parent = ScrollF
 	InputBox.TextTransparency = 0
+	InputBox.TextEditable = false
 
 	local OkBtn = Instance.new("TextButton")
 	OkBtn.Name = "OkBtn"
@@ -387,12 +388,12 @@ Please read this important message
 	local ClickSFX = Instance.new("Sound", AtlasHub_NoticeGui)
 	local CloseSFX = Instance.new("Sound", AtlasHub_NoticeGui)
 	local OpenSFX = Instance.new("Sound", AtlasHub_NoticeGui)
-	
+
 	OpenSFX.Name = "OpenSFX"
 	OpenSFX.SoundId = "rbxassetid://70452176150315"
 	OpenSFX.Volume = 0.6
 	OpenSFX.Looped = false
-	
+
 	CloseSFX.Name = "CloseSFX"
 	CloseSFX.SoundId = "rbxassetid://74766266183741"
 	CloseSFX.Volume = 0.6
@@ -402,27 +403,27 @@ Please read this important message
 	ClickSFX.SoundId = "rbxassetid://116080744084010"
 	ClickSFX.Volume = 0.6
 	ClickSFX.Looped = false
-	
+
 	local function PlaySFX(sound)
 		sound.TimePosition = 0
 		sound:Play()
 	end
-	
+
 	CloseBtn.MouseButton1Click:Connect(function()
 		PlaySFX(CloseSFX)
 		PlaySFX(ClickSFX)
 		AtlasHub_NoticeGui:Destroy()
 	end)
-	
+
 	OkBtn.MouseButton1Click:Connect(function()
 		PlaySFX(CloseSFX)
 		PlaySFX(ClickSFX)
 		AtlasHub_NoticeGui:Destroy()
 	end)
-	
+
 	PlaySFX(OpenSFX)
 	AtlasHub_NoticeGui.Enabled = true
-	
+
 end
 
 return AtlasHub_Notice
