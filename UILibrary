@@ -2563,7 +2563,7 @@ function AtlasHub:SetUp()
 			end
 		end)
 
-		Slider.ApplyBtn.MouseButton1Click:Connect(function()
+		Slider.SApplyBtn.MouseButton1Click:Connect(function()
 			AtlasHub.ClickSFX.TimePosition = 0
 			AtlasHub.ClickSFX:Play()
 			ApplyEvent:Fire(CurrentValue)
