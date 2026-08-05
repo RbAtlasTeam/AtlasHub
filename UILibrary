@@ -2202,6 +2202,7 @@ function AtlasHub:SetUp()
 	self.TextBox = {}
 	self.Toggle = {}
 	self.Tabs = {}
+	self.Slider = {}
 
 	local HomeObject = {}
 
