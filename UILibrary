@@ -1661,7 +1661,7 @@ function AtlasHub.CreateUI()
 	SliderMinT.TextScaled = true
 	SliderMinT.TextWrapped = true
 	SliderMinT.Parent = SliderMinF
-	SliderMinF.TextTransparency = 0
+	SliderMinT.TextTransparency = 0
 
 	local SliderMaxF = Instance.new("Frame")
 	SliderMaxF.Name = "SliderMaxF"
@@ -1704,7 +1704,7 @@ function AtlasHub.CreateUI()
 	SliderMaxT.TextScaled = true
 	SliderMaxT.TextWrapped = true
 	SliderMaxT.Parent = SliderMaxF
-	SliderMaxF.TextTransparency = 0
+	SliderMaxT.TextTransparency = 0
 
 	local Slider = Instance.new("Frame")
 	Slider.Name = "Slider"
