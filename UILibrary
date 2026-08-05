@@ -2500,6 +2500,8 @@ function AtlasHub:SetUp()
 		)
 		
 		Slider.SliderTitle.Text = Title
+		SliderHolderF.SliderMinF.SliderMinT.Text = MinValue
+		SliderHolderF.SliderMaxF.SliderMaxT.Text = MaxValue
 
 		local dragging = false
 		CurrentF.Visible = false
