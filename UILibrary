@@ -334,7 +334,7 @@ function AtlasHub.CreateUI()
 	local UIGridLayout = Instance.new("UIGridLayout")
 	UIGridLayout.Name = "UIGridLayout"
 	UIGridLayout.CellPadding = UDim2.new(0.035, 0, 0.035, 0)
-	UIGridLayout.CellSize = UDim2.new(1, 0, 0.2, 0)
+	UIGridLayout.CellSize = UDim2.new(1, 0, 0.215, 0)
 	UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
 	UIGridLayout.Parent = Holder
 
