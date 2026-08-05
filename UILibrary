@@ -1534,6 +1534,302 @@ function AtlasHub.CreateUI()
 	NotificationF.AnchorPoint = Vector2.new(0.5, 0)
 	NotificationF.Transparency = 1
 	NotificationF.Parent = Main
+	
+	local SliderTemplate = Instance.new("Frame")
+	SliderTemplate.Name = "SliderTemplate"
+	SliderTemplate.Position = UDim2.new(0.5, 0, 0.5, 0)
+	SliderTemplate.Size = UDim2.new(0.9, 0, 0.9, 0)
+	SliderTemplate.BackgroundColor3 = Color3.new(0.117647, 0.380392, 1)
+	SliderTemplate.BorderSizePixel = 0
+	SliderTemplate.BorderColor3 = Color3.new(0, 0, 0)
+	SliderTemplate.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderTemplate.Active = true
+	SliderTemplate.Parent = StorageScroll
+
+		local SMainCorner = Instance.new("UICorner")
+	SMainCorner.Name = "SMainCorner"
+	SMainCorner.CornerRadius = UDim.new(0.15, 0)
+	SMainCorner.Parent = SliderTemplate
+
+	local SApplyBtn = Instance.new("TextButton")
+	SApplyBtn.Name = "SApplyBtn"
+	SApplyBtn.Position = UDim2.new(0.979679, 0, 0.497372, 0)
+	SApplyBtn.Size = UDim2.new(0.266199, 0, 0.75526, 0)
+	SApplyBtn.BackgroundColor3 = Color3.new(0, 0.333333, 1)
+	SApplyBtn.BackgroundTransparency = 0.4000000059604645
+	SApplyBtn.BorderSizePixel = 0
+	SApplyBtn.BorderColor3 = Color3.new(0, 0, 0)
+	SApplyBtn.AnchorPoint = Vector2.new(0.98, 0.5)
+	SApplyBtn.Transparency = 0.4000000059604645
+	SApplyBtn.Text = ""
+	SApplyBtn.TextColor3 = Color3.new(1, 1, 1)
+	SApplyBtn.TextSize = 14
+	SApplyBtn.FontFace = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.ExtraBold, Enum.FontStyle.Normal)
+	SApplyBtn.TextScaled = true
+	SApplyBtn.TextWrapped = true
+	SApplyBtn.Parent = SliderTemplate
+	SApplyBtn.TextTransparency = 0
+
+	local UIStroke = Instance.new("UIStroke")
+	UIStroke.Name = "UIStroke"
+	UIStroke.Color = Color3.new(0, 0, 1)
+	UIStroke.Thickness = 2
+	UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	UIStroke.Parent = SApplyBtn
+
+	local SliderApplyText = Instance.new("TextLabel")
+	SliderApplyText.Name = "SliderApplyText"
+	SliderApplyText.Position = UDim2.new(0.5, 0, 0.5, 0)
+	SliderApplyText.Size = UDim2.new(0.8, 0, 0.8, 0)
+	SliderApplyText.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderApplyText.BackgroundTransparency = 1
+	SliderApplyText.BorderSizePixel = 0
+	SliderApplyText.BorderColor3 = Color3.new(0, 0, 0)
+	SliderApplyText.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderApplyText.Transparency = 1
+	SliderApplyText.Text = "Apply"
+	SliderApplyText.TextColor3 = Color3.new(1, 1, 1)
+	SliderApplyText.TextSize = 14
+	SliderApplyText.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderApplyText.TextScaled = true
+	SliderApplyText.TextWrapped = true
+	SliderApplyText.Parent = SApplyBtn
+	SliderApplyText.TextTransparency = 0
+
+	local UICorner = Instance.new("UICorner")
+	UICorner.Name = "UICorner"
+	UICorner.CornerRadius = UDim.new(0.2, 0)
+	UICorner.Parent = SApplyBtn
+
+	local SMainStroke = Instance.new("UIStroke")
+	SMainStroke.Name = "SMainStroke"
+	SMainStroke.Color = Color3.new(0, 0, 1)
+	SMainStroke.Thickness = 2
+	SMainStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	SMainStroke.Parent = SliderTemplate
+
+	local SliderHolderF = Instance.new("Frame")
+	SliderHolderF.Name = "SliderHolderF"
+	SliderHolderF.Position = UDim2.new(0.366, 0, 0.690055, 0)
+	SliderHolderF.Size = UDim2.new(0.7, 0, 0.45967, 0)
+	SliderHolderF.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderHolderF.BackgroundTransparency = 1
+	SliderHolderF.BorderSizePixel = 0
+	SliderHolderF.BorderColor3 = Color3.new(0, 0, 0)
+	SliderHolderF.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderHolderF.Transparency = 1
+	SliderHolderF.Parent = SliderTemplate
+
+	local SliderMinF = Instance.new("Frame")
+	SliderMinF.Name = "SliderMinF"
+	SliderMinF.Position = UDim2.new(0.01, 0, 0.5, 0)
+	SliderMinF.Size = UDim2.new(0.12, 0, 0.8, 0)
+	SliderMinF.BackgroundColor3 = Color3.new(0, 0, 0)
+	SliderMinF.BackgroundTransparency = 0.5
+	SliderMinF.BorderSizePixel = 0
+	SliderMinF.BorderColor3 = Color3.new(0, 0, 0)
+	SliderMinF.AnchorPoint = Vector2.new(0.01, 0.5)
+	SliderMinF.Transparency = 0.5
+	SliderMinF.Parent = SliderHolderF
+
+	local SMinCorner = Instance.new("UICorner")
+	SMinCorner.Name = "SMinCorner"
+	SMinCorner.CornerRadius = UDim.new(0.15, 0)
+	SMinCorner.Parent = SliderMinF
+
+	local SMinStroke = Instance.new("UIStroke")
+	SMinStroke.Name = "SMinStroke"
+	SMinStroke.Color = Color3.new(0.27451, 0.431373, 1)
+	SMinStroke.Thickness = 2
+	SMinStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	SMinStroke.Parent = SliderMinF
+
+	local SliderMinT = Instance.new("TextLabel")
+	SliderMinT.Name = "SliderMinT"
+	SliderMinT.Position = UDim2.new(0.5, 0, 0.5, 0)
+	SliderMinT.Size = UDim2.new(0.8, 0, 0.8, 0)
+	SliderMinT.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderMinT.BackgroundTransparency = 1
+	SliderMinT.BorderSizePixel = 0
+	SliderMinT.BorderColor3 = Color3.new(0, 0, 0)
+	SliderMinT.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderMinT.Transparency = 1
+	SliderMinT.Text = "0"
+	SliderMinT.TextColor3 = Color3.new(1, 1, 1)
+	SliderMinT.TextSize = 14
+	SliderMinT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderMinT.TextScaled = true
+	SliderMinT.TextWrapped = true
+	SliderMinT.Parent = SliderMinF
+	SliderMinF.TextTransparency = 0
+
+	local SliderMaxF = Instance.new("Frame")
+	SliderMaxF.Name = "SliderMaxF"
+	SliderMaxF.Position = UDim2.new(0.97, 0, 0.5, 0)
+	SliderMaxF.Size = UDim2.new(0.12, 0, 0.8, 0)
+	SliderMaxF.BackgroundColor3 = Color3.new(0, 0, 0)
+	SliderMaxF.BackgroundTransparency = 0.5
+	SliderMaxF.BorderSizePixel = 0
+	SliderMaxF.BorderColor3 = Color3.new(0, 0, 0)
+	SliderMaxF.AnchorPoint = Vector2.new(0.97, 0.5)
+	SliderMaxF.Transparency = 0.5
+	SliderMaxF.Parent = SliderHolderF
+
+	local SMaxCorner = Instance.new("UICorner")
+	SMaxCorner.Name = "SMaxCorner"
+	SMaxCorner.CornerRadius = UDim.new(0.15, 0)
+	SMaxCorner.Parent = SliderMaxF
+
+	local SMaxStroke = Instance.new("UIStroke")
+	SMaxStroke.Name = "SMaxStroke"
+	SMaxStroke.Color = Color3.new(0.27451, 0.431373, 1)
+	SMaxStroke.Thickness = 2
+	SMaxStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	SMaxStroke.Parent = SliderMaxF
+
+	local SliderMaxT = Instance.new("TextLabel")
+	SliderMaxT.Name = "SliderMaxT"
+	SliderMaxT.Position = UDim2.new(0.5, 0, 0.5, 0)
+	SliderMaxT.Size = UDim2.new(0.8, 0, 0.8, 0)
+	SliderMaxT.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderMaxT.BackgroundTransparency = 1
+	SliderMaxT.BorderSizePixel = 0
+	SliderMaxT.BorderColor3 = Color3.new(0, 0, 0)
+	SliderMaxT.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderMaxT.Transparency = 1
+	SliderMaxT.Text = "1000"
+	SliderMaxT.TextColor3 = Color3.new(1, 1, 1)
+	SliderMaxT.TextSize = 14
+	SliderMaxT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderMaxT.TextScaled = true
+	SliderMaxT.TextWrapped = true
+	SliderMaxT.Parent = SliderMaxF
+	SliderMaxF.TextTransparency = 0
+
+	local Slider = Instance.new("Frame")
+	Slider.Name = "Slider"
+	Slider.Position = UDim2.new(0.486, 0, 0.5, 0)
+	Slider.Size = UDim2.new(0.61, 0, 0.6, 0)
+	Slider.BackgroundColor3 = Color3.new(0, 0, 0)
+	Slider.BackgroundTransparency = 0.5
+	Slider.BorderSizePixel = 0
+	Slider.BorderColor3 = Color3.new(0, 0, 0)
+	Slider.AnchorPoint = Vector2.new(0.5, 0.5)
+	Slider.Transparency = 0.5
+	Slider.Parent = SliderHolderF
+
+	local SliderFCorner = Instance.new("UICorner")
+	SliderFCorner.Name = "SliderFCorner"
+	SliderFCorner.CornerRadius = UDim.new(0.3, 0)
+	SliderFCorner.Parent = Slider
+
+	local SliderBar = Instance.new("Frame")
+	SliderBar.Name = "SliderBar"
+	SliderBar.Size = UDim2.new(0.5, 0, 1, 0)
+	SliderBar.BackgroundColor3 = Color3.new(0.0823529, 0.203922, 1)
+	SliderBar.BorderSizePixel = 0
+	SliderBar.BorderColor3 = Color3.new(0, 0, 0)
+	SliderBar.Parent = Slider
+
+	local SliderBarFCorner = Instance.new("UICorner")
+	SliderBarFCorner.Name = "SliderBarFCorner"
+	SliderBarFCorner.CornerRadius = UDim.new(0.3, 0)
+	SliderBarFCorner.Parent = SliderBar
+
+	local SFStroke = Instance.new("UIStroke")
+	SFStroke.Name = "SFStroke"
+	SFStroke.Color = Color3.new(0.27451, 0.431373, 1)
+	SFStroke.Thickness = 2
+	SFStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	SFStroke.Parent = Slider
+
+	local SliderBtn = Instance.new("TextButton")
+	SliderBtn.Name = "SliderBtn"
+	SliderBtn.Position = UDim2.new(0.5, 0, 0.5, 0)
+	SliderBtn.Size = UDim2.new(1.6, 0, 1.6, 0)
+	SliderBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderBtn.BorderSizePixel = 0
+	SliderBtn.BorderColor3 = Color3.new(0, 0, 0)
+	SliderBtn.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderBtn.Text = ""
+	SliderBtn.TextColor3 = Color3.new(1, 1, 1)
+	SliderBtn.TextSize = 14
+	SliderBtn.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderBtn.Parent = Slider
+	SliderBtn.TextTransparency = 0
+
+	local SliderBtnAspect = Instance.new("UIAspectRatioConstraint")
+	SliderBtnAspect.Name = "SliderBtnAspect"
+
+	SliderBtnAspect.Parent = SliderBtn
+
+	local SliderBtnCorner = Instance.new("UICorner")
+	SliderBtnCorner.Name = "SliderBtnCorner"
+	SliderBtnCorner.CornerRadius = UDim.new(1, 0)
+	SliderBtnCorner.Parent = SliderBtn
+
+	local SliderBtnStroke = Instance.new("UIStroke")
+	SliderBtnStroke.Name = "SliderBtnStroke"
+	SliderBtnStroke.Color = Color3.new(0.27451, 0.431373, 1)
+	SliderBtnStroke.Thickness = 2
+	SliderBtnStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+	SliderBtnStroke.Parent = SliderBtn
+
+	local CSliderF = Instance.new("ImageLabel")
+	CSliderF.Name = "CSliderF"
+	CSliderF.Position = UDim2.new(0.5, 0, -1.85, 0)
+	CSliderF.Size = UDim2.new(2.3, 0, 1.8, 0)
+	CSliderF.BackgroundColor3 = Color3.new(1, 1, 1)
+	CSliderF.BackgroundTransparency = 1
+	CSliderF.BorderSizePixel = 0
+	CSliderF.BorderColor3 = Color3.new(0, 0, 0)
+	CSliderF.Visible = false
+	CSliderF.AnchorPoint = Vector2.new(0.5, 0)
+	CSliderF.LayoutOrder = 50
+	CSliderF.Transparency = 1
+	CSliderF.Image = "rbxassetid://109263937425999"
+	CSliderF.Parent = SliderBtn
+
+	local SliderCT = Instance.new("TextLabel")
+	SliderCT.Name = "SliderCT"
+	SliderCT.Position = UDim2.new(0.5, 0, 0.340011, 0)
+	SliderCT.Size = UDim2.new(0.8, 0, 0.495092, 0)
+	SliderCT.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderCT.BackgroundTransparency = 1
+	SliderCT.BorderSizePixel = 0
+	SliderCT.BorderColor3 = Color3.new(0, 0, 0)
+	SliderCT.AnchorPoint = Vector2.new(0.5, 0.5)
+	SliderCT.Transparency = 1
+	SliderCT.Text = "500"
+	SliderCT.TextColor3 = Color3.new(0, 0.333333, 1)
+	SliderCT.TextSize = 14
+	SliderCT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderCT.TextScaled = true
+	SliderCT.TextWrapped = true
+	SliderCT.Parent = CSliderF
+	SliderCT.TextTransparency = 0
+
+	local SliderTitle = Instance.new("TextLabel")
+	SliderTitle.Name = "SliderTitle"
+	SliderTitle.Position = UDim2.new(0.0710104, 0, 0.0905118, 0)
+	SliderTitle.Size = UDim2.new(0.68, 0, 0.36, 0)
+	SliderTitle.BackgroundColor3 = Color3.new(1, 1, 1)
+	SliderTitle.BackgroundTransparency = 1
+	SliderTitle.BorderSizePixel = 0
+	SliderTitle.BorderColor3 = Color3.new(0, 0, 0)
+	SliderTitle.ZIndex = 100
+	SliderTitle.AnchorPoint = Vector2.new(0.06, 0.1)
+	SliderTitle.LayoutOrder = 100
+	SliderTitle.Transparency = 1
+	SliderTitle.Text = "Unknown Slider eeee - Slider Sub Titleeee"
+	SliderTitle.TextColor3 = Color3.new(1, 1, 1)
+	SliderTitle.TextSize = 14
+	SliderTitle.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+	SliderTitle.TextScaled = true
+	SliderTitle.TextWrapped = true
+	SliderTitle.TextXAlignment = Enum.TextXAlignment.Left
+	SliderTitle.Parent = SliderTemplate
+	SliderTitle.TextTransparency = 0
 end
 
 function AtlasHub.CreateSounds()
@@ -1612,7 +1908,8 @@ function AtlasHub.PrepareUI()
 		Toggle = AtlasHub.StorageScroll:WaitForChild("ToggleTemplate"),
 		Tab = AtlasHub.StorageScroll:WaitForChild("TemplateTab"),
 		TabButton = AtlasHub.StorageScroll:WaitForChild("TabButtonTemplate"),
-		Notification = AtlasHub.StorageScroll:WaitForChild("NotiTemplate")
+		Notification = AtlasHub.StorageScroll:WaitForChild("NotiTemplate"),
+		Slider = AtlasHub.StorageScroll:WaitForChild("SliderTemplate")
 	}
 
 	AtlasHub.PlayerDisplay = AtlasHub.HomeTab.TabHolderF.Scroll.LocalPlayerF.PlayerDisplay
@@ -2169,6 +2466,140 @@ function AtlasHub:SetUp()
 
 
 		return ToggleObject
+
+	end
+	
+	function self.Slider:Create(Tab, Title, MinValue, MaxValue, DefaultValue)
+
+		local SliderObject = {}
+
+		local ChangedEvent = Instance.new("BindableEvent")
+		local ApplyEvent = Instance.new("BindableEvent")
+
+		SliderObject.Changed = ChangedEvent.Event
+		SliderObject.Applied = ApplyEvent.Event
+
+		local Slider = AtlasHub.Templates.Slider:Clone()
+
+		Slider.Name = Title
+		Slider.Parent = Tab.TabHolderF.Scroll
+
+		local SliderHolderF = Slider.SliderHolderF
+		local SliderBar = SliderHolderF.Slider.SliderBar 
+		local SliderBtn = SliderHolderF.Slider.SliderBtn
+
+		local CurrentF = SliderBtn.CSliderF
+		local CT = CurrentF.SliderCT
+
+		local CurrentValue = DefaultValue or MinValue
+
+		Slider:SetAttribute(
+			"CurrentValue",
+			CurrentValue
+		)
+		
+		Slider.SliderTitle.Text = Title
+
+		local dragging = false
+		CurrentF.Visible = false
+
+		local function UpdateSlider(InputX)
+
+			local SliderFrame = SliderHolderF.Slider
+			local Start = SliderFrame.AbsolutePosition.X
+			local Size = SliderFrame.AbsoluteSize.X
+
+			local Percent = (InputX - Start) / Size
+			Percent = math.clamp(Percent,0,1)
+
+			SliderBtn.Position = UDim2.fromScale(
+				Percent,
+				0.5
+			)
+
+			SliderBar.Size = UDim2.fromScale(
+				Percent,
+				1
+			)
+
+			CurrentValue = MinValue + ((MaxValue - MinValue) * Percent)
+			CurrentValue = math.floor(CurrentValue * 100) / 100
+
+			Slider:SetAttribute(
+				"CurrentValue",
+				CurrentValue
+			)
+			
+			CT.Text = tostring(CurrentValue)
+			ChangedEvent:Fire(CurrentValue)
+		end
+
+		SliderBtn.InputBegan:Connect(function(Input)
+
+			if Input.UserInputType == Enum.UserInputType.MouseButton1
+				or Input.UserInputType == Enum.UserInputType.Touch then
+				dragging = true
+				CurrentF.Visible = true
+			end
+		end)
+
+		game:GetService("UserInputService").InputChanged:Connect(function(Input)
+
+			if dragging then
+				if Input.UserInputType == Enum.UserInputType.MouseMovement
+					or Input.UserInputType == Enum.UserInputType.Touch then
+					UpdateSlider(Input.Position.X)
+				end
+			end
+		end)
+
+		game:GetService("UserInputService").InputEnded:Connect(function(Input)
+
+			if Input.UserInputType == Enum.UserInputType.MouseButton1
+				or Input.UserInputType == Enum.UserInputType.Touch then
+				dragging = false
+				CurrentF.Visible = false
+			end
+		end)
+
+		Slider.ApplyBtn.MouseButton1Click:Connect(function()
+			AtlasHub.ClickSFX.TimePosition = 0
+			AtlasHub.ClickSFX:Play()
+			ApplyEvent:Fire(CurrentValue)
+		end)
+		
+		function SliderObject:SetValue(Value)
+
+			Value = math.clamp(
+				Value,
+				MinValue,
+				MaxValue
+			)
+			local Percent =
+				(Value - MinValue)
+				/
+				(MaxValue - MinValue)
+
+			UpdateSlider(
+				SliderHolderF.Slider.AbsolutePosition.X
+					+
+					SliderHolderF.Slider.AbsoluteSize.X * Percent
+			)
+		end
+
+		function SliderObject:GetValue()
+			return CurrentValue
+		end
+
+		function SliderObject:Destroy()
+			Slider:Destroy()
+			ChangedEvent:Destroy()
+			ApplyEvent:Destroy()
+		end
+
+		SliderObject:SetValue(CurrentValue)
+
+		return SliderObject
 
 	end
 
