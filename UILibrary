@@ -66,7 +66,7 @@ function AtlasHub.CreateUI()
 	local DragSizeBtn = Instance.new("ImageButton")
 	DragSizeBtn.Name = "DragSizeBtn"
 	DragSizeBtn.Position = UDim2.new(1.05048, 0, 1.08354, 0)
-	DragSizeBtn.Size = UDim2.new(0.086, 0, 0.086, 0)
+	DragSizeBtn.Size = UDim2.new(0, 25, 0, 25)
 	DragSizeBtn.BackgroundColor3 = Color3.new(1, 1, 1)
 	DragSizeBtn.BackgroundTransparency = 1
 	DragSizeBtn.BorderSizePixel = 0
@@ -75,6 +75,7 @@ function AtlasHub.CreateUI()
 	DragSizeBtn.AnchorPoint = Vector2.new(1, 1)
 	DragSizeBtn.Transparency = 1
 	DragSizeBtn.Image = "rbxassetid://87584126977170"
+	DragSizeBtn.ImageTransparency = 0.5
 	DragSizeBtn.Parent = MainHub
 
 	local DragResizeBtnAspect = Instance.new("UIAspectRatioConstraint")
