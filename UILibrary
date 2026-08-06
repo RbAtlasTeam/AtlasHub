@@ -7,6 +7,8 @@ local RunService = game:GetService("RunService")
 local LocalPlayer = Players.LocalPlayer
 local UIParent = game.CoreGui
 
+local DragAPI = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/AtlasHub_DragAPI"))()
+
 function AtlasHub.CreateUI()
 
 	local OldGui = UIParent:FindFirstChild("AtlasInterface")
@@ -51,7 +53,7 @@ function AtlasHub.CreateUI()
 	local MainHub = Instance.new("Frame")
 	MainHub.Name = "MainHub"
 	MainHub.Position = UDim2.new(0.5, 0, 0.5, 0)
-	MainHub.Size = UDim2.new(0.5, 0, 0.65, 0)
+	MainHub.Size = UDim2.new(0.55, 0, 0.65, 0)
 	MainHub.BackgroundColor3 = Color3.new(0.0470588, 0.105882, 0.47451)
 	MainHub.BackgroundTransparency = 0.20000000298023224
 	MainHub.BorderSizePixel = 0
@@ -61,7 +63,30 @@ function AtlasHub.CreateUI()
 	MainHub.Parent = Main
 	MainHub.Visible = false
 	
+	local DragSizeBtn = Instance.new("ImageButton")
+	DragSizeBtn.Name = "DragSizeBtn"
+	DragSizeBtn.Position = UDim2.new(1.05048, 0, 1.08354, 0)
+	DragSizeBtn.Size = UDim2.new(0.086, 0, 0.086, 0)
+	DragSizeBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+	DragSizeBtn.BackgroundTransparency = 1
+	DragSizeBtn.BorderSizePixel = 0
+	DragSizeBtn.BorderColor3 = Color3.new(0, 0, 0)
+	DragSizeBtn.Rotation = 45
+	DragSizeBtn.AnchorPoint = Vector2.new(1, 1)
+	DragSizeBtn.Transparency = 1
+	DragSizeBtn.Image = "rbxassetid://87584126977170"
+	DragSizeBtn.Parent = MainHub
+
+	local DragResizeBtnAspect = Instance.new("UIAspectRatioConstraint")
+	DragResizeBtnAspect.Name = "DragResizeBtnAspect"
+
+	DragResizeBtnAspect.Parent = DragSizeBtn
+	
 	local MainHubDragger = Instance.new("UIDragDetector", MainHub)
+	MainHubDragger.Enabled = false
+	
+	MainHub:SetAttribute("Draggable", true)
+	MainHub:SetAttribute("CurrentSize", UDim2.new(0.55, 0, 0.65, 0))
 
 	local UICorner = Instance.new("UICorner")
 	UICorner.Name = "UICorner"
@@ -182,10 +207,10 @@ function AtlasHub.CreateUI()
 	Title.TextTransparency = 0
 	Title.Parent = TopBar
 
-	local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
-	UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
-	UIAspectRatioConstraint3.AspectRatio = 1.7000000476837158
-	UIAspectRatioConstraint3.Parent = MainHub
+--	local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
+--	UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
+--	UIAspectRatioConstraint3.AspectRatio = 1.7000000476837158
+--	UIAspectRatioConstraint3.Parent = MainHub
 
 	local TopBarOutline = Instance.new("Frame")
 	TopBarOutline.Name = "TopBarOutline"
@@ -1890,6 +1915,7 @@ function AtlasHub.PrepareUI()
 	AtlasHub.MainHub = AtlasHub.Main:WaitForChild("MainHub") -- true
 	AtlasHub.MainHubTopBar = AtlasHub.MainHub:WaitForChild("TopBar")
 	AtlasHub.MainHubCloseBtn = AtlasHub.MainHubTopBar:WaitForChild("CloseBtn")
+	AtlasHub.DragSizeBtn = AtlasHub.MainHub:WaitForChild("DragSizeBtn")
 
 	AtlasHub.MainTabHub = AtlasHub.MainHub:WaitForChild("MainTabHub")
 
@@ -1981,7 +2007,10 @@ function AtlasHub.PrepareUI()
 			workspace.DistributedGameTime
 		)
 
+		
 	end)
+	
+	DragAPI:SetUp(AtlasHub.MainHub, AtlasHub.DragSizeBtn)
 end
 
 
@@ -1993,12 +2022,7 @@ function AtlasHub:SetUp()
 	self.IsOpen = false
 
 
-	local OpenSize = UDim2.new(
-		0.5,
-		0,
-		0.65,
-		0
-	)
+	local OpenSize = AtlasHub.MainHub:GetAttribute("CurrentSize") or UDim2.new(0.55, 0, 0.65, 0)
 
 	local CloseSize = UDim2.new(
 		0,
