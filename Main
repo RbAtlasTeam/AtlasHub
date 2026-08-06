@@ -466,7 +466,11 @@ TextBoxNotification.Changed:Connect(function(Value)
 end)
 
 DraggingDiable.Changed:Connect(function(Value)
-	UI.Main.MainHub:SetAttribute("Draggable", Value)
+	if Value == false then
+		UI.Main.MainHub:SetAttribute("Draggable", true)
+	else
+		UI.Main.MainHub:SetAttribute("Draggable", false)
+	end
 end)
 
 HidedResizeBtn.Changed:Connect(function(Value)
