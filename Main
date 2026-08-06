@@ -105,6 +105,8 @@ Thank you for using Atlas Hub!
 - Developed By Atlas Team
 ]]
 
+local UI = game.CoreGui:WaitForChild("AtlasInterface")
+
 ------------- Local -------------
 
 local NotifySoundST = SettingsDatas:WaitForChild("NotifySound")
@@ -441,6 +443,8 @@ local NotificationSounds = AtlasHub.Toggle:Create(SettingsTab, "Notifications So
 local ClickSounds = AtlasHub.Toggle:Create(SettingsTab, "Click Sound Effects", "Disable Click Sound Effects")
 local ToggleNotification = AtlasHub.Toggle:Create(SettingsTab, "Toggle Notifications", "Disable Toggle Status Notifications")
 local TextBoxNotification = AtlasHub.Toggle:Create(SettingsTab, "TextBox Notifications", "Disable TextBox Changed Notifications")
+local DraggingDiable = AtlasHub.Toggle:Create(SettingsTab, "Disable Dragging", "Disable UI Dragging")
+local HidedResizeBtn = AtlasHub.Toggle:Create(SettingsTab, "Hide Resize Button", "Hide the resize button at the right buttom of Atlas Hub")
 
 local RestartAtlasHub = AtlasHub.Button:Create(SettingsTab, "Restart Atlas Hub", "Restart Atlas Hub")
 local DestoryAtlasHub = AtlasHub.Button:Create(SettingsTab, "Destroy Atlas Hub", "Destroy Atlas Hub")
@@ -459,6 +463,14 @@ end)
 
 TextBoxNotification.Changed:Connect(function(Value)
 	TextBoxNotifyST.Value = Value
+end)
+
+DraggingDiable.Changed:Connect(function(Value)
+	UI.Main.MainHub:SetAttribute("Draggable", Value)
+end)
+
+HidedResizeBtn.Changed:Connect(function(Value)
+	UI.Main.MainHub.DragSizeBtn.Visible = not Value
 end)
 
 RestartAtlasHub.Clicked:Connect(function()
