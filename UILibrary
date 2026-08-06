@@ -2023,7 +2023,25 @@ function AtlasHub:SetUp()
 	self.IsOpen = false
 
 
-	local OpenSize = AtlasHub.MainHub:GetAttribute("CurrentSize") or UDim2.new(0.55, 0, 0.65, 0)
+	local function GetSizeAttribute(Frame)
+		local Data = Frame:GetAttribute("CurrentSize")
+
+		if Data then
+			local Split = string.split(Data, ",")
+
+			return UDim2.new(
+				tonumber(Split[1]),
+				tonumber(Split[2]),
+				tonumber(Split[3]),
+				tonumber(Split[4])
+			)
+		end
+
+		return UDim2.new(0.55, 0, 0.65, 0)
+	end
+
+
+	local OpenSize = GetSizeAttribute(AtlasHub.MainHub)
 
 	local CloseSize = UDim2.new(
 		0,
