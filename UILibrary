@@ -77,6 +77,7 @@ function AtlasHub.CreateUI()
 	DragSizeBtn.Image = "rbxassetid://87584126977170"
 	DragSizeBtn.ImageTransparency = 0.5
 	DragSizeBtn.Parent = MainHub
+	DragSizeBtn.ZIndex = 100
 
 	local DragResizeBtnAspect = Instance.new("UIAspectRatioConstraint")
 	DragResizeBtnAspect.Name = "DragResizeBtnAspect"
