@@ -1,0 +1,110 @@
+local DragAPI = {}
+
+local UIS = game:GetService("UserInputService")
+
+function DragAPI:SetUp(Frame, ResizeBtn)
+	local dragging = false
+	local dragStart
+	local startPos
+
+	local resizing = false
+	local resizeStart
+	local startSize
+
+	if Frame:GetAttribute("Draggable") == nil then
+		Frame:SetAttribute("Draggable", true)
+	end
+
+	local function updateDrag(input)
+		if Frame:GetAttribute("Draggable") == false then
+			return
+		end
+
+		local delta = input.Position - dragStart
+
+		Frame.Position = UDim2.new(
+			startPos.X.Scale,
+			startPos.X.Offset + delta.X,
+			startPos.Y.Scale,
+			startPos.Y.Offset + delta.Y
+		)
+	end
+
+	local function updateResize(input)
+		local delta = input.Position - resizeStart
+
+		local parentSize = Frame.Parent.AbsoluteSize
+
+		local newXScale = startSize.X.Scale + (delta.X / parentSize.X)
+		local newYScale = startSize.Y.Scale + (delta.Y / parentSize.Y)
+
+		local newSize = UDim2.new(
+			math.max(0.1, newXScale),
+			startSize.X.Offset,
+			math.max(0.1, newYScale),
+			startSize.Y.Offset
+		)
+
+		Frame.Size = newSize
+		Frame:SetAttribute("CurrentSize", newSize)
+	end
+
+	Frame.InputBegan:Connect(function(input)
+		if Frame:GetAttribute("Draggable") == false then
+			return
+		end
+
+		if resizing then
+			return
+		end
+
+		if input.UserInputType == Enum.UserInputType.MouseButton1
+			or input.UserInputType == Enum.UserInputType.Touch then
+
+			dragging = true
+			dragStart = input.Position
+			startPos = Frame.Position
+
+			input.Changed:Connect(function()
+				if input.UserInputState == Enum.UserInputState.End then
+					dragging = false
+				end
+			end)
+		end
+	end)
+
+	if ResizeBtn then
+		ResizeBtn.InputBegan:Connect(function(input)
+			if input.UserInputType == Enum.UserInputType.MouseButton1
+				or input.UserInputType == Enum.UserInputType.Touch then
+
+				resizing = true
+				resizeStart = input.Position
+				startSize = Frame.Size
+
+				input.Changed:Connect(function()
+					if input.UserInputState == Enum.UserInputState.End then
+						resizing = false
+					end
+				end)
+			end
+		end)
+	end
+
+	UIS.InputChanged:Connect(function(input)
+		if input.UserInputType ~= Enum.UserInputType.MouseMovement
+			and input.UserInputType ~= Enum.UserInputType.Touch then
+			return
+		end
+
+		if dragging then
+			updateDrag(input)
+		elseif resizing then
+			updateResize(input)
+		end
+	end)
+
+	Frame:SetAttribute("CurrentSize", Frame.Size)
+end
+
+return DragAPI
