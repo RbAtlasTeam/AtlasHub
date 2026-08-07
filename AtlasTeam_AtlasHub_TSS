@@ -4,6 +4,14 @@ local Parent = game.CoreGui
 if Parent:FindFirstChild("AtlasHub_KeyInterface") then
 	return warn("Atlas Hub KeyInterface Already Loaded") end
 
+local GroupService = game:GetService("GroupService")
+local Players = game:GetService("Players")
+
+local Player = Players.LocalPlayer
+
+local GroupId = 144483771
+local GroupLink = "https://www.roblox.com/share/g/144483771"
+
 local AtlasHub_KeyInterface = Instance.new("ScreenGui")
 AtlasHub_KeyInterface.Name = "AtlasHub_KeyInterface"
 AtlasHub_KeyInterface.IgnoreGuiInset = true
@@ -998,6 +1006,39 @@ SetStatus(
 	Color3.fromRGB(255,255,255)
 )
 
+local function PromptGroupJoin()
+	local success, result = pcall(function()
+		return GroupService:PromptJoinAsync(GroupId)
+	end)
+
+	if success then
+		if result == Enum.GroupMembershipStatus.Joined then
+			return true
+		elseif result == Enum.GroupMembershipStatus.AlreadyMember then
+			return true
+		else
+			return false
+		end
+	else
+		ShowNotify("PromptJoinAsync unavailable, Group Link Copied to Clipboard", 3)
+		setclipboard(GroupLink)
+		return false
+	end
+end
+
+local function CheckGroup()
+	if Player:IsInGroup(GroupId) then
+		return true
+	end
+	local Joined = PromptGroupJoin()
+
+	if Joined then
+		return true
+	end
+
+	return Player:IsInGroup(GroupId)
+end
+
 CheckBtn.DisplayT.Text = "Unlock Hub"
 
 CheckBtn.MouseButton1Click:Connect(function()
@@ -1030,8 +1071,23 @@ CheckBtn.MouseButton1Click:Connect(function()
 
 	task.wait(1)
 
-
 	if EnteredKey == CheckKey.Key then
+
+		if not CheckGroup() then
+			Checking = false
+
+			StopRotation()
+
+			SetStatus(
+				LockIconImage,
+				Color3.fromRGB(255,0,0)
+			)
+
+			ShowNotify("You need to join the group to use Atlas Hub!", 4)
+
+			return
+		end
+
 
 		Checking = false
 		KU = true
@@ -1046,7 +1102,7 @@ CheckBtn.MouseButton1Click:Connect(function()
 		CheckBtn.DisplayT.Text = "Execute Hub"
 
 		ShowNotify(
-			"Successfully unlocked hub, correct key",
+			"Successfully unlocked hub, correct key and Group Joined",
 			3
 		)
 
@@ -1119,8 +1175,6 @@ local function StopLoadingAnimation()
 		}
 	):Play()
 end
-
-
 
 CheckBtn.MouseButton1Click:Connect(function()
 
