@@ -1,12 +1,8 @@
 name: AtlasHub AI
 
 on:
-  workflow_dispatch:
-    inputs:
-      prompt:
-        description: "Ask AtlasHub AI"
-        required: true
-        type: string
+  repository_dispatch:
+    types: [ask-ai]
 
 permissions:
   contents: write
@@ -22,7 +18,7 @@ jobs:
       - name: Ask Gemini
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PROMPT: ${{ inputs.prompt }}
+          PROMPT: ${{ github.event.client_payload.prompt }}
         run: |
           RESPONSE=$(curl -s \
             -X POST \
