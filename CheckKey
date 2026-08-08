@@ -1,2 +1,6 @@
-local MainKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub-KeySystem/refs/heads/main/key.txt"))()
-return MainKey
+local CheckKey = {}
+
+local Key = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub-KeySystem/refs/heads/main/key.txt"))()
+CheckKey.Key = Key
+
+return CheckKey
