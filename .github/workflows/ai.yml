@@ -8,24 +8,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Ask Gemini
+      - name: List Gemini Models
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: |
-          RESPONSE=$(curl -s \
-            -X POST \
-            -H "Content-Type: application/json" \
-            "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=$GEMINI_API_KEY" \
-            -d '{
-              "contents": [
-                {
-                  "parts": [
-                    {
-                      "text": "Say hello to AtlasHub"
-                    }
-                  ]
-                }
-              ]
-            }')
-
-          echo "$RESPONSE"
+          curl -s \
+            "https://generativelanguage.googleapis.com/v1beta/models?key=$GEMINI_API_KEY"
