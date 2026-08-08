@@ -1,11 +1,2 @@
-local t = {65,84,76,65,83,45,57,88,55,75,45,50,77,53,80}
-
-return {
-	Key = (function(a)
-		local s = {}
-		for i = 1, #a do
-			s[i] = string.char(a[i])
-		end
-		return table.concat(s)
-	end)(t)
-}
+local MainKey = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub-KeySystem/refs/heads/main/key.txt"))()
+return MainKey
