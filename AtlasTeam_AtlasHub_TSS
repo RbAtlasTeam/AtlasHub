@@ -35,6 +35,9 @@ MainBackground.Transparency = 0.20000000298023224
 MainBackground.Image = "rbxassetid://105602923856213"
 MainBackground.Parent = AtlasHub_KeyInterface
 
+MainBackground:SetAttribute("Draggable", true)
+MainHub:SetAttribute("CurrentSize", UDim2.new(0.55, 0, 0.65, 0))
+
 local UICorner = Instance.new("UICorner")
 UICorner.Name = "UICorner"
 UICorner.CornerRadius = UDim.new(0.02, 0)
@@ -367,6 +370,26 @@ local UIAspectRatioConstraint5 = Instance.new("UIAspectRatioConstraint")
 UIAspectRatioConstraint5.Name = "UIAspectRatioConstraint"
 
 UIAspectRatioConstraint5.Parent = StatusIcon
+
+local DragSizeBtn = Instance.new("ImageButton")
+DragSizeBtn.Name = "DragSizeBtn"
+DragSizeBtn.Position = UDim2.new(1.05048, 0, 1.08354, 0)
+DragSizeBtn.Size = UDim2.new(0, 25, 0, 25)
+DragSizeBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+DragSizeBtn.BackgroundTransparency = 1
+DragSizeBtn.BorderSizePixel = 0
+DragSizeBtn.BorderColor3 = Color3.new(0, 0, 0)
+DragSizeBtn.Rotation = 45
+DragSizeBtn.AnchorPoint = Vector2.new(1, 1)
+DragSizeBtn.Transparency = 1
+DragSizeBtn.Image = "rbxassetid://87584126977170"
+DragSizeBtn.ImageTransparency = 0.5
+DragSizeBtn.Parent = MainBackground
+DragSizeBtn.ZIndex = 100
+
+local DragAPI = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/AtlasHub_DragAPI"))()
+
+DragAPI:SetUp(MainBackground,DragSizeBtn)
 
 local LockIcon = Instance.new("StringValue")
 LockIcon.Name = "LockIcon"
