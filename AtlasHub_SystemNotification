@@ -1,7 +1,7 @@
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
-local Parent = game.StarterGui
+local Parent = game.CoreGui
 
 local AtlasHub_SystemNoti = {}
 
