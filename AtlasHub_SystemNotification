@@ -7,6 +7,7 @@ local AtlasHub_SystemNoti = {}
 
 local DragAPI = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/AtlasHub_DragAPI"))()
 local TargetedUserIds = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/TargetedUserIds"))()
+local ServerHopChecker = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/ServerHopChecker"))()
 
 function AtlasHub_SystemNoti.CreateUI()
 
@@ -946,10 +947,11 @@ function AtlasHub_SystemNoti.PrepareUI()
 	end
 
 	if DragAPI then
-		DragAPI:SetUp(
-			AtlasHub_SystemNoti.Main,
-			AtlasHub_SystemNoti.DragSizeBtn
-		)
+		DragAPI:SetUp(AtlasHub_SystemNoti.Main, AtlasHub_SystemNoti.DragSizeBtn)
+	end
+	
+	if ServerHopChecker then
+		ServerHopChecker.StartCheck()
 	end
 
 	AtlasHub_SystemNoti.Main.Visible = false
