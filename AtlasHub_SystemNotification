@@ -25,11 +25,8 @@ AtlasHub_SystemNoticeGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
 AtlasHub_SystemNoticeGui.ScreenInsets = Enum.ScreenInsets.None
 AtlasHub_SystemNoticeGui.DisplayOrder = 860
 AtlasHub_SystemNoticeGui.Parent = Parent
-AtlasHub_SystemNoti.Enabled = false
+	AtlasHub_SystemNoti.Enabled = false
 	
-local SoundSources = Instance.new("Folder", AtlasHub_SystemNoticeGui)
-SoundSources.Name = "SoundSources"
-
 local MainBackground = Instance.new("ImageLabel")
 MainBackground.Name = "MainBackground"
 MainBackground.Position = UDim2.new(0.524643, 0, 0.508357, 0)
@@ -802,7 +799,7 @@ SubTitle.TextTransparency = 0
 
 local UIDragDetector = Instance.new("UIDragDetector")
 UIDragDetector.Name = "UIDragDetector"
-
+UIDragDetector.Enabled = false
 UIDragDetector.Parent = MainBackground
 
 local UIScale = Instance.new("UIScale")
@@ -844,6 +841,55 @@ AtlasHub_SystemNoti.DetectedPlayers = {
 	PossibleUsers = {},
 	VIPs = {},
 }
+
+function AtlasHub_SystemNoti.CreateSounds()
+
+	local UI = Parent:WaitForChild("AtlasHub_SystemNoticeGui")
+
+	local ExistingSounds = UI:FindFirstChild("SoundSources")
+
+	if ExistingSounds then
+		ExistingSounds:Destroy()
+	end
+
+	local Sounds = Instance.new("Folder")
+	Sounds.Name = "SoundSources"
+	Sounds.Parent = UI
+
+	local NotifSFX = Instance.new("Sound")
+	NotifSFX.Name = "NotifSFX"
+	NotifSFX.SoundId = "rbxassetid://101969970998775"
+	NotifSFX.Volume = 0.6
+	NotifSFX.Looped = false
+	NotifSFX.Parent = Sounds
+
+	local OpenSFX = Instance.new("Sound")
+	OpenSFX.Name = "OpenSFX"
+	OpenSFX.SoundId = "rbxassetid://70452176150315"
+	OpenSFX.Volume = 0.6
+	OpenSFX.Looped = false
+	OpenSFX.Parent = Sounds
+
+	local CloseSFX = Instance.new("Sound")
+	CloseSFX.Name = "CloseSFX"
+	CloseSFX.SoundId = "rbxassetid://74766266183741"
+	CloseSFX.Volume = 0.6
+	CloseSFX.Looped = false
+	CloseSFX.Parent = Sounds
+
+	local ClickSFX = Instance.new("Sound")
+	ClickSFX.Name = "ClickSFX"
+	ClickSFX.SoundId = "rbxassetid://116080744084010"
+	ClickSFX.Volume = 0.6
+	ClickSFX.Looped = false
+	ClickSFX.Parent = Sounds
+
+	AtlasHub_SystemNoti.Sounds = Sounds
+	AtlasHub_SystemNoti.NotiSFX = NotifSFX
+	AtlasHub_SystemNoti.OpenSFX = OpenSFX
+	AtlasHub_SystemNoti.CloseSFX = CloseSFX
+	AtlasHub_SystemNoti.ClickSFX = ClickSFX
+end
 
 function AtlasHub_SystemNoti.PrepareUI()
 
@@ -905,55 +951,6 @@ function AtlasHub_SystemNoti.PrepareUI()
 	end
 
 	AtlasHub_SystemNoti.Main.Visible = false
-end
-
-function AtlasHub_SystemNoti.CreateSounds()
-
-	local UI = Parent:WaitForChild("AtlasHub_SystemNoticeGui")
-
-	local ExistingSounds = UI:FindFirstChild("SoundSources")
-
-	if ExistingSounds then
-		ExistingSounds:Destroy()
-	end
-
-	local Sounds = Instance.new("Folder")
-	Sounds.Name = "SoundSources"
-	Sounds.Parent = UI
-
-	local NotifSFX = Instance.new("Sound")
-	NotifSFX.Name = "NotifSFX"
-	NotifSFX.SoundId = "rbxassetid://136211732441165"
-	NotifSFX.Volume = 0.6
-	NotifSFX.Looped = false
-	NotifSFX.Parent = Sounds
-
-	local OpenSFX = Instance.new("Sound")
-	OpenSFX.Name = "OpenSFX"
-	OpenSFX.SoundId = "rbxassetid://70452176150315"
-	OpenSFX.Volume = 0.6
-	OpenSFX.Looped = false
-	OpenSFX.Parent = Sounds
-
-	local CloseSFX = Instance.new("Sound")
-	CloseSFX.Name = "CloseSFX"
-	CloseSFX.SoundId = "rbxassetid://74766266183741"
-	CloseSFX.Volume = 0.6
-	CloseSFX.Looped = false
-	CloseSFX.Parent = Sounds
-
-	local ClickSFX = Instance.new("Sound")
-	ClickSFX.Name = "ClickSFX"
-	ClickSFX.SoundId = "rbxassetid://116080744084010"
-	ClickSFX.Volume = 0.6
-	ClickSFX.Looped = false
-	ClickSFX.Parent = Sounds
-
-	AtlasHub_SystemNoti.Sounds = Sounds
-	AtlasHub_SystemNoti.NotiSFX = NotifSFX
-	AtlasHub_SystemNoti.OpenSFX = OpenSFX
-	AtlasHub_SystemNoti.CloseSFX = CloseSFX
-	AtlasHub_SystemNoti.ClickSFX = ClickSFX
 end
 
 function AtlasHub_SystemNoti:ResetDetection()
