@@ -1,0 +1,40 @@
+local TargetedUserIds = {
+	BetaTesters = {
+		[1323652869] = true, -- JediMaster
+		[7637593040] = true, -- Applee
+		[1127378626] = true, -- Uplus
+		[7019952604] = true, -- OverstimulatedBee
+		[7567372873] = true, -- BattleBellaa
+	},
+
+	PossibleUsers = {
+		[2940172029] = true, -- NumberBlock
+		[818234660] = true, -- Yasin
+		[4990559919] = true, -- Kyol
+		[572616200] = true, -- Val
+		[10841887422] = true, -- Juanlu
+		[5442871652] = true, -- Tex
+		[9277732125] = true, -- Juanlu Main Acc
+		[4795954784] = true, -- CornKing
+		[5317956076] = true, -- Berthier_sa
+		[3892852033] = true, -- Tytania
+		[1681818793] = true, -- UltraNoob
+		[2710567555] = true, -- Theia
+		[3355666422] = true, -- Galactic_Noobi
+		[1633197100] = true, -- Capivara
+		[563883010] = true, -- Nintadso
+	},
+
+	Developers = {
+		[game.CreatorId] = true, -- Sauron
+	},
+
+	Moderators = {
+		[270255015] = true, -- MasterSpaceExplorer
+		[1751047798] = true, -- Nanuk
+		[3120336885] = true, -- Mightly
+		[103725136] = true, -- Xzfuse
+	},
+}
+
+return TargetedUserIds
