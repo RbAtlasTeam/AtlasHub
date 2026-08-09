@@ -1355,8 +1355,8 @@ function AtlasHub_SystemNoti:Start()
 	self.Started = true
 	
 	self:CreateUI()
-	self:PrepareUI()
 	self:CreateSounds()
+	self:PrepareUI()
 	self:SetupButtons()
 	self:StartPlayerMonitoring()
 	task.wait(2)
