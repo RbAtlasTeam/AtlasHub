@@ -26,6 +26,9 @@ AtlasHub_SystemNoticeGui.ScreenInsets = Enum.ScreenInsets.None
 AtlasHub_SystemNoticeGui.DisplayOrder = 860
 AtlasHub_SystemNoticeGui.Parent = Parent
 AtlasHub_SystemNoti.Enabled = false
+	
+local SoundSources = Instance.new("Folder", AtlasHub_SystemNoticeGui)
+SoundSources.Name = "SoundSources"
 
 local MainBackground = Instance.new("ImageLabel")
 MainBackground.Name = "MainBackground"
