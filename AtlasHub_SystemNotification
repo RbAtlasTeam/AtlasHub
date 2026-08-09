@@ -1,7 +1,7 @@
 local TweenService = game:GetService("TweenService")
 local Players = game:GetService("Players")
 local TeleportService = game:GetService("TeleportService")
-local Parent = game.CoreGui
+local Parent = game.StarterGui
 
 local AtlasHub_SystemNoti = {}
 
@@ -10,7 +10,7 @@ local TargetedUserIds = loadstring(game:HttpGet("https://raw.githubusercontent.c
 
 local AutoTPEnabled = false
 
-local function CreateUI()
+function AtlasHub_SystemNoti.CreateUI()
 
 local UIName = "AtlasHub_SystemNoticeGui"
 
@@ -1353,7 +1353,8 @@ function AtlasHub_SystemNoti:Start()
 	end
 
 	self.Started = true
-
+	
+	self:CreateUI()
 	self:PrepareUI()
 	self:CreateSounds()
 	self:SetupButtons()
