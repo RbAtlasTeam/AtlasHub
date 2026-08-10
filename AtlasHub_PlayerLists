@@ -17,7 +17,12 @@ local OfflineColour = Color3.fromRGB(255, 0, 0)
 local InGameColour = Color3.fromRGB(0, 170, 255)
 
 local RefreshTime = 60
+local PlayerDelay = 3
+
 local Refreshing = false
+local FirstLoad = true
+
+local PlayerFrames = {}
 
 local http = http_request or (syn and syn.request) or request
 
@@ -715,10 +720,125 @@ local function GetStatusData(Status)
 	end
 end
 
-local function ClearScroll()
-	for _, Child in ipairs(PlayerStatus.ScrollF:GetChildren()) do
-		if Child:IsA("GuiObject") then
-			Child:Destroy()
+local function UpdateFrame(Frame, UserId)
+	local Username, DisplayName, Status, Thumbnail =
+		GetPlayerStatus(UserId)
+
+	local Role = GetRole(UserId)
+
+	local StatusText, StatusIcon, StatusColor =
+		GetStatusData(Status)
+
+	Frame.Name = "Player_" .. tostring(UserId)
+	Frame.Visible = true
+
+	local StatusF = Frame:FindFirstChild("StatusF")
+
+	if StatusF then
+		local StatusIconObject =
+			StatusF:FindFirstChild("AStatusIcon")
+
+		local StatusTextObject =
+			StatusF:FindFirstChild("BStatus")
+
+		if StatusIconObject then
+			StatusIconObject.Image = StatusIcon
+			StatusIconObject.ImageColor3 = StatusColor
+		end
+
+		if StatusTextObject then
+			StatusTextObject.Text = StatusText
+		end
+	end
+
+	local StatusStroke =
+		Frame:FindFirstChild("StatusStroke")
+
+	if StatusStroke and StatusStroke:IsA("UIStroke") then
+		StatusStroke.Color = StatusColor
+	end
+
+	local PlayerImage =
+		Frame:FindFirstChild("PlayerImage")
+
+	if PlayerImage then
+		local Icon = PlayerImage:FindFirstChild("Icon")
+
+		if Icon and Thumbnail then
+			Icon.Image = Thumbnail
+		end
+
+		local ImageStroke =
+			PlayerImage:FindFirstChild("StatusStroke")
+
+		if ImageStroke and ImageStroke:IsA("UIStroke") then
+			ImageStroke.Color = StatusColor
+		end
+	end
+
+	local InfoF =
+		Frame:FindFirstChild("InfoF")
+
+	if InfoF then
+		local DisplayT =
+			InfoF:FindFirstChild("DisplayT")
+
+		local UserT =
+			InfoF:FindFirstChild("UserT")
+
+		local IdT =
+			InfoF:FindFirstChild("IdT")
+
+		if DisplayT then
+			local DisplayRole = Role
+
+			if Role == "Possible User" then
+				DisplayRole = "Suspended User"
+			end
+
+			if DisplayRole then
+				DisplayT.Text =
+					DisplayName .. " [" .. DisplayRole .. "]"
+			else
+				DisplayT.Text = DisplayName
+			end
+		end
+
+		if UserT then
+			UserT.Text = "@" .. Username
+		end
+
+		if IdT then
+			IdT.Text = "UID: " .. tostring(UserId)
+		end
+	end
+end
+
+local function CreatePlayerFrame(UserId)
+	if PlayerFrames[UserId] then
+		return PlayerFrames[UserId]
+	end
+
+	local Frame =
+		PlayerStatus.Template:Clone()
+
+	Frame.Name = "Player_" .. tostring(UserId)
+	Frame.Visible = true
+	Frame.Parent = PlayerStatus.ScrollF
+
+	PlayerFrames[UserId] = Frame
+
+	return Frame
+end
+
+local function RemoveMissingPlayers(TargetUsers)
+	for UserId, Frame in pairs(PlayerFrames) do
+		if not TargetUsers[UserId] then
+			if Frame and Frame.Parent then
+				Frame:Destroy()
+			end
+
+			PlayerFrames[UserId] = nil
 		end
 	end
 end
@@ -729,101 +849,21 @@ function PlayerStatus.Refresh()
 		return
 	end
 
-	ClearScroll()
-
 	local TargetUsers = GetTargetUsers()
 
+	RemoveMissingPlayers(TargetUsers)
+
 	for UserId in pairs(TargetUsers) do
-		local Username, DisplayName, Status, Thumbnail =
-			GetPlayerStatus(UserId)
 
-		local Role = GetRole(UserId)
+		local Frame = PlayerFrames[UserId]
 
-		local StatusText, StatusIcon, StatusColor =
-			GetStatusData(Status)
-
-		local Frame = PlayerStatus.Template:Clone()
-
-		Frame.Name = "Player_" .. tostring(UserId)
-		Frame.Visible = true
-
-		local StatusF = Frame:FindFirstChild("StatusF")
-
-		if StatusF then
-			local StatusIconObject =
-				StatusF:FindFirstChild("AStatusIcon")
-
-			local StatusTextObject =
-				StatusF:FindFirstChild("BStatus")
-
-			if StatusIconObject then
-				StatusIconObject.Image = StatusIcon
-				StatusIconObject.ImageColor3 = StatusColor
-			end
-
-			if StatusTextObject then
-				StatusTextObject.Text = StatusText
-			end
+		if not Frame then
+			Frame = CreatePlayerFrame(UserId)
 		end
 
-		local StatusStroke =
-			Frame:FindFirstChild("StatusStroke")
+		UpdateFrame(Frame, UserId)
 
-		if StatusStroke
-			and StatusStroke:IsA("UIStroke") then
-
-			StatusStroke.Color = StatusColor
-		end
-
-		local PlayerImage =
-			Frame:FindFirstChild("PlayerImage")
-
-		if PlayerImage then
-			if Thumbnail then
-				PlayerImage.Icon.Image = Thumbnail
-			end
-
-			local ImageStroke =
-				PlayerImage:FindFirstChild("StatusStroke")
-
-			if ImageStroke
-				and ImageStroke:IsA("UIStroke") then
-
-				ImageStroke.Color = StatusColor
-			end
-		end
-
-		local InfoF = Frame:FindFirstChild("InfoF")
-
-		if InfoF then
-			local DisplayT =
-				InfoF:FindFirstChild("DisplayT")
-
-			local UserT =
-				InfoF:FindFirstChild("UserT")
-
-			local IdT =
-				InfoF:FindFirstChild("IdT")
-
-			if DisplayT then
-				if Role then
-					DisplayT.Text =
-						DisplayName .. " [" .. Role .. "]"
-				else
-					DisplayT.Text = DisplayName
-				end
-			end
-
-			if UserT then
-				UserT.Text = "@" .. Username
-			end
-
-			if IdT then
-				IdT.Text = "UID: " .. tostring(UserId)
-			end
-		end
-
-		Frame.Parent = PlayerStatus.ScrollF
+		task.wait(PlayerDelay)
 	end
 end
 
@@ -832,8 +872,6 @@ function PlayerStatus.Init()
 	PlayerStatus.CreateUI()
 	PlayerStatus.PrepareUI()
 
-	PlayerStatus.Refresh()
-
 	if Refreshing then
 		return
 	end
@@ -841,6 +879,10 @@ function PlayerStatus.Init()
 	Refreshing = true
 
 	task.spawn(function()
+
+		PlayerStatus.Refresh()
+
+		FirstLoad = false
 
 		while Refreshing do
 			task.wait(RefreshTime)
@@ -854,7 +896,7 @@ function PlayerStatus.Init()
 
 	end)
 end
-
+ 
 function PlayerStatus.Stop()
 	Refreshing = false
 end
