@@ -3,6 +3,7 @@ local PlayerStatus = {}
 local UIParent = game.CoreGui
 local HttpService = game:GetService("HttpService")
 local Players = game:GetService("Players")
+local UserService = game:GetService("UserService")
 
 local UIName = "AtlasHub_PlayerStatusUI"
 local UIStatus = true
@@ -18,7 +19,7 @@ local OfflineColour = Color3.fromRGB(255, 0, 0)
 local InGameColour = Color3.fromRGB(0, 170, 255)
 
 local RefreshTime = 60
-local PlayerDelay = 2
+local PlayerDelay = 1
 
 local Refreshing = false
 local FirstLoad = true
@@ -66,7 +67,7 @@ local function GetPlayerStatus(UserId)
 	end)
 
 	pcall(function()
-		local Info = Players:GetUserInfosByUserIdsAsync({UserId})[1]
+		local Info = UserService:GetUserInfosByUserIdsAsync({UserId})[1]
 
 		if Info then
 			DisplayName = Info.DisplayName or "Unknown"
