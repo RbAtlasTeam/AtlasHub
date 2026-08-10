@@ -1,0 +1,862 @@
+local PlayerStatus = {}
+
+local UIParent = game.CoreGui
+local HttpService = game:GetService("HttpService")
+
+local UIName = "AtlasHub_PlayerStatusUI"
+local UIStatus = true
+
+local InStudioIcon = "rbxassetid://85354860438238"
+local OnlineIcon = "rbxassetid://15728996305"
+local OfflineIcon = "rbxassetid://15728996305"
+local InGameIcon = "rbxassetid://116647960896395"
+
+local InStudioColour = Color3.fromRGB(255, 85, 0)
+local OnlineColour = Color3.fromRGB(0, 255, 0)
+local OfflineColour = Color3.fromRGB(255, 0, 0)
+local InGameColour = Color3.fromRGB(0, 170, 255)
+
+local RefreshTime = 60
+local Refreshing = false
+
+local http = http_request or (syn and syn.request) or request
+
+local oldUI = UIParent:FindFirstChild(UIName)
+if oldUI then
+	oldUI:Destroy()
+end
+
+local DragAPI = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/AtlasHub_DragAPI"))()
+local TargetUserIds = loadstring(game:HttpGet("https://raw.githubusercontent.com/RbAtlasTeam/AtlasHub/refs/heads/main/TargetedUserIds"))()
+
+local function executorRequest(Request)
+	if not http then
+		return nil
+	end
+
+	local Success, Response = pcall(http, Request)
+
+	if not Success then
+		return nil
+	end
+
+	return Response
+end
+
+local function GetPlayerStatus(UserId)
+	UserId = tonumber(UserId)
+
+	if not UserId then
+		return "Unknown", "Unknown", "Offline", nil
+	end
+
+	local Username = "Unknown"
+	local DisplayName = "Unknown"
+	local Status = "Offline"
+	local Thumbnail = nil
+
+	local UserResponse = executorRequest({
+		Url = "https://users.roblox.com/v1/users/" .. tostring(UserId),
+		Method = "GET"
+	})
+
+	if UserResponse then
+		local Body = UserResponse.Body
+			or UserResponse.ResponseBody
+			or UserResponse.body
+
+		if Body then
+			local Success, UserData = pcall(function()
+				return HttpService:JSONDecode(Body)
+			end)
+
+			if Success and type(UserData) == "table" then
+				Username = UserData.name or "Unknown"
+				DisplayName = UserData.displayName or "Unknown"
+			end
+		end
+	end
+
+	local PresenceResponse = executorRequest({
+		Url = "https://presence.roblox.com/v1/presence/users",
+		Method = "POST",
+
+		Headers = {
+			["Content-Type"] = "application/json"
+		},
+
+		Body = HttpService:JSONEncode({
+			userIds = {UserId}
+		})
+	})
+
+	if PresenceResponse then
+		local Body = PresenceResponse.Body
+			or PresenceResponse.ResponseBody
+			or PresenceResponse.body
+
+		if Body then
+			local Success, Data = pcall(function()
+				return HttpService:JSONDecode(Body)
+			end)
+
+			if Success and type(Data) == "table" then
+				local Presence = Data.userPresences
+					and Data.userPresences[1]
+
+				if Presence then
+					local PresenceType = Presence.userPresenceType
+
+					if PresenceType == 0 then
+						Status = "Offline"
+					elseif PresenceType == 1 then
+						Status = "Online"
+					elseif PresenceType == 2 then
+						Status = "Game"
+					elseif PresenceType == 3 then
+						Status = "Studio"
+					end
+				end
+			end
+		end
+	end
+
+	local ThumbnailResponse = executorRequest({
+		Url =
+			"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
+			.. tostring(UserId)
+			.. "&size=150x150&format=Png&isCircular=false",
+
+		Method = "GET"
+	})
+
+	if ThumbnailResponse then
+		local Body = ThumbnailResponse.Body
+			or ThumbnailResponse.ResponseBody
+			or ThumbnailResponse.body
+
+		if Body then
+			local Success, Data = pcall(function()
+				return HttpService:JSONDecode(Body)
+			end)
+
+			if Success and Data.data and Data.data[1] then
+				Thumbnail = Data.data[1].imageUrl
+			end
+		end
+	end
+
+	return Username, DisplayName, Status, Thumbnail
+end
+
+function PlayerStatus.CreateUI()
+
+local AtlasHub_PlayerStatusUI = Instance.new("ScreenGui")
+AtlasHub_PlayerStatusUI.Name = UIName
+AtlasHub_PlayerStatusUI.IgnoreGuiInset = true
+AtlasHub_PlayerStatusUI.ResetOnSpawn = false
+AtlasHub_PlayerStatusUI.ScreenInsets = Enum.ScreenInsets.None
+AtlasHub_PlayerStatusUI.DisplayOrder = 880
+AtlasHub_PlayerStatusUI.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+AtlasHub_PlayerStatusUI.Parent = UIParent
+AtlasHub_PlayerStatusUI.Enabled = UIStatus
+
+local Main = Instance.new("Frame")
+Main.Name = "Main"
+Main.Position = UDim2.new(0.5, 0, 0.5, 0)
+Main.Size = UDim2.new(0.55, 0, 0.55, 0)
+Main.BackgroundColor3 = Color3.new(0.0431373, 0.101961, 0.47451)
+Main.BackgroundTransparency = 0.20000000298023224
+Main.BorderSizePixel = 0
+Main.BorderColor3 = Color3.new(0, 0, 0)
+Main.AnchorPoint = Vector2.new(0.5, 0.5)
+Main.Transparency = 0.20000000298023224
+Main.Parent = AtlasHub_PlayerStatusUI
+
+local UICorner = Instance.new("UICorner")
+UICorner.Name = "UICorner"
+UICorner.CornerRadius = UDim.new(0.02, 0)
+UICorner.Parent = Main
+
+local TopBar = Instance.new("Frame")
+TopBar.Name = "TopBar"
+TopBar.Position = UDim2.new(0.5, 0, 3.26951e-08, 0)
+TopBar.Size = UDim2.new(1, 0, 0.18, 0)
+TopBar.BackgroundColor3 = Color3.new(0, 0.329412, 1)
+TopBar.BorderSizePixel = 0
+TopBar.BorderColor3 = Color3.new(0, 0, 0)
+TopBar.AnchorPoint = Vector2.new(0.5, 0)
+TopBar.Parent = Main
+
+local UICorner2 = Instance.new("UICorner")
+UICorner2.Name = "UICorner"
+UICorner2.CornerRadius = UDim.new(0.1, 0)
+UICorner2.Parent = TopBar
+
+local TitleIconF = Instance.new("Frame")
+TitleIconF.Name = "TitleIconF"
+TitleIconF.Position = UDim2.new(0.033, 0, 0.5, 0)
+TitleIconF.Size = UDim2.new(0.7, 0, 0.7, 0)
+TitleIconF.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIconF.BackgroundTransparency = 1
+TitleIconF.BorderSizePixel = 0
+TitleIconF.BorderColor3 = Color3.new(0, 0, 0)
+TitleIconF.AnchorPoint = Vector2.new(0.033, 0.5)
+TitleIconF.Transparency = 1
+TitleIconF.Parent = TopBar
+
+local UIAspectRatioConstraint = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint.Parent = TitleIconF
+
+local TitleIcon = Instance.new("ImageLabel")
+TitleIcon.Name = "TitleIcon"
+TitleIcon.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon.BackgroundTransparency = 1
+TitleIcon.BorderSizePixel = 0
+TitleIcon.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon.Transparency = 1
+TitleIcon.Image = "rbxassetid://101208360819397"
+TitleIcon.Parent = TitleIconF
+
+local CloseBtn = Instance.new("TextButton")
+CloseBtn.Name = "CloseBtn"
+CloseBtn.Position = UDim2.new(0.975, 0, 0.5, 0)
+CloseBtn.Size = UDim2.new(0.65, 0, 0.65, 0)
+CloseBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+CloseBtn.BackgroundTransparency = 0.800000011920929
+CloseBtn.BorderSizePixel = 0
+CloseBtn.BorderColor3 = Color3.new(0, 0, 0)
+CloseBtn.AnchorPoint = Vector2.new(0.975, 0.5)
+CloseBtn.Transparency = 0.800000011920929
+CloseBtn.Text = ""
+CloseBtn.TextColor3 = Color3.new(1, 1, 1)
+CloseBtn.TextSize = 14
+CloseBtn.FontFace = Font.new("rbxasset://fonts/families/Inconsolata.json", Enum.FontWeight.ExtraBold, Enum.FontStyle.Normal)
+CloseBtn.TextScaled = true
+CloseBtn.TextWrapped = true
+CloseBtn.Parent = TopBar
+CloseBtn.Visible = false
+
+local UIAspectRatioConstraint2 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint2.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint2.Parent = CloseBtn
+
+local TitleIcon2 = Instance.new("ImageLabel")
+TitleIcon2.Name = "TitleIcon"
+TitleIcon2.Position = UDim2.new(0.5, 0, 0.5, 0)
+TitleIcon2.Size = UDim2.new(0.9, 0, 0.9, 0)
+TitleIcon2.BackgroundColor3 = Color3.new(1, 1, 1)
+TitleIcon2.BackgroundTransparency = 1
+TitleIcon2.BorderSizePixel = 0
+TitleIcon2.BorderColor3 = Color3.new(0, 0, 0)
+TitleIcon2.AnchorPoint = Vector2.new(0.5, 0.5)
+TitleIcon2.Transparency = 1
+TitleIcon2.Image = "rbxassetid://16844961887"
+TitleIcon2.Parent = CloseBtn
+
+local UIStroke = Instance.new("UIStroke")
+UIStroke.Name = "UIStroke"
+UIStroke.Color = Color3.new(1, 1, 1)
+UIStroke.Thickness = 1.2000000476837158
+UIStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke.Parent = CloseBtn
+
+local UICorner3 = Instance.new("UICorner")
+UICorner3.Name = "UICorner"
+UICorner3.CornerRadius = UDim.new(0.1, 0)
+UICorner3.Parent = CloseBtn
+
+local Title = Instance.new("TextLabel")
+Title.Name = "Title"
+Title.Position = UDim2.new(0.427076, 0, 0.5, 0)
+Title.Size = UDim2.new(0.6, 0, 0.6, 0)
+Title.BackgroundColor3 = Color3.new(1, 1, 1)
+Title.BackgroundTransparency = 1
+Title.BorderSizePixel = 0
+Title.BorderColor3 = Color3.new(0, 0, 0)
+Title.AnchorPoint = Vector2.new(0.38, 0.5)
+Title.Transparency = 1
+Title.Text = "Atlas Hub - Player Status Lists"
+Title.TextColor3 = Color3.new(1, 1, 1)
+Title.TextSize = 14
+Title.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+Title.TextScaled = true
+Title.TextWrapped = true
+Title.TextXAlignment = Enum.TextXAlignment.Left
+Title.RichText = true
+Title.Parent = TopBar
+Title.TextTransparency = 0
+
+local TopBarOutline = Instance.new("Frame")
+TopBarOutline.Name = "TopBarOutline"
+TopBarOutline.Position = UDim2.new(0.5, 0, 0.176, 0)
+TopBarOutline.Size = UDim2.new(1, 0, 0.008, 0)
+TopBarOutline.BackgroundColor3 = Color3.new(1, 1, 1)
+TopBarOutline.BorderSizePixel = 0
+TopBarOutline.BorderColor3 = Color3.new(0, 0, 0)
+TopBarOutline.AnchorPoint = Vector2.new(0.5, 0)
+TopBarOutline.Parent = Main
+
+local UICorner4 = Instance.new("UICorner")
+UICorner4.Name = "UICorner"
+UICorner4.CornerRadius = UDim.new(0.1, 0)
+UICorner4.Parent = TopBarOutline
+
+local BorderShadow = Instance.new("UIStroke")
+BorderShadow.Name = "BorderShadow"
+BorderShadow.Thickness = 5
+BorderShadow.Transparency = 0.800000011920929
+BorderShadow.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+BorderShadow.Parent = Main
+
+local UIStroke2 = Instance.new("UIStroke")
+UIStroke2.Name = "UIStroke"
+UIStroke2.Color = Color3.new(1, 1, 1)
+UIStroke2.Thickness = 2
+UIStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+UIStroke2.Parent = Main
+
+local HolderF = Instance.new("Frame")
+HolderF.Name = "HolderF"
+HolderF.Position = UDim2.new(0.5, 0, 0.673, 0)
+HolderF.Size = UDim2.new(0.97, 0, 0.79, 0)
+HolderF.BackgroundColor3 = Color3.new(1, 1, 1)
+HolderF.BackgroundTransparency = 0.8999999761581421
+HolderF.BorderSizePixel = 0
+HolderF.BorderColor3 = Color3.new(0, 0, 0)
+HolderF.AnchorPoint = Vector2.new(0.5, 0.6)
+HolderF.ClipsDescendants = true
+HolderF.Transparency = 0.8999999761581421
+HolderF.Parent = Main
+
+local ScrollF = Instance.new("ScrollingFrame")
+ScrollF.Name = "ScrollF"
+ScrollF.Position = UDim2.new(0.5, 0, 0.960921, 0)
+ScrollF.Size = UDim2.new(0.96, 0, 0.926, 0)
+ScrollF.BackgroundColor3 = Color3.new(1, 1, 1)
+ScrollF.BackgroundTransparency = 1
+ScrollF.BorderSizePixel = 0
+ScrollF.BorderColor3 = Color3.new(0, 0, 0)
+ScrollF.AnchorPoint = Vector2.new(0.5, 1)
+ScrollF.ClipsDescendants = false
+ScrollF.Transparency = 1
+ScrollF.Active = true
+ScrollF.CanvasPosition = Vector2.new(0, 13.9673)
+ScrollF.CanvasSize = UDim2.new(0, 0, 1, 0)
+ScrollF.ScrollBarThickness = 0
+ScrollF.AutomaticCanvasSize = Enum.AutomaticSize.Y
+ScrollF.Parent = HolderF
+
+local UIGridLayout = Instance.new("UIGridLayout")
+UIGridLayout.Name = "UIGridLayout"
+UIGridLayout.CellPadding = UDim2.new(0.045, 0, 0.045, 0)
+UIGridLayout.CellSize = UDim2.new(1, 0, 0.24, 0)
+UIGridLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIGridLayout.Parent = ScrollF
+
+local TemplateStorage = Instance.new("Frame")
+TemplateStorage.Name = "TemplateStorage"
+TemplateStorage.Position = UDim2.new(0.5, 0, 0.5, 0)
+TemplateStorage.Size = UDim2.new(0.98, 0, 0.96, 0)
+TemplateStorage.BackgroundColor3 = Color3.new(1, 1, 1)
+TemplateStorage.BackgroundTransparency = 1
+TemplateStorage.BorderSizePixel = 0
+TemplateStorage.BorderColor3 = Color3.new(0, 0, 0)
+TemplateStorage.AnchorPoint = Vector2.new(0.5, 0.5)
+TemplateStorage.ClipsDescendants = true
+TemplateStorage.Transparency = 1
+TemplateStorage.Parent = Main
+
+local UICorner5 = Instance.new("UICorner")
+UICorner5.Name = "UICorner"
+UICorner5.CornerRadius = UDim.new(0.02, 0)
+UICorner5.Parent = TemplateStorage
+
+local Template = Instance.new("Frame")
+Template.Name = "Template"
+Template.Position = UDim2.new(0.5, 0, 0.5, 0)
+Template.Size = UDim2.new(0.9, 0, 0.9, 0)
+Template.BackgroundColor3 = Color3.new(0.117647, 0.380392, 1)
+Template.BorderSizePixel = 0
+Template.BorderColor3 = Color3.new(0, 0, 0)
+Template.Visible = false
+Template.AnchorPoint = Vector2.new(0.5, 0.5)
+Template.Active = true
+Template.Parent = TemplateStorage
+
+local SMainCorner = Instance.new("UICorner")
+SMainCorner.Name = "SMainCorner"
+SMainCorner.CornerRadius = UDim.new(0.15, 0)
+SMainCorner.Parent = Template
+
+local StatusStroke = Instance.new("UIStroke")
+StatusStroke.Name = "StatusStroke"
+StatusStroke.Color = Color3.new(1, 0.333333, 0)
+StatusStroke.Thickness = 1.5
+StatusStroke.Transparency = 0.20000000298023224
+StatusStroke.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+StatusStroke.Parent = Template
+
+local PlayerImage = Instance.new("Frame")
+PlayerImage.Name = "PlayerImage"
+PlayerImage.Position = UDim2.new(0.033, 0, 0.5, 0)
+PlayerImage.Size = UDim2.new(0.75, 0, 0.75, 0)
+PlayerImage.BackgroundColor3 = Color3.new(1, 1, 1)
+PlayerImage.BackgroundTransparency = 1
+PlayerImage.BorderSizePixel = 0
+PlayerImage.BorderColor3 = Color3.new(0, 0, 0)
+PlayerImage.AnchorPoint = Vector2.new(0.033, 0.5)
+PlayerImage.ClipsDescendants = true
+PlayerImage.Transparency = 1
+PlayerImage.Parent = Template
+
+local UIAspectRatioConstraint3 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint3.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint3.Parent = PlayerImage
+
+local Icon = Instance.new("ImageLabel")
+Icon.Name = "Icon"
+Icon.Position = UDim2.new(0.5, 0, 0.5, 0)
+Icon.Size = UDim2.new(0.9, 0, 0.9, 0)
+Icon.BackgroundColor3 = Color3.new(1, 1, 1)
+Icon.BackgroundTransparency = 1
+Icon.BorderSizePixel = 0
+Icon.BorderColor3 = Color3.new(0, 0, 0)
+Icon.AnchorPoint = Vector2.new(0.5, 0.5)
+Icon.Transparency = 1
+Icon.Image = "rbxthumb://type=AvatarHeadShot&id=11437660205&w=420&h=420"
+Icon.Parent = PlayerImage
+
+local UICorner6 = Instance.new("UICorner")
+UICorner6.Name = "UICorner"
+UICorner6.CornerRadius = UDim.new(1, 0)
+UICorner6.Parent = Icon
+
+local StatusStroke2 = Instance.new("UIStroke")
+StatusStroke2.Name = "StatusStroke"
+StatusStroke2.Color = Color3.new(1, 0.333333, 0)
+StatusStroke2.Thickness = 1.5
+StatusStroke2.Transparency = 0.20000000298023224
+StatusStroke2.ApplyStrokeMode = Enum.ApplyStrokeMode.Border
+StatusStroke2.Parent = PlayerImage
+
+local UICorner7 = Instance.new("UICorner")
+UICorner7.Name = "UICorner"
+UICorner7.CornerRadius = UDim.new(1, 0)
+UICorner7.Parent = PlayerImage
+
+local InfoF = Instance.new("Frame")
+InfoF.Name = "InfoF"
+InfoF.Position = UDim2.new(0.437304, 0, 0.5, 0)
+InfoF.Size = UDim2.new(0.56, 0, 0.85, 0)
+InfoF.BackgroundColor3 = Color3.new(1, 1, 1)
+InfoF.BackgroundTransparency = 1
+InfoF.BorderSizePixel = 0
+InfoF.BorderColor3 = Color3.new(0, 0, 0)
+InfoF.AnchorPoint = Vector2.new(0.4, 0.5)
+InfoF.Transparency = 1
+InfoF.Parent = Template
+
+local DisplayT = Instance.new("TextLabel")
+DisplayT.Name = "DisplayT"
+DisplayT.Position = UDim2.new(0, 0, 0.05, 0)
+DisplayT.Size = UDim2.new(0.8, 0, 0.34, 0)
+DisplayT.BackgroundColor3 = Color3.new(1, 1, 1)
+DisplayT.BackgroundTransparency = 1
+DisplayT.BorderSizePixel = 0
+DisplayT.BorderColor3 = Color3.new(0, 0, 0)
+DisplayT.AnchorPoint = Vector2.new(0, 0.05)
+DisplayT.Transparency = 1
+DisplayT.Text = "Atlas [Developer]"
+DisplayT.TextColor3 = Color3.new(1, 1, 1)
+DisplayT.TextSize = 14
+DisplayT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+DisplayT.TextScaled = true
+DisplayT.TextWrapped = true
+DisplayT.TextXAlignment = Enum.TextXAlignment.Left
+DisplayT.RichText = true
+DisplayT.Parent = InfoF
+DisplayT.TextTransparency = 0
+
+local UserT = Instance.new("TextLabel")
+UserT.Name = "UserT"
+UserT.Position = UDim2.new(0, 0, 0.55, 0)
+UserT.Size = UDim2.new(0.8, 0, 0.28, 0)
+UserT.BackgroundColor3 = Color3.new(1, 1, 1)
+UserT.BackgroundTransparency = 1
+UserT.BorderSizePixel = 0
+UserT.BorderColor3 = Color3.new(0, 0, 0)
+UserT.AnchorPoint = Vector2.new(0, 0.55)
+UserT.Transparency = 1
+UserT.Text = "@UserName_Atlas"
+UserT.TextColor3 = Color3.new(1, 1, 1)
+UserT.TextSize = 14
+UserT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+UserT.TextScaled = true
+UserT.TextWrapped = true
+UserT.TextXAlignment = Enum.TextXAlignment.Left
+UserT.RichText = true
+UserT.Parent = InfoF
+UserT.TextTransparency = 0
+	
+local IdT = Instance.new("TextLabel")
+IdT.Name = "IdT"
+IdT.Position = UDim2.new(0, 0, 0.98, 0)
+IdT.Size = UDim2.new(0.8, 0, 0.23, 0)
+IdT.BackgroundColor3 = Color3.new(1, 1, 1)
+IdT.BackgroundTransparency = 1
+IdT.BorderSizePixel = 0
+IdT.BorderColor3 = Color3.new(0, 0, 0)
+IdT.AnchorPoint = Vector2.new(0, 1)
+IdT.Transparency = 1
+IdT.Text = "UID: 6767676766767"
+IdT.TextColor3 = Color3.new(1, 1, 1)
+IdT.TextSize = 14
+IdT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+IdT.TextScaled = true
+IdT.TextWrapped = true
+IdT.TextXAlignment = Enum.TextXAlignment.Left
+IdT.RichText = true
+IdT.Parent = InfoF
+IdT.TextTransparency = 0
+	
+local StatusF = Instance.new("Frame")
+StatusF.Name = "StatusF"
+StatusF.Position = UDim2.new(0.95, 0, 0.1, 0)
+StatusF.Size = UDim2.new(0.2, 0, 0.34, 0)
+StatusF.BackgroundColor3 = Color3.new(1, 1, 1)
+StatusF.BackgroundTransparency = 1
+StatusF.BorderSizePixel = 0
+StatusF.BorderColor3 = Color3.new(0, 0, 0)
+StatusF.AnchorPoint = Vector2.new(0.95, 0.1)
+StatusF.Transparency = 1
+StatusF.Parent = Template
+
+local BStatus = Instance.new("TextLabel")
+BStatus.Name = "BStatus"
+BStatus.Position = UDim2.new(0.95, 0, 0.1, 0)
+BStatus.Size = UDim2.new(1, 0, 1, 0)
+BStatus.BackgroundColor3 = Color3.new(1, 1, 1)
+BStatus.BackgroundTransparency = 1
+BStatus.BorderSizePixel = 0
+BStatus.BorderColor3 = Color3.new(0, 0, 0)
+BStatus.AnchorPoint = Vector2.new(0.95, 0.1)
+BStatus.Transparency = 1
+BStatus.Text = "Studio"
+BStatus.TextColor3 = Color3.new(1, 1, 1)
+BStatus.TextSize = 14
+BStatus.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+BStatus.TextScaled = true
+BStatus.TextWrapped = true
+BStatus.TextXAlignment = Enum.TextXAlignment.Left
+BStatus.RichText = true
+BStatus.Parent = StatusF
+BStatus.TextTransparency = 0
+
+local UIAspectRatioConstraint4 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint4.Name = "UIAspectRatioConstraint"
+UIAspectRatioConstraint4.AspectRatio = 1.5
+UIAspectRatioConstraint4.Parent = BStatus
+
+local UIListLayout = Instance.new("UIListLayout")
+UIListLayout.Name = "UIListLayout"
+UIListLayout.Padding = UDim.new(0.08, 0)
+UIListLayout.FillDirection = Enum.FillDirection.Horizontal
+UIListLayout.HorizontalAlignment = Enum.HorizontalAlignment.Center
+UIListLayout.VerticalAlignment = Enum.VerticalAlignment.Center
+UIListLayout.Parent = StatusF
+
+local AStatusIcon = Instance.new("ImageLabel")
+AStatusIcon.Name = "AStatusIcon"
+AStatusIcon.Position = UDim2.new(0.95, 0, 0.1, 0)
+AStatusIcon.Size = UDim2.new(0.8, 0, 0.8, 0)
+AStatusIcon.BackgroundColor3 = Color3.new(1, 1, 1)
+AStatusIcon.BackgroundTransparency = 1
+AStatusIcon.BorderSizePixel = 0
+AStatusIcon.BorderColor3 = Color3.new(0, 0, 0)
+AStatusIcon.AnchorPoint = Vector2.new(0.95, 0.1)
+AStatusIcon.Transparency = 1
+AStatusIcon.Image = "rbxassetid://116647960896395"
+AStatusIcon.Parent = StatusF
+
+local UIAspectRatioConstraint5 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint5.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint5.Parent = AStatusIcon
+
+local DragSizeBtn = Instance.new("ImageButton")
+DragSizeBtn.Name = "DragSizeBtn"
+DragSizeBtn.Position = UDim2.new(1.05048, 0, 1.08354, 0)
+DragSizeBtn.Size = UDim2.new(0.086, 0, 0.086, 0)
+DragSizeBtn.BackgroundColor3 = Color3.new(1, 1, 1)
+DragSizeBtn.BackgroundTransparency = 1
+DragSizeBtn.BorderSizePixel = 0
+DragSizeBtn.BorderColor3 = Color3.new(0, 0, 0)
+DragSizeBtn.Rotation = 45
+DragSizeBtn.AnchorPoint = Vector2.new(1, 1)
+DragSizeBtn.Transparency = 1
+DragSizeBtn.Image = "rbxassetid://87584126977170"
+DragSizeBtn.Parent = Main
+
+local DragResizeBtnAspect = Instance.new("UIAspectRatioConstraint")
+DragResizeBtnAspect.Name = "DragResizeBtnAspect"
+
+DragResizeBtnAspect.Parent = DragSizeBtn
+
+local UIAspectRatioConstraint6 = Instance.new("UIAspectRatioConstraint")
+UIAspectRatioConstraint6.Name = "UIAspectRatioConstraint"
+
+UIAspectRatioConstraint6.Parent = Main
+	
+end
+
+function PlayerStatus.PrepareUI()
+
+	local UI = UIParent:WaitForChild(UIName)
+
+	PlayerStatus.UI = UI
+
+	PlayerStatus.Main = UI:WaitForChild("Main")
+	
+	PlayerStatus.HolderF = PlayerStatus.Main:WaitForChild("HolderF")
+	PlayerStatus.TemplateStorage = PlayerStatus.Main:WaitForChild("TemplateStorage")
+	PlayerStatus.TopBar = PlayerStatus.Main:WaitForChild("TopBar")
+	
+	PlayerStatus.ScrollF = PlayerStatus.HolderF:WaitForChild("ScrollF") -- A Instance which store cloned frames
+	
+	PlayerStatus.Template = PlayerStatus.TemplateStorage:WaitForChild("Template") --- A Instance which will cone to ScrollF
+	
+	PlayerStatus.DragSizeBtn = PlayerStatus.Main:WaitForChild("DragSizeBtn") -- ingore this
+	
+	PlayerStatus.Main:SetAttribute("Draggable", true)
+	PlayerStatus.Main:SetAttribute("CurrentSize",UDim2.new(0.55, 0, 0.55, 0))
+	
+	DragAPI:SetUp(PlayerStatus.Main, PlayerStatus.DragSizeBtn)
+	
+	PlayerStatus.InStudio = InStudioIcon -------- Image Asset
+	PlayerStatus.StudioColor = InStudioColour ------ Color3 Value
+	
+	PlayerStatus.Online = OnlineIcon -------- Image Asset
+	PlayerStatus.OnlineC = OnlineColour ------ Color3 Value
+	
+	PlayerStatus.Offline = OfflineIcon -------- Image Asset
+	PlayerStatus.OfflineC = OfflineColour ------ Color3 Value
+	
+	PlayerStatus.InGame = InGameIcon -------- Image Asset
+	PlayerStatus.InGameC = InGameColour ------ Color3 Value
+
+end
+
+local function GetRole(UserId)
+	if TargetUserIds.Developers
+		and TargetUserIds.Developers[UserId] then
+		return "Developer"
+	end
+
+	if TargetUserIds.Moderators
+		and TargetUserIds.Moderators[UserId] then
+		return "Moderator"
+	end
+
+	if TargetUserIds.BetaTesters
+		and TargetUserIds.BetaTesters[UserId] then
+		return "Beta Tester"
+	end
+
+	if TargetUserIds.PossibleUsers
+		and TargetUserIds.PossibleUsers[UserId] then
+		return "Possible User"
+	end
+
+	return nil
+end
+
+local function GetTargetUsers()
+	local Users = {}
+
+	local function AddUsers(Category)
+		if type(Category) ~= "table" then
+			return
+		end
+
+		for UserId in pairs(Category) do
+			UserId = tonumber(UserId)
+
+			if UserId and not Users[UserId] then
+				Users[UserId] = true
+			end
+		end
+	end
+
+	AddUsers(TargetUserIds.Developers)
+	AddUsers(TargetUserIds.Moderators)
+	AddUsers(TargetUserIds.BetaTesters)
+	AddUsers(TargetUserIds.PossibleUsers)
+
+	return Users
+end
+
+local function GetStatusData(Status)
+	if Status == "Studio" then
+		return "In Studio", PlayerStatus.InStudio, PlayerStatus.StudioColor
+	elseif Status == "Game" then
+		return "In Game", PlayerStatus.InGame, PlayerStatus.InGameC
+	elseif Status == "Online" then
+		return "Online", PlayerStatus.Online, PlayerStatus.OnlineC
+	else
+		return "Offline", PlayerStatus.Offline, PlayerStatus.OfflineC
+	end
+end
+
+local function ClearScroll()
+	for _, Child in ipairs(PlayerStatus.ScrollF:GetChildren()) do
+		if Child:IsA("GuiObject") then
+			Child:Destroy()
+		end
+	end
+end
+
+function PlayerStatus.Refresh()
+	if not PlayerStatus.ScrollF
+		or not PlayerStatus.Template then
+		return
+	end
+
+	ClearScroll()
+
+	local TargetUsers = GetTargetUsers()
+
+	for UserId in pairs(TargetUsers) do
+		local Username, DisplayName, Status, Thumbnail =
+			GetPlayerStatus(UserId)
+
+		local Role = GetRole(UserId)
+
+		local StatusText, StatusIcon, StatusColor =
+			GetStatusData(Status)
+
+		local Frame = PlayerStatus.Template:Clone()
+
+		Frame.Name = "Player_" .. tostring(UserId)
+		Frame.Visible = true
+
+		local StatusF = Frame:FindFirstChild("StatusF")
+
+		if StatusF then
+			local StatusIconObject =
+				StatusF:FindFirstChild("AStatusIcon")
+
+			local StatusTextObject =
+				StatusF:FindFirstChild("BStatus")
+
+			if StatusIconObject then
+				StatusIconObject.Image = StatusIcon
+				StatusIconObject.ImageColor3 = StatusColor
+			end
+
+			if StatusTextObject then
+				StatusTextObject.Text = StatusText
+			end
+		end
+
+		local StatusStroke =
+			Frame:FindFirstChild("StatusStroke")
+
+		if StatusStroke
+			and StatusStroke:IsA("UIStroke") then
+
+			StatusStroke.Color = StatusColor
+		end
+
+		local PlayerImage =
+			Frame:FindFirstChild("PlayerImage")
+
+		if PlayerImage then
+			if Thumbnail then
+				PlayerImage.Image = Thumbnail
+			end
+
+			local ImageStroke =
+				PlayerImage:FindFirstChild("StatusStroke")
+
+			if ImageStroke
+				and ImageStroke:IsA("UIStroke") then
+
+				ImageStroke.Color = StatusColor
+			end
+		end
+
+		local InfoF = Frame:FindFirstChild("InfoF")
+
+		if InfoF then
+			local DisplayT =
+				InfoF:FindFirstChild("DisplayT")
+
+			local UserT =
+				InfoF:FindFirstChild("UserT")
+
+			local IdT =
+				InfoF:FindFirstChild("IdT")
+
+			if DisplayT then
+				if Role then
+					DisplayT.Text =
+						DisplayName .. " [" .. Role .. "]"
+				else
+					DisplayT.Text = DisplayName
+				end
+			end
+
+			if UserT then
+				UserT.Text = "@" .. Username
+			end
+
+			if IdT then
+				IdT.Text = "UID: " .. tostring(UserId)
+			end
+		end
+
+		Frame.Parent = PlayerStatus.ScrollF
+	end
+end
+
+function PlayerStatus.Init()
+
+	PlayerStatus.CreateUI()
+	PlayerStatus.PrepareUI()
+
+	PlayerStatus.Refresh()
+
+	if Refreshing then
+		return
+	end
+
+	Refreshing = true
+
+	task.spawn(function()
+
+		while Refreshing do
+			task.wait(RefreshTime)
+
+			if not Refreshing then
+				break
+			end
+
+			PlayerStatus.Refresh()
+		end
+
+	end)
+end
+
+function PlayerStatus.Stop()
+	Refreshing = false
+end
+
+return PlayerStatus
