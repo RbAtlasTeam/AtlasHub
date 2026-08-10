@@ -479,7 +479,7 @@ DisplayT.BorderSizePixel = 0
 DisplayT.BorderColor3 = Color3.new(0, 0, 0)
 DisplayT.AnchorPoint = Vector2.new(0, 0.05)
 DisplayT.Transparency = 1
-DisplayT.Text = "Atlas [Developer]"
+DisplayT.Text = "Loading... [Loading...]"
 DisplayT.TextColor3 = Color3.new(1, 1, 1)
 DisplayT.TextSize = 14
 DisplayT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
@@ -500,7 +500,7 @@ UserT.BorderSizePixel = 0
 UserT.BorderColor3 = Color3.new(0, 0, 0)
 UserT.AnchorPoint = Vector2.new(0, 0.55)
 UserT.Transparency = 1
-UserT.Text = "@UserName_Atlas"
+UserT.Text = "Loading..."
 UserT.TextColor3 = Color3.new(1, 1, 1)
 UserT.TextSize = 14
 UserT.FontFace = Font.new("rbxasset://fonts/families/FredokaOne.json", Enum.FontWeight.Regular, Enum.FontStyle.Normal)
@@ -720,97 +720,91 @@ local function GetStatusData(Status)
 end
 
 local function UpdateFrame(Frame, UserId)
-	local Username, DisplayName, Status, Thumbnail =
-		GetPlayerStatus(UserId)
+	task.spawn(function()
+		local Username, DisplayName, Status, Thumbnail =
+			GetPlayerStatus(UserId)
 
-	local Role = GetRole(UserId)
-
-	local StatusText, StatusIcon, StatusColor =
-		GetStatusData(Status)
-
-	Frame.Name = "Player_" .. tostring(UserId)
-	Frame.Visible = true
-
-	local StatusF = Frame:FindFirstChild("StatusF")
-
-	if StatusF then
-		local StatusIconObject =
-			StatusF:FindFirstChild("AStatusIcon")
-
-		local StatusTextObject =
-			StatusF:FindFirstChild("BStatus")
-
-		if StatusIconObject then
-			StatusIconObject.Image = StatusIcon
-			StatusIconObject.ImageColor3 = StatusColor
+		if not Frame or not Frame.Parent then
+			return
 		end
 
-		if StatusTextObject then
-			StatusTextObject.Text = StatusText
-		end
-	end
+		local Role = GetRole(UserId)
 
-	local StatusStroke =
-		Frame:FindFirstChild("StatusStroke")
+		local StatusText, StatusIcon, StatusColor =
+			GetStatusData(Status)
 
-	if StatusStroke and StatusStroke:IsA("UIStroke") then
-		StatusStroke.Color = StatusColor
-	end
+		Frame.Name = "Player_" .. tostring(UserId)
+		Frame.Visible = true
 
-	local PlayerImage =
-		Frame:FindFirstChild("PlayerImage")
+		local StatusF = Frame:FindFirstChild("StatusF")
 
-	if PlayerImage then
-		local Icon = PlayerImage:FindFirstChild("Icon")
+		if StatusF then
+			local StatusIconObject = StatusF:FindFirstChild("AStatusIcon")
+			local StatusTextObject = StatusF:FindFirstChild("BStatus")
 
-		if Icon and Thumbnail then
-			Icon.Image = Thumbnail
-		end
-
-		local ImageStroke =
-			PlayerImage:FindFirstChild("StatusStroke")
-
-		if ImageStroke and ImageStroke:IsA("UIStroke") then
-			ImageStroke.Color = StatusColor
-		end
-	end
-
-	local InfoF =
-		Frame:FindFirstChild("InfoF")
-
-	if InfoF then
-		local DisplayT =
-			InfoF:FindFirstChild("DisplayT")
-
-		local UserT =
-			InfoF:FindFirstChild("UserT")
-
-		local IdT =
-			InfoF:FindFirstChild("IdT")
-
-		if DisplayT then
-			local DisplayRole = Role
-
-			if Role == "Possible User" then
-				DisplayRole = "Suspended User"
+			if StatusIconObject then
+				StatusIconObject.Image = StatusIcon
+				StatusIconObject.ImageColor3 = StatusColor
 			end
 
-			if DisplayRole then
-				DisplayT.Text =
-					DisplayName .. " [" .. DisplayRole .. "]"
-			else
-				DisplayT.Text = DisplayName
+			if StatusTextObject then
+				StatusTextObject.Text = StatusText
 			end
 		end
 
-		if UserT then
-			UserT.Text = "@" .. Username
+		local StatusStroke = Frame:FindFirstChild("StatusStroke")
+
+		if StatusStroke and StatusStroke:IsA("UIStroke") then
+			StatusStroke.Color = StatusColor
 		end
 
-		if IdT then
-			IdT.Text = "UID: " .. tostring(UserId)
+		local PlayerImage = Frame:FindFirstChild("PlayerImage")
+
+		if PlayerImage then
+			local Icon = PlayerImage:FindFirstChild("Icon")
+
+			if Icon and Thumbnail then
+				Icon.Image = Thumbnail
+			end
+
+			local ImageStroke = PlayerImage:FindFirstChild("StatusStroke")
+
+			if ImageStroke and ImageStroke:IsA("UIStroke") then
+				ImageStroke.Color = StatusColor
+			end
 		end
-	end
+
+		local InfoF = Frame:FindFirstChild("InfoF")
+
+		if InfoF then
+			local DisplayT = InfoF:FindFirstChild("DisplayT")
+			local UserT = InfoF:FindFirstChild("UserT")
+			local IdT = InfoF:FindFirstChild("IdT")
+
+			if DisplayT then
+				local DisplayRole = Role
+
+				if Role == "Possible User" then
+					DisplayRole = "Suspended User"
+				end
+
+				if DisplayRole then
+					DisplayT.Text =
+						DisplayName .. " [" .. DisplayRole .. "]"
+				else
+					DisplayT.Text = DisplayName
+				end
+			end
+
+			if UserT then
+				UserT.Text = "@" .. Username
+			end
+
+			if IdT then
+				IdT.Text = "UID: " .. tostring(UserId)
+			end
+		end
+	end)
 end
 
 local function CreatePlayerFrame(UserId)
@@ -863,10 +857,8 @@ function PlayerStatus.Refresh()
 			if not Frame then
 				Frame = CreatePlayerFrame(UserId)
 			end
-			
-			task.spawn(function()
-				UpdateFrame(Frame, UserId)
-			end)
+
+			UpdateFrame(Frame, UserId)
 
 			task.wait(PlayerDelay)
 		end
