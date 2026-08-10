@@ -18,7 +18,7 @@ local OnlineColour = Color3.fromRGB(0, 255, 0)
 local OfflineColour = Color3.fromRGB(255, 0, 0)
 local InGameColour = Color3.fromRGB(0, 170, 255)
 
-local RefreshTime = 60
+local RefreshTime = 180
 local PlayerDelay = 1
 
 local Refreshing = false
