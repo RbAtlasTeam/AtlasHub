@@ -17,7 +17,7 @@ local OfflineColour = Color3.fromRGB(255, 0, 0)
 local InGameColour = Color3.fromRGB(0, 170, 255)
 
 local RefreshTime = 60
-local PlayerDelay = 3
+local PlayerDelay = 2
 
 local Refreshing = false
 local FirstLoad = true
@@ -863,8 +863,10 @@ function PlayerStatus.Refresh()
 			if not Frame then
 				Frame = CreatePlayerFrame(UserId)
 			end
-
-			UpdateFrame(Frame, UserId)
+			
+			task.spawn(function()
+				UpdateFrame(Frame, UserId)
+			end)
 
 			task.wait(PlayerDelay)
 		end
