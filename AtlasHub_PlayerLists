@@ -703,7 +703,6 @@ local function GetTargetUsers()
 	AddUsers(TargetUserIds.Developers)
 	AddUsers(TargetUserIds.Moderators)
 	AddUsers(TargetUserIds.BetaTesters)
-	AddUsers(TargetUserIds.PossibleUsers)
 
 	return Users
 end
@@ -854,16 +853,21 @@ function PlayerStatus.Refresh()
 	RemoveMissingPlayers(TargetUsers)
 
 	for UserId in pairs(TargetUsers) do
+		if not (
+			TargetUserIds.PossibleUsers
+				and TargetUserIds.PossibleUsers[UserId]
+			) then
 
-		local Frame = PlayerFrames[UserId]
+			local Frame = PlayerFrames[UserId]
 
-		if not Frame then
-			Frame = CreatePlayerFrame(UserId)
+			if not Frame then
+				Frame = CreatePlayerFrame(UserId)
+			end
+
+			UpdateFrame(Frame, UserId)
+
+			task.wait(PlayerDelay)
 		end
-
-		UpdateFrame(Frame, UserId)
-
-		task.wait(PlayerDelay)
 	end
 end
 
