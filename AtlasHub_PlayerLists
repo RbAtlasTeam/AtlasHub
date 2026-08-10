@@ -867,6 +867,8 @@ end
 
 function PlayerStatus.Init()
 
+warn("Started eeeeeeee")
+
 	PlayerStatus.CreateUI()
 	PlayerStatus.PrepareUI()
 
