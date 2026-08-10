@@ -2,6 +2,7 @@ local PlayerStatus = {}
 
 local UIParent = game.CoreGui
 local HttpService = game:GetService("HttpService")
+local Players = game:GetService("Players")
 
 local UIName = "AtlasHub_PlayerStatusUI"
 local UIStatus = true
@@ -60,27 +61,25 @@ local function GetPlayerStatus(UserId)
 	local Status = "Offline"
 	local Thumbnail = nil
 
-	local UserResponse = executorRequest({
-		Url = "https://users.roblox.com/v1/users/" .. tostring(UserId),
-		Method = "GET"
-	})
+	pcall(function()
+		Username = Players:GetNameFromUserIdAsync(UserId)
+	end)
 
-	if UserResponse then
-		local Body = UserResponse.Body
-			or UserResponse.ResponseBody
-			or UserResponse.body
+	pcall(function()
+		local Info = Players:GetUserInfosByUserIdsAsync({UserId})[1]
 
-		if Body then
-			local Success, UserData = pcall(function()
-				return HttpService:JSONDecode(Body)
-			end)
-
-			if Success and type(UserData) == "table" then
-				Username = UserData.name or "Unknown"
-				DisplayName = UserData.displayName or "Unknown"
-			end
+		if Info then
+			DisplayName = Info.DisplayName or "Unknown"
 		end
-	end
+	end)
+
+	pcall(function()
+		Thumbnail = Players:GetUserThumbnailAsync(
+			UserId,
+			Enum.ThumbnailType.HeadShot,
+			Enum.ThumbnailSize.Size420x420
+		)
+	end)
 
 	local PresenceResponse = executorRequest({
 		Url = "https://presence.roblox.com/v1/presence/users",
@@ -106,47 +105,27 @@ local function GetPlayerStatus(UserId)
 			end)
 
 			if Success and type(Data) == "table" then
-				local Presence = Data.userPresences
+				local Presence =
+					Data.userPresences
 					and Data.userPresences[1]
 
 				if Presence then
-					local PresenceType = Presence.userPresenceType
+					local PresenceType =
+						Presence.userPresenceType
 
 					if PresenceType == 0 then
 						Status = "Offline"
+
 					elseif PresenceType == 1 then
 						Status = "Online"
+
 					elseif PresenceType == 2 then
 						Status = "Game"
+
 					elseif PresenceType == 3 then
 						Status = "Studio"
 					end
 				end
-			end
-		end
-	end
-
-	local ThumbnailResponse = executorRequest({
-		Url =
-			"https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds="
-			.. tostring(UserId)
-			.. "&size=150x150&format=Png&isCircular=false",
-
-		Method = "GET"
-	})
-
-	if ThumbnailResponse then
-		local Body = ThumbnailResponse.Body
-			or ThumbnailResponse.ResponseBody
-			or ThumbnailResponse.body
-
-		if Body then
-			local Success, Data = pcall(function()
-				return HttpService:JSONDecode(Body)
-			end)
-
-			if Success and Data.data and Data.data[1] then
-				Thumbnail = Data.data[1].imageUrl
 			end
 		end
 	end
@@ -866,8 +845,6 @@ function PlayerStatus.Refresh()
 end
 
 function PlayerStatus.Init()
-
-warn("Started eeeeeeee")
 
 	PlayerStatus.CreateUI()
 	PlayerStatus.PrepareUI()
