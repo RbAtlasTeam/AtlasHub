@@ -780,7 +780,7 @@ function PlayerStatus.Refresh()
 
 		if PlayerImage then
 			if Thumbnail then
-				PlayerImage.Image = Thumbnail
+				PlayerImage.Icon.Image = Thumbnail
 			end
 
 			local ImageStroke =
